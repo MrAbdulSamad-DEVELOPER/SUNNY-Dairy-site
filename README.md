@@ -1,6 +1,6 @@
-# SUNNY Dairy — Full-Stack Production E-Commerce Platform
+# Sher Milk — Full-Stack Dairy & Traditional Sweets E-Commerce Platform
 
-A production-grade, full-stack dairy and traditional sweets e-commerce platform built for **SUNNY Dairy**, owned and operated by **Sanaullah**, delivering 100% pure farm-fresh milk, cultured dahi, pure makhan, desi ghee, and authentic sweets across **Dera Ismail Khan, Khyber Pakhtunkhwa, Pakistan**.
+A production-grade, full-stack e-commerce platform built for **Sher Milk**, delivering fresh cow milk, goat milk, cultured dahi, pure makhan, desi ghee, and authentic Pakistani mithai across Lahore, Pakistan.
 
 ---
 
@@ -14,20 +14,17 @@ A production-grade, full-stack dairy and traditional sweets e-commerce platform 
 - **Backend & Database:**
   - TypeScript Route Handlers & Server Actions
   - PostgreSQL / Supabase enterprise schema (`schema.sql`)
-  - Prisma ORM (`prisma/schema.prisma`) with zero-config local SQLite (`dev.db`)
+  - Prisma ORM (`prisma/schema.prisma`) with zero-config local SQLite (`dev.db`) and instant PostgreSQL switch
 - **Validation & Forms:** Zod, React Hook Form
-- **Order & Payment System:**
-  - **Option 1: Advance Payment (UBL Bank Transfer)**
-    - Bank: United Bank Limited (UBL)
-    - Account Number: `236525896`
-    - Account Title: SUNNY Dairy / Sanaullah
-    - Customer uploads payment receipt screenshot for manual admin bank statement reconciliation.
-  - **Option 2: Direct WhatsApp Order**
-    - Official WhatsApp: `+96895234002` (`https://wa.me/96895234002`)
-    - Automatically formats and prefills complete customer and item order details.
-- **Admin Management:**
-  - Payments verification dashboard (`/admin/payments`) with manual verification and rejection auditing.
-  - Complete order, inventory, customer, product, and delivery zone management.
+- **Cart & Order System:**
+  - Full client-side persistent cart state with local storage hydration
+  - Dual price support: Confirmed fixed pricing & "Price on Request"
+  - Server-side authoritative price retrieval (never trusts client-side prices)
+  - Dedicated order snapshot records for historical price fidelity
+- **Integrations:**
+  - WhatsApp Business Direct Order Formatting (`wa.me`)
+  - Cash on Delivery workflow
+  - Role-based Admin Dashboard with session authentication and cookie encryption
 
 ---
 
@@ -51,42 +48,87 @@ A production-grade, full-stack dairy and traditional sweets e-commerce platform 
 
 ## 🚀 Quick Start & Local Development
 
-### 1. Installation
+### 1. Prerequisites
+- Node.js 18+ or 20+
+- npm or pnpm
+
+### 2. Installation
 ```bash
+# Clone or navigate to project directory
+cd milk-web
+
+# Install dependencies
 npm install
 ```
 
-### 2. Environment Variables
+### 3. Environment Variables
 Copy `.env.example` to `.env`:
 ```bash
 cp .env.example .env
 ```
 
-### 3. Database Initialization
+Default configuration in `.env`:
+```ini
+DATABASE_URL="file:./dev.db"
+NEXT_PUBLIC_WHATSAPP_NUMBER="923000000000"
+NEXT_PUBLIC_STORE_NAME="Sher Milk"
+NEXT_PUBLIC_STORE_PHONE="+92 300 0000000"
+NEXT_PUBLIC_STORE_EMAIL="info@shermilk.pk"
+ADMIN_USERNAME="admin"
+ADMIN_PASSWORD="SherMilkAdmin2026!"
+ADMIN_SESSION_SECRET="sher-milk-super-secure-production-session-secret-key-32chars"
+```
+
+### 4. Database Initialization & Seeding
 ```bash
 # Push schema to SQLite
 npx prisma db push
 
-# Generate Prisma client
-npx prisma generate
+# Seed 11 products, variants, confirmed rates, and categories
+node prisma/seed.js
 ```
 
-### 4. Run Development Server
+### 5. Run Development Server
 ```bash
 npm run dev
-# or production build
-npm run build
-npm start
 ```
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## 🛡️ Admin Portal Credentials
+## 🛡️ Admin Dashboard & Portal
 
 - **URL:** [http://localhost:3000/admin/login](http://localhost:3000/admin/login)
-- **Username:** `admin` (or `admin@sunnydairy.pk`)
-- **Password:** `SunnyDairyAdmin2026!`
+- **Default Username:** `admin`
+- **Default Password:** `SherMilkAdmin2026!`
+
+### Admin Capabilities:
+1. **Overview Dashboard:** Total orders, pending action items, confirmed deliveries, delivered volume, confirmed sales revenue, and top-selling dairy products.
+2. **Order Management (`/admin/orders`):**
+   - Search by order number, customer name, phone, or neighborhood.
+   - Filter by status: `PENDING`, `PRICE_CONFIRMATION_REQUIRED`, `CONFIRMED`, `PREPARING`, `OUT_FOR_DELIVERY`, `DELIVERED`, `CANCELLED`.
+   - **Price Confirmation System:** Input authoritative unit prices for unpriced daily items. Automatically updates final total without misleading customers.
+   - Direct WhatsApp message button with pre-formatted notification text.
+3. **Product & Rate Management (`/admin/products`):**
+   - Add/edit products, descriptions, categories, images.
+   - Configure size variants with fixed prices or set as "Price on Request".
+   - Toggle product visibility or featured badge.
+4. **Settings (`/admin/settings`):**
+   - Update WhatsApp business contact, phone number, and delivery zones.
+
+---
+
+## 🗄️ Database Schema & PostgreSQL / Supabase Setup
+
+A PostgreSQL schema DDL is provided in `schema.sql`.
+
+To deploy to Supabase or PostgreSQL:
+1. Run `schema.sql` in Supabase SQL Editor.
+2. In your `.env` or hosting provider, set:
+   ```ini
+   DATABASE_URL="postgresql://postgres:YOUR_PASSWORD@db.YOUR_PROJECT.supabase.co:5432/postgres?sslmode=require"
+   ```
+3. Run `npx prisma db push` and `node prisma/seed.js`.
 
 ---
 
@@ -96,8 +138,18 @@ Run the test suite:
 ```bash
 npm test
 ```
+The suite verifies:
+- WhatsApp order message syntax and URL encoding
+- Customer checkout input validation schemas
+- Price confirmation calculations (confirmed subtotal vs pending items)
+- Admin HMAC session token signing and verification
 
 Type check:
 ```bash
 npx tsc --noEmit
+```
+
+Production build:
+```bash
+npm run build
 ```
