@@ -343,8 +343,15 @@ export default function ProductsManager() {
             >
               <div className="space-y-3">
                 <div className="flex items-center space-x-3">
-                  <div className="relative w-18 h-18 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-cream-200 flex-shrink-0 border border-borderCream">
-                    <Image src={p.imageUrl} alt={p.name} fill className="object-cover" />
+                  <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-cream-100 flex-shrink-0 border border-borderCream shadow-xs">
+                    <img
+                      src={p.imageUrl || '/products/cow-milk.jpg'}
+                      alt={p.name}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = '/products/cow-milk.jpg';
+                      }}
+                    />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center space-x-1.5 flex-wrap">
@@ -493,8 +500,15 @@ export default function ProductsManager() {
                   Product Image
                 </span>
                 <div className="flex items-center space-x-4">
-                  <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-cream-200 border border-borderCream flex-shrink-0">
-                    <Image src={imageUrl} alt="Product Preview" fill className="object-cover" />
+                  <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-cream-100 border border-borderCream flex-shrink-0 shadow-xs">
+                    <img
+                      src={imageUrl || '/products/cow-milk.jpg'}
+                      alt="Product Preview"
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = '/products/cow-milk.jpg';
+                      }}
+                    />
                   </div>
                   <div className="space-y-1.5 flex-1">
                     <label className="cursor-pointer px-3.5 py-1.5 bg-forest-800 hover:bg-forest-900 text-white rounded-xl text-xs font-bold transition-colors inline-flex items-center space-x-2">

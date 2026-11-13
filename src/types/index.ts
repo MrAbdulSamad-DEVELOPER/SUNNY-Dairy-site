@@ -115,6 +115,11 @@ export interface OrderItemDTO {
   unitPriceSnapshot: number | null;
   confirmedPrice: number | null;
   priceConfirmationRequired: boolean;
+  product?: {
+    id: string;
+    name: string;
+    imageUrl: string;
+  } | null;
 }
 
 export interface OrderDTO {

@@ -18,7 +18,17 @@ export async function GET(
     const order = await prisma.order.findUnique({
       where: { id: params.id },
       include: {
-        items: true,
+        items: {
+          include: {
+            product: {
+              select: {
+                id: true,
+                name: true,
+                imageUrl: true,
+              },
+            },
+          },
+        },
       },
     });
 
@@ -94,7 +104,17 @@ export async function PATCH(
         priceConfirmationRequired: anyUnconfirmed,
       },
       include: {
-        items: true,
+        items: {
+          include: {
+            product: {
+              select: {
+                id: true,
+                name: true,
+                imageUrl: true,
+              },
+            },
+          },
+        },
       },
     });
 

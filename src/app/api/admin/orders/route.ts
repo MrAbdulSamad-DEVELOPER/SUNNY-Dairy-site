@@ -35,7 +35,17 @@ export async function GET(req: NextRequest) {
       where: whereClause,
       orderBy: { createdAt: 'desc' },
       include: {
-        items: true,
+        items: {
+          include: {
+            product: {
+              select: {
+                id: true,
+                name: true,
+                imageUrl: true,
+              },
+            },
+          },
+        },
       },
     });
 

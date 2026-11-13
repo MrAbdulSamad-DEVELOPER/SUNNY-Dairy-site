@@ -79,15 +79,12 @@ export default function AdminNav() {
   return (
     <>
       {/* Top Mobile Bar - specifically designed to never collide with iPhone notch/island */}
-      <header className="lg:hidden bg-forest-950 text-cream-100 border-b border-forest-800 px-3.5 py-2.5 flex items-center justify-between sticky top-0 z-40 shadow-sm">
-        <div className="flex items-center space-x-2 min-w-0">
-          <div className="relative w-7 h-7 rounded-md overflow-hidden bg-white p-0.5 flex-shrink-0 shadow-xs">
-            <Image src="/logo.png" alt="SUNNY Dairy" fill className="object-contain" priority />
+      <header className="lg:hidden bg-forest-950 text-cream-100 border-b border-forest-800 px-3 py-2 flex items-center justify-between sticky top-0 z-40 shadow-sm">
+        <div className="flex items-center space-x-2 flex-shrink-0">
+          <div className="w-7 h-7 rounded-md overflow-hidden bg-white p-0.5 flex-shrink-0 shadow-xs">
+            <img src="/logo.png" alt="SUNNY Dairy" className="w-full h-full object-contain" />
           </div>
-          <div className="flex items-baseline space-x-1.5 truncate">
-            <span className="font-bold text-sm text-white tracking-tight">Sunny</span>
-            <span className="text-[10px] font-bold text-gold-400 uppercase tracking-wider bg-forest-900 px-1.5 py-0.5 rounded">Admin</span>
-          </div>
+          <span className="font-bold text-sm text-white tracking-tight">Admin</span>
         </div>
 
         <div className="flex items-center space-x-2 flex-shrink-0">

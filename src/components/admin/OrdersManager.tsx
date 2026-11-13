@@ -110,23 +110,23 @@ export default function OrdersManager() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {/* Top Filter Bar */}
-      <div className="bg-[#FFFDFA] p-4 sm:p-6 rounded-3xl border border-borderCream shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="bg-[#FFFDFA] p-3.5 sm:p-5 rounded-2xl sm:rounded-3xl border border-borderCream shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
         {/* Search */}
-        <div className="relative w-full md:w-96">
-          <Search className="w-4 h-4 absolute left-3.5 top-3.5 text-muted" />
+        <div className="relative w-full md:w-80">
+          <Search className="w-4 h-4 absolute left-3 top-3 text-muted" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by Order #, Name, or Phone..."
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-borderCream bg-cream-50/50 text-xs text-forest-900 focus:outline-none focus:ring-2 focus:ring-forest-800"
+            className="w-full pl-9 pr-3 py-2 rounded-xl border border-borderCream bg-cream-50/60 text-xs text-forest-900 focus:outline-none focus:ring-1 focus:ring-forest-800"
           />
         </div>
 
         {/* Status Filter Chips */}
-        <div className="flex items-center space-x-1.5 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 text-xs">
+        <div className="flex items-center space-x-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 text-xs scrollbar-none">
           <button
             onClick={() => setStatusFilter('ALL')}
             className={`px-3 py-1.5 rounded-xl font-medium transition-colors whitespace-nowrap ${
@@ -183,16 +183,16 @@ export default function OrdersManager() {
       {/* Orders Container */}
       <div className="bg-[#FFFDFA] rounded-2xl sm:rounded-3xl border border-borderCream shadow-xs overflow-hidden">
         {loading ? (
-          <div className="py-20 text-center text-muted text-xs">
+          <div className="py-16 text-center text-muted text-xs">
             Loading orders from database...
           </div>
         ) : orders.length === 0 ? (
-          <div className="py-16 text-center space-y-2.5 px-4">
-            <div className="w-12 h-12 rounded-2xl bg-cream-100 flex items-center justify-center mx-auto text-forest-800">
+          <div className="py-16 text-center space-y-2.5 px-4 max-w-sm mx-auto">
+            <div className="w-12 h-12 rounded-2xl bg-cream-100 flex items-center justify-center mx-auto text-forest-800 shadow-xs">
               <Truck className="w-6 h-6 text-forest-700" />
             </div>
             <p className="font-bold text-base text-forest-900">No orders found</p>
-            <p className="text-xs text-muted max-w-sm mx-auto">
+            <p className="text-xs text-muted leading-relaxed">
               {search || statusFilter !== 'ALL'
                 ? 'Try modifying your search query or status filter.'
                 : 'Customer orders placed on the store will appear here in real time.'}
@@ -200,7 +200,7 @@ export default function OrdersManager() {
           </div>
         ) : (
           <>
-            {/* Mobile Card List View (< 768px) */}
+            {/* Mobile Card List View (< 768px) with Product Images */}
             <div className="block md:hidden divide-y divide-borderCream/70">
               {orders.map((ord) => {
                 const totalText =
@@ -253,6 +253,47 @@ export default function OrdersManager() {
                       </div>
                     )}
 
+                    {/* Ordered Items with Real Photos */}
+                    <div className="space-y-1.5 pt-1">
+                      <span className="text-[10px] font-bold text-forest-800 uppercase tracking-wider block">
+                        Ordered Items ({ord.items.length}):
+                      </span>
+                      <div className="space-y-1.5">
+                        {ord.items.map((item) => (
+                          <div
+                            key={item.id}
+                            className="flex items-center space-x-2.5 bg-cream-50/70 p-2 rounded-xl border border-borderCream/60"
+                          >
+                            <div className="w-11 h-11 rounded-lg overflow-hidden bg-cream-200 flex-shrink-0 border border-borderCream shadow-xs">
+                              <img
+                                src={item.product?.imageUrl || '/products/cow-milk.jpg'}
+                                alt={item.productNameSnapshot}
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).src = '/products/cow-milk.jpg';
+                                }}
+                              />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <span className="font-bold text-forest-900 text-xs truncate block">
+                                {item.productNameSnapshot}
+                              </span>
+                              <span className="text-[11px] text-muted">
+                                Size: {item.selectedVariant} · Qty: {item.quantity}
+                              </span>
+                            </div>
+                            <span className="text-xs font-bold text-forest-800">
+                              {item.confirmedPrice !== null
+                                ? `Rs ${(item.confirmedPrice * item.quantity).toLocaleString()}`
+                                : item.unitPriceSnapshot !== null
+                                ? `Rs ${(item.unitPriceSnapshot * item.quantity).toLocaleString()}`
+                                : 'On Request'}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
                     {/* Customer & Address Details */}
                     <div className="p-2.5 rounded-xl bg-cream-50/70 border border-borderCream/60 space-y-1.5 text-xs">
                       <div className="flex items-center justify-between">
@@ -263,8 +304,8 @@ export default function OrdersManager() {
                         📍 {ord.area}, {ord.deliveryAddress}
                       </div>
                       <div className="flex items-center justify-between pt-1 border-t border-borderCream/40 font-semibold">
-                        <span className="text-muted text-[11px]">Amount:</span>
-                        <span className="text-forest-900">{totalText}</span>
+                        <span className="text-muted text-[11px]">Total Amount:</span>
+                        <span className="text-forest-900 font-bold">{totalText}</span>
                       </div>
                     </div>
 
@@ -292,12 +333,13 @@ export default function OrdersManager() {
               })}
             </div>
 
-            {/* Desktop Table View (>= 768px) */}
+            {/* Desktop Table View (>= 768px) with Product Images */}
             <div className="hidden md:block overflow-x-auto">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
                   <tr className="border-b border-borderCream bg-cream-100/60 text-muted uppercase tracking-wider text-[11px] font-semibold">
                     <th className="py-3 px-5">Order Details</th>
+                    <th className="py-3 px-4">Items Ordered</th>
                     <th className="py-3 px-4">Customer</th>
                     <th className="py-3 px-4">Area / Destination</th>
                     <th className="py-3 px-4">Total</th>
@@ -321,6 +363,30 @@ export default function OrdersManager() {
                           </span>
                         )}
                       </td>
+
+                      {/* Items with Thumbnails */}
+                      <td className="py-4 px-4">
+                        <div className="space-y-1.5 max-w-xs">
+                          {ord.items.map((item) => (
+                            <div key={item.id} className="flex items-center space-x-2">
+                              <div className="w-7 h-7 rounded-md overflow-hidden bg-cream-100 border border-borderCream flex-shrink-0">
+                                <img
+                                  src={item.product?.imageUrl || '/products/cow-milk.jpg'}
+                                  alt={item.productNameSnapshot}
+                                  className="w-full h-full object-cover"
+                                  onError={(e) => {
+                                    (e.target as HTMLImageElement).src = '/products/cow-milk.jpg';
+                                  }}
+                                />
+                              </div>
+                              <span className="text-[11px] font-medium text-forest-900 truncate">
+                                {item.productNameSnapshot} ({item.selectedVariant}×{item.quantity})
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </td>
+
                       <td className="py-4 px-4">
                         <div className="font-semibold text-forest-800">{ord.customerName}</div>
                         <div className="text-muted text-[11px]">{ord.customerPhone}</div>
@@ -454,14 +520,26 @@ export default function OrdersManager() {
 
               <div className="border border-borderCream rounded-2xl divide-y divide-borderCream/60 overflow-hidden bg-white text-xs">
                 {selectedOrder.items.map((item) => (
-                  <div key={item.id} className="p-3 flex items-center justify-between gap-4">
-                    <div>
-                      <span className="font-bold text-forest-800 block">
-                        {item.productNameSnapshot}
-                      </span>
-                      <span className="text-muted">
-                        Size: {item.selectedVariant} | Qty: {item.quantity}
-                      </span>
+                  <div key={item.id} className="p-3 flex items-center justify-between gap-3">
+                    <div className="flex items-center space-x-3 min-w-0">
+                      <div className="w-12 h-12 rounded-xl overflow-hidden bg-cream-100 flex-shrink-0 border border-borderCream shadow-xs">
+                        <img
+                          src={item.product?.imageUrl || '/products/cow-milk.jpg'}
+                          alt={item.productNameSnapshot}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = '/products/cow-milk.jpg';
+                          }}
+                        />
+                      </div>
+                      <div className="min-w-0">
+                        <span className="font-bold text-forest-800 block truncate">
+                          {item.productNameSnapshot}
+                        </span>
+                        <span className="text-muted text-[11px]">
+                          Size: {item.selectedVariant} | Qty: {item.quantity}
+                        </span>
+                      </div>
                     </div>
 
                     <div className="flex items-center space-x-2">
