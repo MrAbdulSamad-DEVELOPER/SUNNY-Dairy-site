@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { ProductDTO } from '@/types';
 import ProductCard from './ProductCard';
 import { Search, SlidersHorizontal, Sparkles } from 'lucide-react';
@@ -14,8 +14,41 @@ export default function ShopCatalog({
   initialProducts,
   showTitle = true,
 }: ShopCatalogProps) {
+  const [products, setProducts] = useState<ProductDTO[]>(initialProducts || []);
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
+
+  // Keep state in sync with server component props
+  useEffect(() => {
+    if (initialProducts && initialProducts.length > 0) {
+      setProducts(initialProducts);
+    }
+  }, [initialProducts]);
+
+  // Live real-time fetch on mount (guarantees instantaneous updates after admin changes)
+  useEffect(() => {
+    let isMounted = true;
+    fetch(`/api/products?_t=${Date.now()}`, {
+      cache: 'no-store',
+      headers: {
+        'Cache-Control': 'no-cache',
+        Pragma: 'no-cache',
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (isMounted && data.success && Array.isArray(data.products) && data.products.length > 0) {
+          setProducts(data.products);
+        }
+      })
+      .catch((err) => {
+        console.warn('Real-time catalog sync fallback:', err);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const categories = [
     { id: 'all', label: 'All Products' },
@@ -26,7 +59,7 @@ export default function ShopCatalog({
   ];
 
   const filteredProducts = useMemo(() => {
-    return initialProducts.filter((product) => {
+    return products.filter((product) => {
       const matchesCategory =
         activeCategory === 'all' || product.category?.slug === activeCategory;
 
@@ -37,7 +70,7 @@ export default function ShopCatalog({
 
       return matchesCategory && matchesSearch;
     });
-  }, [initialProducts, activeCategory, searchQuery]);
+  }, [products, activeCategory, searchQuery]);
 
   return (
     <section id="shop-catalog" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

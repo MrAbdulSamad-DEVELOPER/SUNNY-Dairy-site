@@ -8,7 +8,8 @@ import TrustBanner from '@/components/ui/TrustBanner';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 import { OFFICIAL_STORE_NAME, OFFICIAL_STORE_OWNER, OFFICIAL_PHONE_NUMBER } from '@/lib/whatsapp';
 
-export const revalidate = 60; // Revalidate every minute
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 async function getProducts(): Promise<ProductDTO[]> {
   try {

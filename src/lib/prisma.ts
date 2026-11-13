@@ -55,9 +55,10 @@ function ensureServerlessDatabase(): string | undefined {
         // If not copied from disk, restore from embedded fallback
         if (!copied) {
           try {
-            const { DB_BASE64 } = require('./db-seed-data');
-            if (DB_BASE64) {
-              const buffer = Buffer.from(DB_BASE64, 'base64');
+            const seedModule = require('./db-seed-data');
+            const rawB64 = seedModule.DB_BASE64 || seedModule.SEED_DB_BASE64;
+            if (rawB64) {
+              const buffer = Buffer.from(rawB64, 'base64');
               fs.writeFileSync(tmpDbPath, buffer);
               console.log('Restored SQLite dev.db from embedded fallback to /tmp/dev.db');
             }
@@ -87,6 +88,6 @@ export const prisma =
     log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
   });
 
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+globalForPrisma.prisma = prisma;
 
 export default prisma;

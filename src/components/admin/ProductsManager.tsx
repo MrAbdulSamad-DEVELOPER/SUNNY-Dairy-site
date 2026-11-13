@@ -45,17 +45,34 @@ export default function ProductsManager() {
   const fetchCatalog = async () => {
     setLoading(true);
     try {
+      const timestamp = Date.now();
       const [prodRes, catRes] = await Promise.all([
-        fetch('/api/products?includeInactive=true'),
-        fetch('/api/categories'),
+        fetch(`/api/products?includeInactive=true&_t=${timestamp}`, {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache',
+            Pragma: 'no-cache',
+          },
+        }),
+        fetch(`/api/categories?_t=${timestamp}`, {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache',
+            Pragma: 'no-cache',
+          },
+        }),
       ]);
       const prodData = await prodRes.json();
       const catData = await catRes.json();
 
-      if (prodData.success) setProducts(prodData.products);
-      if (catData.success) setCategories(catData.categories);
+      if (prodData.success && Array.isArray(prodData.products)) {
+        setProducts(prodData.products);
+      }
+      if (catData.success && Array.isArray(catData.categories)) {
+        setCategories(catData.categories);
+      }
     } catch (e) {
-      console.error(e);
+      console.error('Failed to fetch catalog:', e);
     } finally {
       setLoading(false);
     }
@@ -139,6 +156,10 @@ export default function ProductsManager() {
         }),
       });
       if (res.ok) {
+        const data = await res.json();
+        if (data.product) {
+          setProducts((prev) => [data.product, ...prev]);
+        }
         setMessage(`Duplicated ${p.name}`);
         fetchCatalog();
       }
@@ -223,6 +244,15 @@ export default function ProductsManager() {
         throw new Error(data.error || 'Failed to save product');
       }
 
+      // Instantly update UI on the very first save
+      if (data.product) {
+        setProducts((prev) =>
+          editingProduct
+            ? prev.map((p) => (p.id === data.product.id ? data.product : p))
+            : [data.product, ...prev]
+        );
+      }
+
       setIsModalOpen(false);
       setMessage('Product saved successfully!');
       fetchCatalog();
@@ -236,6 +266,8 @@ export default function ProductsManager() {
   const handleDelete = async (productId: string) => {
     if (!window.confirm('Are you sure you want to delete this product?')) return;
     try {
+      // Instantly remove from UI
+      setProducts((prev) => prev.filter((p) => p.id !== productId));
       const res = await fetch(`/api/products/${productId}`, { method: 'DELETE' });
       if (res.ok) {
         setMessage('Product deleted');
@@ -243,6 +275,7 @@ export default function ProductsManager() {
       }
     } catch (e) {
       console.error(e);
+      fetchCatalog();
     }
   };
 

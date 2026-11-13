@@ -1,6 +1,8 @@
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import prisma from '@/lib/prisma';
 import { getCurrentAdmin, logActivity } from '@/lib/auth';
 
@@ -48,7 +50,16 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    return NextResponse.json({ success: true, products });
+    return NextResponse.json(
+      { success: true, products },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+        },
+      }
+    );
   } catch (error) {
     console.error('Error fetching products:', error);
     return NextResponse.json({ error: 'Failed to retrieve products' }, { status: 500 });
@@ -127,7 +138,23 @@ export async function POST(req: NextRequest) {
       ipAddress: req.headers.get('x-forwarded-for') || undefined,
     });
 
-    return NextResponse.json({ success: true, product: newProduct }, { status: 201 });
+    try {
+      revalidatePath('/');
+      revalidatePath('/shop');
+      revalidatePath('/product/[slug]', 'page');
+    } catch (e) {
+      console.warn('Revalidation notice:', e);
+    }
+
+    return NextResponse.json(
+      { success: true, product: newProduct },
+      {
+        status: 201,
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+        },
+      }
+    );
   } catch (error: any) {
     console.error('Error creating product:', error);
     return NextResponse.json({ error: error.message || 'Failed to create product' }, { status: 500 });

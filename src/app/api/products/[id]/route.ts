@@ -1,6 +1,8 @@
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import prisma from '@/lib/prisma';
 import { getCurrentAdmin, logActivity } from '@/lib/auth';
 
@@ -28,7 +30,14 @@ export async function GET(
       return NextResponse.json({ error: 'Product not found' }, { status: 404 });
     }
 
-    return NextResponse.json({ success: true, product });
+    return NextResponse.json(
+      { success: true, product },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+        },
+      }
+    );
   } catch (error) {
     return NextResponse.json({ error: 'Failed to retrieve product' }, { status: 500 });
   }
@@ -118,7 +127,25 @@ export async function PUT(
       ipAddress: req.headers.get('x-forwarded-for') || undefined,
     });
 
-    return NextResponse.json({ success: true, product: updated });
+    try {
+      revalidatePath('/');
+      revalidatePath('/shop');
+      if (updated?.slug) {
+        revalidatePath(`/product/${updated.slug}`);
+      }
+      revalidatePath('/product/[slug]', 'page');
+    } catch (e) {
+      console.warn('Revalidation notice:', e);
+    }
+
+    return NextResponse.json(
+      { success: true, product: updated },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+        },
+      }
+    );
   } catch (error: any) {
     console.error('Error updating product:', error);
     return NextResponse.json({ error: error.message || 'Failed to update product' }, { status: 500 });
@@ -150,7 +177,25 @@ export async function DELETE(
       ipAddress: req.headers.get('x-forwarded-for') || undefined,
     });
 
-    return NextResponse.json({ success: true, message: 'Product deleted successfully' });
+    try {
+      revalidatePath('/');
+      revalidatePath('/shop');
+      if (existing?.slug) {
+        revalidatePath(`/product/${existing.slug}`);
+      }
+      revalidatePath('/product/[slug]', 'page');
+    } catch (e) {
+      console.warn('Revalidation notice:', e);
+    }
+
+    return NextResponse.json(
+      { success: true, message: 'Product deleted successfully' },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+        },
+      }
+    );
   } catch (error) {
     return NextResponse.json({ error: 'Failed to delete product' }, { status: 500 });
   }

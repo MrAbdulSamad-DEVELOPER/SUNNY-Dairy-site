@@ -1,6 +1,8 @@
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import prisma from '@/lib/prisma';
 import { getCurrentAdmin, logActivity } from '@/lib/auth';
 
@@ -15,11 +17,18 @@ export async function GET() {
 
     const lowStockItems = products.filter((p) => p.stockQuantity <= p.lowStockThreshold);
 
-    return NextResponse.json({
-      success: true,
-      products,
-      lowStockCount: lowStockItems.length,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        products,
+        lowStockCount: lowStockItems.length,
+      },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+        },
+      }
+    );
   } catch (error) {
     return NextResponse.json({ error: 'Failed to retrieve inventory' }, { status: 500 });
   }
@@ -70,7 +79,21 @@ export async function PUT(req: NextRequest) {
       adminUsername: admin.username,
     });
 
-    return NextResponse.json({ success: true, product: updated });
+    try {
+      revalidatePath('/');
+      revalidatePath('/shop');
+    } catch (e) {
+      console.warn('Revalidation notice:', e);
+    }
+
+    return NextResponse.json(
+      { success: true, product: updated },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+        },
+      }
+    );
   } catch (error: any) {
     return NextResponse.json({ error: error.message || 'Server error' }, { status: 500 });
   }

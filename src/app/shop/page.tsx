@@ -10,7 +10,8 @@ export const metadata = {
     'Browse pure cow milk, goat milk, dahi, pure makhan, desi ghee, paneer, and authentic Pakistani sweets.',
 };
 
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 async function getProducts(): Promise<ProductDTO[]> {
   try {
