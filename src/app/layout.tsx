@@ -19,60 +19,86 @@ const dmSans = DM_Sans({
   display: 'swap',
 });
 
+const SITE_URL = 'https://sunny-dairy-web.vercel.app';
+
 export const metadata: Metadata = {
-  title: 'SUNNY Dairy — Fresh Milk & Traditional Dairy Dera Ismail Khan',
+  title: {
+    default: 'SUNNY Dairy — Fresh Milk & Traditional Dairy Dera Ismail Khan',
+    template: '%s | SUNNY Dairy Dera Ismail Khan',
+  },
   description:
-    'Fresh cow milk, pure goat milk, cultured dahi, artisanal makhan, pure desi ghee, and traditional Pakistani sweets delivered daily to your door across Dera Ismail Khan. Managed by Sanaullah.',
+    'Fresh cow milk, pure goat milk, cultured dahi, artisanal makhan, pure slow-cooked desi ghee, and traditional Pakistani sweets delivered daily to your doorstep in Dera Ismail Khan. Managed by Sanaullah.',
   keywords: [
     'SUNNY Dairy',
-    'fresh milk Dera Ismail Khan',
-    'desi ghee Pakistan',
-    'pure makhan',
-    'cow milk',
-    'goat milk',
-    'dahi',
-    'rabri',
-    'barfi',
+    'SUNNY Dairy Dera Ismail Khan',
+    'fresh milk delivery Dera Ismail Khan',
+    'pure cow milk DI Khan',
+    'fresh goat milk Pakistan',
+    'asli desi ghee Dera Ismail Khan',
+    'pure makhan butter',
+    'fresh dahi yogurt',
     'traditional Pakistani sweets',
-    'Sanaullah dairy',
-    'DI Khan dairy',
+    'rabri doodh DI Khan',
+    'khoya barfi',
+    'Sanaullah dairy farm',
+    'organic farm fresh dairy KPK',
+    'dairy online shopping Pakistan',
   ],
-  authors: [{ name: 'SUNNY Dairy' }],
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_APP_URL ||
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://sunny-dairy.vercel.app')
-  ),
+  authors: [{ name: 'SUNNY Dairy', url: SITE_URL }],
+  creator: 'SUNNY Dairy',
+  publisher: 'SUNNY Dairy',
+  formatDetection: {
+    telephone: true,
+    address: true,
+    email: true,
+  },
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || SITE_URL),
   alternates: {
-    canonical:
-      process.env.NEXT_PUBLIC_APP_URL ||
-      (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://sunny-dairy.vercel.app'),
+    canonical: SITE_URL,
   },
   icons: {
-    icon: '/logo.png',
+    icon: [
+      { url: '/logo.png', sizes: '32x32', type: 'image/png' },
+      { url: '/logo.png', sizes: '192x192', type: 'image/png' },
+    ],
     shortcut: '/logo.png',
-    apple: '/logo.png',
+    apple: [{ url: '/logo.png', sizes: '180x180', type: 'image/png' }],
   },
   openGraph: {
-    title: 'SUNNY Dairy — Fresh Milk & Traditional Dairy Dera Ismail Khan',
-    description: 'Fresh milk, makhan and desi ghee delivered with cash on delivery across Dera Ismail Khan.',
-    url:
-      process.env.NEXT_PUBLIC_APP_URL ||
-      (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://sunny-dairy.vercel.app'),
+    title: 'SUNNY Dairy — Pure Milk & Farm Fresh Dairy Dera Ismail Khan',
+    description:
+      'Pure morning milk, farm-fresh makhan, traditional slow-simmered desi ghee, and authentic sweets delivered across Dera Ismail Khan. Cash on delivery & advance bank transfer available.',
+    url: SITE_URL,
     siteName: 'SUNNY Dairy',
     images: [
       {
-        url: '/logo.png',
+        url: `${SITE_URL}/logo.png`,
         width: 1200,
         height: 630,
-        alt: 'SUNNY Dairy Farm Fresh',
+        alt: 'SUNNY Dairy Pure & Farm Fresh Dera Ismail Khan',
       },
     ],
     locale: 'en_PK',
     type: 'website',
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'SUNNY Dairy — Pure Milk & Farm Fresh Dairy Dera Ismail Khan',
+    description:
+      'Fresh milk, makhan, and desi ghee delivered daily to your door across Dera Ismail Khan. Managed by Sanaullah.',
+    images: [`${SITE_URL}/logo.png`],
+    creator: '@SunnyDairyPK',
+  },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 };
 
@@ -82,6 +108,63 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: 'SUNNY Dairy',
+      description:
+        'Pure farm-fresh cow milk, goat milk, artisanal makhan, desi ghee, and traditional sweets delivered across Dera Ismail Khan.',
+      publisher: {
+        '@id': `${SITE_URL}/#organization`,
+      },
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: `${SITE_URL}/shop?search={search_term_string}`,
+        'query-input': 'required name=search_term_string',
+      },
+    },
+    {
+      '@type': ['LocalBusiness', 'DairyFarm'],
+      '@id': `${SITE_URL}/#organization`,
+      name: 'SUNNY Dairy',
+      alternateName: 'SUNNY Dairy Pure & Farm Fresh',
+      url: SITE_URL,
+      logo: `${SITE_URL}/logo.png`,
+      image: `${SITE_URL}/logo.png`,
+      telephone: '+96895234002',
+      priceRange: '₨150 - ₨4500',
+      currenciesAccepted: 'PKR',
+      paymentAccepted: 'Cash on Delivery, UBL Bank Transfer, Direct WhatsApp Order',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Main Farm Route',
+        addressLocality: 'Dera Ismail Khan',
+        addressRegion: 'Khyber Pakhtunkhwa',
+        postalCode: '29050',
+        addressCountry: 'PK',
+      },
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: 31.8327,
+        longitude: 70.9024,
+      },
+      openingHoursSpecification: [
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+          opens: '05:00',
+          closes: '22:00',
+        },
+      ],
+      sameAs: ['https://wa.me/96895234002'],
+    },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -89,13 +172,19 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${playfair.variable} ${dmSans.variable}`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="bg-cream-100 text-forest-800 antialiased selection:bg-gold-500 selection:text-white flex flex-col min-h-screen">
         <CartProvider>
           <Navbar />
           <main className="flex-grow">{children}</main>
           <CartDrawer />
-          <FloatingWhatsApp />
           <Footer />
+          <FloatingWhatsApp />
         </CartProvider>
       </body>
     </html>

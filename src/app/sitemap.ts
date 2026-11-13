@@ -2,24 +2,23 @@ import { MetadataRoute } from 'next';
 import prisma from '@/lib/prisma';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_APP_URL ||
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://sunny-dairy.vercel.app');
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://sunny-dairy-web.vercel.app';
 
   const staticPages = [
-    '',
-    '/shop',
-    '/track',
-    '/our-promise',
-    '/delivery',
-    '/contact',
-    '/privacy',
-    '/terms',
-  ].map((route) => ({
+    { route: '', priority: 1.0, changeFrequency: 'daily' as const },
+    { route: '/shop', priority: 0.95, changeFrequency: 'daily' as const },
+    { route: '/our-promise', priority: 0.8, changeFrequency: 'weekly' as const },
+    { route: '/delivery', priority: 0.85, changeFrequency: 'weekly' as const },
+    { route: '/track', priority: 0.7, changeFrequency: 'always' as const },
+    { route: '/contact', priority: 0.8, changeFrequency: 'monthly' as const },
+    { route: '/faq', priority: 0.7, changeFrequency: 'monthly' as const },
+    { route: '/privacy', priority: 0.5, changeFrequency: 'monthly' as const },
+    { route: '/terms', priority: 0.5, changeFrequency: 'monthly' as const },
+  ].map(({ route, priority, changeFrequency }) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
-    changeFrequency: 'daily' as const,
-    priority: route === '' ? 1.0 : 0.8,
+    changeFrequency,
+    priority,
   }));
 
   try {
