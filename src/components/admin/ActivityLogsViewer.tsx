@@ -27,16 +27,14 @@ export default function ActivityLogsViewer() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-borderCream">
+      {/* Clean Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-borderCream">
         <div>
-          <span className="text-xs font-bold uppercase tracking-widest text-gold-700">
-            Security & Audit
-          </span>
-          <h1 className="font-serif text-3xl font-bold text-forest-800">
-            Administrator Activity Logs
+          <h1 className="text-xl sm:text-2xl font-bold text-forest-900 tracking-tight">
+            Activity Logs
           </h1>
-          <p className="text-xs sm:text-sm text-muted mt-1">
-            Tamper-evident system activity log recording all staff logins, catalog changes, order updates, and setting edits.
+          <p className="text-xs text-muted mt-0.5">
+            Audit log recording staff logins, catalog changes, and order updates.
           </p>
         </div>
 

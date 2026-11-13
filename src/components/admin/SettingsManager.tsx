@@ -67,15 +67,13 @@ export default function SettingsManager() {
 
   return (
     <div className="max-w-3xl bg-[#FFFDFA] rounded-3xl p-6 sm:p-8 border border-borderCream shadow-sm space-y-8">
-      <div className="space-y-1 pb-4 border-b border-borderCream">
-        <span className="text-xs font-bold uppercase tracking-widest text-gold-700">
-          Store Configuration
-        </span>
-        <h2 className="font-serif text-2xl font-bold text-forest-800">
-          General & Payment Settings
-        </h2>
-        <p className="text-xs text-muted">
-          Manage your WhatsApp order channel, customer support details, and UBL bank transfer parameters.
+      {/* Clean Header */}
+      <div className="pb-3 border-b border-borderCream">
+        <h1 className="text-xl sm:text-2xl font-bold text-forest-900 tracking-tight">
+          Store Settings
+        </h1>
+        <p className="text-xs text-muted mt-0.5">
+          Manage WhatsApp order numbers, calling phone, delivery coverage, and official UBL bank account details.
         </p>
       </div>
 

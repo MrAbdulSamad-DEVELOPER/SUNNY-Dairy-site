@@ -12,17 +12,16 @@ export default async function AdminOrdersPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-6">
-      <div className="space-y-1">
-        <span className="text-xs font-bold uppercase tracking-widest text-gold-700">
-          Dispatch & Orders
-        </span>
-        <h1 className="font-serif text-3xl font-bold text-forest-800">
-          Order Management & Price Confirmations
-        </h1>
-        <p className="text-xs sm:text-sm text-muted">
-          Review inbound customer orders, confirm daily batch prices for unpriced items, and track delivery progress.
-        </p>
+    <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-8 space-y-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-borderCream">
+        <div>
+          <h1 className="text-xl sm:text-2xl font-bold text-forest-900 tracking-tight">
+            Orders
+          </h1>
+          <p className="text-xs text-muted mt-0.5">
+            Review inbound orders, confirm daily batch prices, and track delivery progress.
+          </p>
+        </div>
       </div>
 
       <OrdersManager />

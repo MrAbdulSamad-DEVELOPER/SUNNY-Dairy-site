@@ -180,68 +180,56 @@ export default function OrdersManager() {
         </div>
       </div>
 
-      {/* Orders Table */}
-      <div className="bg-[#FFFDFA] rounded-3xl border border-borderCream shadow-sm overflow-hidden">
+      {/* Orders Container */}
+      <div className="bg-[#FFFDFA] rounded-2xl sm:rounded-3xl border border-borderCream shadow-xs overflow-hidden">
         {loading ? (
           <div className="py-20 text-center text-muted text-xs">
-            Loading real orders from database...
+            Loading orders from database...
           </div>
         ) : orders.length === 0 ? (
-          <div className="py-20 text-center space-y-2">
-            <p className="font-serif text-lg font-bold text-forest-800">No orders found</p>
-            <p className="text-xs text-muted">
+          <div className="py-16 text-center space-y-2.5 px-4">
+            <div className="w-12 h-12 rounded-2xl bg-cream-100 flex items-center justify-center mx-auto text-forest-800">
+              <Truck className="w-6 h-6 text-forest-700" />
+            </div>
+            <p className="font-bold text-base text-forest-900">No orders found</p>
+            <p className="text-xs text-muted max-w-sm mx-auto">
               {search || statusFilter !== 'ALL'
-                ? 'Try modifying your search query or filter.'
-                : 'Customer orders placed on the store will appear here immediately.'}
+                ? 'Try modifying your search query or status filter.'
+                : 'Customer orders placed on the store will appear here in real time.'}
             </p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse text-xs">
-              <thead>
-                <tr className="border-b border-borderCream bg-cream-100/60 text-muted uppercase tracking-wider text-[11px] font-semibold">
-                  <th className="py-3 px-4 sm:px-6">Order Details</th>
-                  <th className="py-3 px-4">Customer</th>
-                  <th className="py-3 px-4">Area / Destination</th>
-                  <th className="py-3 px-4">Total</th>
-                  <th className="py-3 px-4">Status</th>
-                  <th className="py-3 px-4 sm:px-6 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-borderCream/60">
-                {orders.map((ord) => (
-                  <tr key={ord.id} className="hover:bg-cream-50/50 transition-colors">
-                    <td className="py-4 px-4 sm:px-6">
-                      <div className="font-mono font-bold text-forest-900 text-sm">
-                        #{ord.orderNumber}
-                      </div>
-                      <span className="text-[11px] text-muted block">
-                        {new Date(ord.createdAt).toLocaleDateString()} · {new Date(ord.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                      </span>
-                      {ord.cancellationRequested && (
-                        <span className="inline-block mt-1 px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-red-100 text-red-800">
-                          Cancel Requested
+          <>
+            {/* Mobile Card List View (< 768px) */}
+            <div className="block md:hidden divide-y divide-borderCream/70">
+              {orders.map((ord) => {
+                const totalText =
+                  ord.finalTotal !== null
+                    ? `Rs ${ord.finalTotal.toLocaleString()}`
+                    : ord.subtotal > 0
+                    ? `Rs ${ord.subtotal.toLocaleString()} (Pending)`
+                    : 'Price on Request';
+
+                return (
+                  <div key={ord.id} className="p-4 space-y-3">
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <span className="font-mono font-bold text-forest-900 text-sm">
+                          #{ord.orderNumber}
                         </span>
-                      )}
-                    </td>
-                    <td className="py-4 px-4">
-                      <div className="font-semibold text-forest-800">{ord.customerName}</div>
-                      <div className="text-muted text-[11px]">{ord.customerPhone}</div>
-                    </td>
-                    <td className="py-4 px-4">
-                      <div className="font-medium text-forest-800">{ord.area}</div>
-                      <div className="text-muted text-[11px] truncate max-w-xs">{ord.deliveryAddress}</div>
-                    </td>
-                    <td className="py-4 px-4 font-serif font-bold text-forest-800">
-                      {ord.finalTotal !== null ? (
-                        `Rs ${ord.finalTotal.toLocaleString()}`
-                      ) : ord.subtotal > 0 ? (
-                        `Rs ${ord.subtotal.toLocaleString()} + Pending`
-                      ) : (
-                        'Price on Request'
-                      )}
-                    </td>
-                    <td className="py-4 px-4">
+                        <div className="text-[11px] text-muted mt-0.5">
+                          {new Date(ord.createdAt).toLocaleDateString('en-PK', {
+                            day: 'numeric',
+                            month: 'short',
+                          })}{' '}
+                          ·{' '}
+                          {new Date(ord.createdAt).toLocaleTimeString([], {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                          })}
+                        </div>
+                      </div>
+
                       <span
                         className={`inline-block px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
                           ord.orderStatus === 'DELIVERED'
@@ -257,29 +245,139 @@ export default function OrdersManager() {
                       >
                         {ord.orderStatus.replace(/_/g, ' ')}
                       </span>
-                    </td>
-                    <td className="py-4 px-4 sm:px-6 text-right space-x-2">
+                    </div>
+
+                    {ord.cancellationRequested && (
+                      <div className="px-2.5 py-1 rounded-lg bg-red-50 border border-red-200 text-red-800 text-[11px] font-bold">
+                        Customer requested cancellation
+                      </div>
+                    )}
+
+                    {/* Customer & Address Details */}
+                    <div className="p-2.5 rounded-xl bg-cream-50/70 border border-borderCream/60 space-y-1.5 text-xs">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-forest-900">{ord.customerName}</span>
+                        <span className="font-mono text-muted">{ord.customerPhone}</span>
+                      </div>
+                      <div className="text-[11px] text-muted truncate">
+                        📍 {ord.area}, {ord.deliveryAddress}
+                      </div>
+                      <div className="flex items-center justify-between pt-1 border-t border-borderCream/40 font-semibold">
+                        <span className="text-muted text-[11px]">Amount:</span>
+                        <span className="text-forest-900">{totalText}</span>
+                      </div>
+                    </div>
+
+                    {/* Mobile Action Buttons */}
+                    <div className="flex items-center space-x-2 pt-1">
                       <Link
                         href={`/order-confirmation/${ord.orderNumber}/invoice`}
                         target="_blank"
-                        className="px-2.5 py-1.5 rounded-lg border border-borderCream bg-white hover:bg-cream-100 text-forest-800 font-semibold inline-flex items-center space-x-1"
-                        title="Print Invoice"
+                        className="p-2 rounded-xl border border-borderCream bg-cream-50 hover:bg-cream-100 text-forest-800 transition-colors flex items-center justify-center"
+                        title="Invoice"
                       >
-                        <Printer className="w-3.5 h-3.5 text-forest-700" />
+                        <Printer className="w-4 h-4" />
                       </Link>
+
                       <button
                         onClick={() => handleOpenDetail(ord)}
-                        className="px-3 py-1.5 rounded-lg bg-forest-800 text-white font-semibold hover:bg-forest-900 transition-colors inline-flex items-center space-x-1"
+                        className="flex-1 py-2 px-4 rounded-xl bg-forest-800 text-white font-semibold text-xs hover:bg-forest-900 transition-colors flex items-center justify-center space-x-1.5 shadow-xs"
                       >
-                        <Eye className="w-3.5 h-3.5" />
-                        <span>Manage</span>
+                        <Eye className="w-4 h-4 text-gold-400" />
+                        <span>Manage & Confirm Order</span>
                       </button>
-                    </td>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Desktop Table View (>= 768px) */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr className="border-b border-borderCream bg-cream-100/60 text-muted uppercase tracking-wider text-[11px] font-semibold">
+                    <th className="py-3 px-5">Order Details</th>
+                    <th className="py-3 px-4">Customer</th>
+                    <th className="py-3 px-4">Area / Destination</th>
+                    <th className="py-3 px-4">Total</th>
+                    <th className="py-3 px-4">Status</th>
+                    <th className="py-3 px-5 text-right">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="divide-y divide-borderCream/60">
+                  {orders.map((ord) => (
+                    <tr key={ord.id} className="hover:bg-cream-50/50 transition-colors">
+                      <td className="py-4 px-5">
+                        <div className="font-mono font-bold text-forest-900 text-sm">
+                          #{ord.orderNumber}
+                        </div>
+                        <span className="text-[11px] text-muted block">
+                          {new Date(ord.createdAt).toLocaleDateString()} · {new Date(ord.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </span>
+                        {ord.cancellationRequested && (
+                          <span className="inline-block mt-1 px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-red-100 text-red-800">
+                            Cancel Requested
+                          </span>
+                        )}
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="font-semibold text-forest-800">{ord.customerName}</div>
+                        <div className="text-muted text-[11px]">{ord.customerPhone}</div>
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="font-medium text-forest-800">{ord.area}</div>
+                        <div className="text-muted text-[11px] truncate max-w-xs">{ord.deliveryAddress}</div>
+                      </td>
+                      <td className="py-4 px-4 font-bold text-forest-800">
+                        {ord.finalTotal !== null ? (
+                          `Rs ${ord.finalTotal.toLocaleString()}`
+                        ) : ord.subtotal > 0 ? (
+                          `Rs ${ord.subtotal.toLocaleString()} + Pending`
+                        ) : (
+                          'Price on Request'
+                        )}
+                      </td>
+                      <td className="py-4 px-4">
+                        <span
+                          className={`inline-block px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                            ord.orderStatus === 'DELIVERED'
+                              ? 'bg-green-100 text-green-800'
+                              : ord.orderStatus === 'PRICE_CONFIRMATION_REQUIRED'
+                              ? 'bg-amber-100 text-amber-800'
+                              : ord.orderStatus === 'CONFIRMED'
+                              ? 'bg-blue-100 text-blue-800'
+                              : ord.orderStatus === 'CANCELLED'
+                              ? 'bg-red-100 text-red-800'
+                              : 'bg-cream-200 text-forest-800'
+                          }`}
+                        >
+                          {ord.orderStatus.replace(/_/g, ' ')}
+                        </span>
+                      </td>
+                      <td className="py-4 px-5 text-right space-x-2">
+                        <Link
+                          href={`/order-confirmation/${ord.orderNumber}/invoice`}
+                          target="_blank"
+                          className="px-2.5 py-1.5 rounded-lg border border-borderCream bg-white hover:bg-cream-100 text-forest-800 font-semibold inline-flex items-center space-x-1"
+                          title="Print Invoice"
+                        >
+                          <Printer className="w-3.5 h-3.5 text-forest-700" />
+                        </Link>
+                        <button
+                          onClick={() => handleOpenDetail(ord)}
+                          className="px-3 py-1.5 rounded-lg bg-forest-800 text-white font-semibold hover:bg-forest-900 transition-colors inline-flex items-center space-x-1"
+                        >
+                          <Eye className="w-3.5 h-3.5" />
+                          <span>Manage</span>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </div>
 

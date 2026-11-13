@@ -97,15 +97,13 @@ export default function CmsManager() {
 
   return (
     <div className="space-y-6">
-      <div className="pb-4 border-b border-borderCream">
-        <span className="text-xs font-bold uppercase tracking-widest text-gold-700">
-          CMS & Page Content
-        </span>
-        <h1 className="font-serif text-3xl font-bold text-forest-800">
-          Homepage & Website Content Editor
+      {/* Clean Header */}
+      <div className="pb-3 border-b border-borderCream">
+        <h1 className="text-xl sm:text-2xl font-bold text-forest-900 tracking-tight">
+          Website Content
         </h1>
-        <p className="text-xs sm:text-sm text-muted mt-1">
-          Manage hero headlines, supporting descriptions, promotional callouts, and farm promise text without touching code.
+        <p className="text-xs text-muted mt-0.5">
+          Edit homepage headlines, descriptions, and farm promise text.
         </p>
       </div>
 

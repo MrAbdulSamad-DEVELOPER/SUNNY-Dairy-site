@@ -76,23 +76,21 @@ export default function InventoryManager() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-borderCream">
+      {/* Clean Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-borderCream">
         <div>
-          <span className="text-xs font-bold uppercase tracking-widest text-gold-700">
-            Stock & Fresh Batches
-          </span>
-          <h1 className="font-serif text-3xl font-bold text-forest-800">
-            Real-Time Inventory Management
+          <h1 className="text-xl sm:text-2xl font-bold text-forest-900 tracking-tight">
+            Stock & Inventory
           </h1>
-          <p className="text-xs sm:text-sm text-muted mt-1">
-            Track daily milk yields, sweet batch counts, and manage low-stock thresholds.
+          <p className="text-xs text-muted mt-0.5">
+            Monitor product stock levels, set low-stock limits, and record fresh batch yields.
           </p>
         </div>
 
         {lowStockCount > 0 && (
-          <div className="flex items-center space-x-2 px-3.5 py-2 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-bold">
-            <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0" />
-            <span>{lowStockCount} item(s) running low on stock!</span>
+          <div className="flex items-center space-x-2 px-3 py-1.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-semibold self-start sm:self-auto">
+            <AlertTriangle className="w-3.5 h-3.5 text-amber-600 flex-shrink-0" />
+            <span>{lowStockCount} item(s) running low!</span>
           </div>
         )}
       </div>
@@ -104,77 +102,127 @@ export default function InventoryManager() {
         </div>
       )}
 
-      {/* Products Inventory Table */}
-      <div className="bg-[#FFFDFA] rounded-3xl border border-borderCream shadow-sm overflow-hidden">
+      {/* Main Inventory Container */}
+      <div className="bg-[#FFFDFA] rounded-2xl sm:rounded-3xl border border-borderCream shadow-xs overflow-hidden">
         {loading ? (
           <div className="text-center py-16 text-muted text-sm">Loading inventory...</div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse text-xs">
-              <thead>
-                <tr className="bg-cream-100/70 border-b border-borderCream text-forest-900 font-bold uppercase tracking-wider text-[11px]">
-                  <th className="py-3.5 px-4 sm:px-6">Product</th>
-                  <th className="py-3.5 px-4">SKU</th>
-                  <th className="py-3.5 px-4">In Stock</th>
-                  <th className="py-3.5 px-4">Low Stock Limit</th>
-                  <th className="py-3.5 px-4">Available Variants</th>
-                  <th className="py-3.5 px-4">Status</th>
-                  <th className="py-3.5 px-4 sm:px-6 text-right">Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-borderCream/60">
-                {products.map((p) => {
-                  const isLow = p.stockQuantity <= p.lowStockThreshold;
-                  return (
-                    <tr key={p.id} className="hover:bg-cream-50/60 transition-colors">
-                      <td className="py-4 px-4 sm:px-6 font-bold text-forest-900">
-                        <div className="flex items-center space-x-3">
-                          <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-cream-200 flex-shrink-0">
-                            <Image src={p.imageUrl} alt={p.name} fill className="object-cover" />
-                          </div>
-                          <span>{p.name}</span>
+          <>
+            {/* Mobile Card List View (< 768px) */}
+            <div className="block md:hidden divide-y divide-borderCream/70">
+              {products.map((p) => {
+                const isLow = p.stockQuantity <= p.lowStockThreshold;
+                return (
+                  <div key={p.id} className="p-4 space-y-3">
+                    <div className="flex items-center space-x-3">
+                      <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-cream-200 flex-shrink-0 border border-borderCream">
+                        <Image src={p.imageUrl} alt={p.name} fill className="object-cover" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-bold text-forest-900 text-sm truncate">{p.name}</h4>
+                        <div className="flex items-center space-x-2 mt-0.5">
+                          <span className="text-[11px] text-muted font-mono">{p.sku || 'No SKU'}</span>
+                          <span className="text-muted text-[10px]">·</span>
+                          <span className="text-[11px] text-muted">Min: {p.lowStockThreshold}</span>
                         </div>
-                      </td>
-                      <td className="py-4 px-4 text-muted font-mono">{p.sku || '—'}</td>
-                      <td className="py-4 px-4">
-                        <span
-                          className={`font-serif font-bold text-sm ${
-                            isLow ? 'text-red-700' : 'text-forest-800'
-                          }`}
-                        >
+                      </div>
+                      <div className="text-right flex-shrink-0">
+                        <div className={`font-bold text-sm ${isLow ? 'text-red-700' : 'text-forest-900'}`}>
                           {p.stockQuantity} units
+                        </div>
+                        <span className={`inline-block px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider mt-0.5 ${
+                          isLow ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
+                        }`}>
+                          {isLow ? 'Low Stock' : 'In Stock'}
                         </span>
-                      </td>
-                      <td className="py-4 px-4 text-muted">{p.lowStockThreshold} units</td>
-                      <td className="py-4 px-4 text-muted">
-                        {p.variants.map((v) => v.size).join(', ')}
-                      </td>
-                      <td className="py-4 px-4">
-                        {isLow ? (
-                          <span className="px-2 py-0.5 rounded-full bg-red-100 text-red-800 text-[10px] font-bold uppercase tracking-wider">
-                            Low Stock
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between pt-2 border-t border-borderCream/50 text-xs">
+                      <span className="text-muted text-[11px] truncate max-w-[180px]">
+                        Sizes: {p.variants.map((v) => v.size).join(', ') || 'Standard'}
+                      </span>
+                      <button
+                        onClick={() => openAdjust(p)}
+                        className="px-3.5 py-1.5 rounded-lg bg-forest-800 text-white font-semibold text-xs hover:bg-forest-900 inline-flex items-center space-x-1.5 transition-colors shadow-xs"
+                      >
+                        <ArrowUpDown className="w-3 h-3 text-gold-400" />
+                        <span>Update Stock</span>
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Desktop Table View (>= 768px) */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr className="bg-cream-100/70 border-b border-borderCream text-forest-900 font-bold uppercase tracking-wider text-[11px]">
+                    <th className="py-3.5 px-5">Product</th>
+                    <th className="py-3.5 px-4">SKU</th>
+                    <th className="py-3.5 px-4">In Stock</th>
+                    <th className="py-3.5 px-4">Low Stock Limit</th>
+                    <th className="py-3.5 px-4">Available Variants</th>
+                    <th className="py-3.5 px-4">Status</th>
+                    <th className="py-3.5 px-5 text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-borderCream/60">
+                  {products.map((p) => {
+                    const isLow = p.stockQuantity <= p.lowStockThreshold;
+                    return (
+                      <tr key={p.id} className="hover:bg-cream-50/60 transition-colors">
+                        <td className="py-4 px-5 font-bold text-forest-900">
+                          <div className="flex items-center space-x-3">
+                            <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-cream-200 flex-shrink-0">
+                              <Image src={p.imageUrl} alt={p.name} fill className="object-cover" />
+                            </div>
+                            <span>{p.name}</span>
+                          </div>
+                        </td>
+                        <td className="py-4 px-4 text-muted font-mono">{p.sku || '—'}</td>
+                        <td className="py-4 px-4">
+                          <span
+                            className={`font-bold text-sm ${
+                              isLow ? 'text-red-700' : 'text-forest-800'
+                            }`}
+                          >
+                            {p.stockQuantity} units
                           </span>
-                        ) : (
-                          <span className="px-2 py-0.5 rounded-full bg-green-100 text-green-800 text-[10px] font-bold uppercase tracking-wider">
-                            In Stock
-                          </span>
-                        )}
-                      </td>
-                      <td className="py-4 px-4 sm:px-6 text-right">
-                        <button
-                          onClick={() => openAdjust(p)}
-                          className="px-3 py-1.5 rounded-lg bg-forest-800 text-white font-bold text-xs hover:bg-forest-900 inline-flex items-center space-x-1"
-                        >
-                          <ArrowUpDown className="w-3 h-3 text-gold-400" />
-                          <span>Adjust</span>
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                        </td>
+                        <td className="py-4 px-4 text-muted">{p.lowStockThreshold} units</td>
+                        <td className="py-4 px-4 text-muted">
+                          {p.variants.map((v) => v.size).join(', ')}
+                        </td>
+                        <td className="py-4 px-4">
+                          {isLow ? (
+                            <span className="px-2 py-0.5 rounded-full bg-red-100 text-red-800 text-[10px] font-bold uppercase tracking-wider">
+                              Low Stock
+                            </span>
+                          ) : (
+                            <span className="px-2 py-0.5 rounded-full bg-green-100 text-green-800 text-[10px] font-bold uppercase tracking-wider">
+                              In Stock
+                            </span>
+                          )}
+                        </td>
+                        <td className="py-4 px-5 text-right">
+                          <button
+                            onClick={() => openAdjust(p)}
+                            className="px-3 py-1.5 rounded-lg bg-forest-800 text-white font-semibold text-xs hover:bg-forest-900 inline-flex items-center space-x-1"
+                          >
+                            <ArrowUpDown className="w-3 h-3 text-gold-400" />
+                            <span>Adjust</span>
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </div>
 

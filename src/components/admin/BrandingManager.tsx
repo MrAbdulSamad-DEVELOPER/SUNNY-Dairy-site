@@ -193,15 +193,13 @@ export default function BrandingManager() {
 
   return (
     <div className="space-y-6">
-      <div className="pb-4 border-b border-borderCream">
-        <span className="text-xs font-bold uppercase tracking-widest text-gold-700">
-          Visual Identity & Contact
-        </span>
-        <h1 className="font-serif text-3xl font-bold text-forest-800">
-          Branding, Logo & Official Business Info
+      {/* Clean Header */}
+      <div className="pb-3 border-b border-borderCream">
+        <h1 className="text-xl sm:text-2xl font-bold text-forest-900 tracking-tight">
+          Logo & Branding
         </h1>
-        <p className="text-xs sm:text-sm text-muted mt-1">
-          Customize your store name, official logo, verified store owner details, and contact numbers.
+        <p className="text-xs text-muted mt-0.5">
+          Update store logo, business name, contact numbers, and store details.
         </p>
       </div>
 

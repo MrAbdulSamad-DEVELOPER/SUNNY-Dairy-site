@@ -57,16 +57,14 @@ export default function ReportsViewer() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-borderCream">
+      {/* Clean Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-borderCream">
         <div>
-          <span className="text-xs font-bold uppercase tracking-widest text-gold-700">
-            Real Analytics
-          </span>
-          <h1 className="font-serif text-3xl font-bold text-forest-800">
-            Business Reports & Sales Trends
+          <h1 className="text-xl sm:text-2xl font-bold text-forest-900 tracking-tight">
+            Sales Reports
           </h1>
-          <p className="text-xs sm:text-sm text-muted mt-1">
-            Real database-backed sales totals, order volume, and top-selling dairy products.
+          <p className="text-xs text-muted mt-0.5">
+            Real sales totals, order volume, and top-selling dairy products.
           </p>
         </div>
 

@@ -90,22 +90,20 @@ export default function CategoriesManager() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-borderCream">
+      {/* Clean Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-borderCream">
         <div>
-          <span className="text-xs font-bold uppercase tracking-widest text-gold-700">
-            Catalog Structure
-          </span>
-          <h1 className="font-serif text-3xl font-bold text-forest-800">
-            Product Categories Management
+          <h1 className="text-xl sm:text-2xl font-bold text-forest-900 tracking-tight">
+            Categories
           </h1>
-          <p className="text-xs sm:text-sm text-muted mt-1">
-            Organize products into customer-facing catalog filters (Milk & Yogurt, Dairy, Sweets, Drinks).
+          <p className="text-xs text-muted mt-0.5">
+            Organize products into customer catalog filters (Milk & Yogurt, Dairy, Sweets, Drinks).
           </p>
         </div>
 
         <button
           onClick={openNew}
-          className="px-4 py-2.5 bg-forest-800 hover:bg-forest-900 text-white rounded-xl text-xs font-bold shadow-sm transition-colors flex items-center space-x-2"
+          className="self-start sm:self-auto px-4 py-2 bg-forest-800 hover:bg-forest-900 text-white rounded-xl text-xs font-semibold shadow-xs transition-colors flex items-center space-x-1.5"
         >
           <Plus className="w-4 h-4 text-gold-400" />
           <span>Add Category</span>
@@ -119,43 +117,103 @@ export default function CategoriesManager() {
         </div>
       )}
 
-      <div className="bg-[#FFFDFA] rounded-3xl border border-borderCream shadow-sm overflow-hidden">
+      {/* Main Categories Container */}
+      <div className="bg-[#FFFDFA] rounded-2xl sm:rounded-3xl border border-borderCream shadow-xs overflow-hidden">
         {loading ? (
           <div className="text-center py-16 text-muted text-sm">Loading categories...</div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse text-xs">
-              <thead>
-                <tr className="bg-cream-100/70 border-b border-borderCream text-forest-900 font-bold uppercase tracking-wider text-[11px]">
-                  <th className="py-3.5 px-4 sm:px-6">Name</th>
-                  <th className="py-3.5 px-4">Slug</th>
-                  <th className="py-3.5 px-4">Description</th>
-                  <th className="py-3.5 px-4">Products</th>
-                  <th className="py-3.5 px-4 sm:px-6 text-right">Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-borderCream/60">
-                {categories.map((c) => (
-                  <tr key={c.id} className="hover:bg-cream-50/60 transition-colors">
-                    <td className="py-4 px-4 sm:px-6 font-bold text-forest-900">{c.name}</td>
-                    <td className="py-4 px-4 font-mono text-muted">{c.slug}</td>
-                    <td className="py-4 px-4 text-muted max-w-sm truncate">{c.description || '—'}</td>
-                    <td className="py-4 px-4 font-bold text-forest-800">
-                      {c._count?.products || 0} product(s)
-                    </td>
-                    <td className="py-4 px-4 sm:px-6 text-right space-x-2">
-                      <button onClick={() => openEdit(c)} className="p-1 text-forest-800 hover:text-gold-700">
-                        <Edit2 className="w-3.5 h-3.5 inline" />
-                      </button>
-                      <button onClick={() => handleDelete(c.id)} className="p-1 text-red-500 hover:text-red-700">
-                        <Trash2 className="w-3.5 h-3.5 inline" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        ) : categories.length === 0 ? (
+          <div className="text-center py-16 text-muted text-sm space-y-2">
+            <Layers className="w-10 h-10 text-muted/40 mx-auto" />
+            <p className="font-bold text-forest-800">No categories found.</p>
+            <p className="text-xs text-muted">Create a category to organize your products.</p>
           </div>
+        ) : (
+          <>
+            {/* Mobile Card List View (Visible on screens < 768px) */}
+            <div className="block md:hidden divide-y divide-borderCream/70">
+              {categories.map((c) => (
+                <div key={c.id} className="p-4 space-y-2.5">
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <h4 className="font-bold text-forest-900 text-sm">{c.name}</h4>
+                      <span className="text-[11px] text-muted font-mono bg-cream-100 px-2 py-0.5 rounded-md inline-block mt-0.5">
+                        /{c.slug}
+                      </span>
+                    </div>
+                    <span className="text-xs bg-forest-50 text-forest-800 px-2.5 py-1 rounded-full font-semibold border border-forest-200/50 flex-shrink-0">
+                      {c._count?.products || 0} products
+                    </span>
+                  </div>
+
+                  {c.description && (
+                    <p className="text-xs text-muted leading-relaxed line-clamp-2">
+                      {c.description}
+                    </p>
+                  )}
+
+                  <div className="flex items-center justify-end space-x-2 pt-2 border-t border-borderCream/50">
+                    <button
+                      onClick={() => openEdit(c)}
+                      className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg border border-borderCream bg-cream-50 text-xs font-semibold text-forest-900 hover:bg-cream-100 transition-colors"
+                    >
+                      <Edit2 className="w-3.5 h-3.5 text-forest-700" />
+                      <span>Edit</span>
+                    </button>
+                    <button
+                      onClick={() => handleDelete(c.id)}
+                      className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg border border-red-200 bg-red-50 text-xs font-semibold text-red-700 hover:bg-red-100 transition-colors"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                      <span>Delete</span>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop Table View (Visible on screens >= 768px) */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr className="bg-cream-100/70 border-b border-borderCream text-forest-900 font-bold uppercase tracking-wider text-[11px]">
+                    <th className="py-3.5 px-5">Name</th>
+                    <th className="py-3.5 px-4">Slug</th>
+                    <th className="py-3.5 px-4">Description</th>
+                    <th className="py-3.5 px-4">Products</th>
+                    <th className="py-3.5 px-5 text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-borderCream/60">
+                  {categories.map((c) => (
+                    <tr key={c.id} className="hover:bg-cream-50/60 transition-colors">
+                      <td className="py-4 px-5 font-bold text-forest-900">{c.name}</td>
+                      <td className="py-4 px-4 font-mono text-muted">{c.slug}</td>
+                      <td className="py-4 px-4 text-muted max-w-sm truncate">{c.description || '—'}</td>
+                      <td className="py-4 px-4 font-bold text-forest-800">
+                        {c._count?.products || 0} product(s)
+                      </td>
+                      <td className="py-4 px-5 text-right space-x-2">
+                        <button
+                          onClick={() => openEdit(c)}
+                          className="p-1.5 text-forest-800 hover:text-gold-700 hover:bg-cream-100 rounded-md transition-colors"
+                          title="Edit"
+                        >
+                          <Edit2 className="w-4 h-4 inline" />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(c.id)}
+                          className="p-1.5 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors"
+                          title="Delete"
+                        >
+                          <Trash2 className="w-4 h-4 inline" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </div>
 

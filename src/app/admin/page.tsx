@@ -61,28 +61,28 @@ export default async function AdminDashboardOverviewPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-8">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-borderCream">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-borderCream">
         <div>
-          <span className="text-xs font-bold uppercase tracking-widest text-gold-700">
-            Operations Center
-          </span>
-          <h1 className="font-serif text-3xl font-bold text-forest-800">
-            {OFFICIAL_STORE_NAME} Farm Management
+          <h1 className="text-xl sm:text-2xl font-bold text-forest-900 tracking-tight">
+            Dashboard
           </h1>
+          <p className="text-xs text-muted mt-0.5">
+            Store performance overview, live orders, and product sales statistics.
+          </p>
         </div>
 
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-2">
           <Link
             href="/admin/orders"
-            className="px-4 py-2 bg-forest-800 hover:bg-forest-900 text-white rounded-xl text-xs font-semibold shadow-sm transition-colors"
+            className="px-3.5 py-2 bg-forest-800 hover:bg-forest-900 text-white rounded-xl text-xs font-semibold shadow-xs transition-colors"
           >
-            Review Orders
+            Orders
           </Link>
           <Link
             href="/admin/products"
-            className="px-4 py-2 bg-gold-500 hover:bg-gold-600 text-forest-950 rounded-xl text-xs font-bold shadow-sm transition-colors"
+            className="px-3.5 py-2 bg-gold-500 hover:bg-gold-600 text-forest-950 rounded-xl text-xs font-bold shadow-xs transition-colors"
           >
-            Edit Prices & Products
+            Products
           </Link>
         </div>
       </div>

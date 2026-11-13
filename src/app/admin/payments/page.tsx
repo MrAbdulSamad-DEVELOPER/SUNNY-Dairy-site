@@ -8,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function AdminPaymentsPage() {
-  return <PaymentsManager />;
+  return (
+    <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-8">
+      <PaymentsManager />
+    </div>
+  );
 }

@@ -75,22 +75,20 @@ export default function AdminUsersManager() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-borderCream">
+      {/* Clean Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-borderCream">
         <div>
-          <span className="text-xs font-bold uppercase tracking-widest text-gold-700">
-            Access Control
-          </span>
-          <h1 className="font-serif text-3xl font-bold text-forest-800">
-            Staff & Administrator Management
+          <h1 className="text-xl sm:text-2xl font-bold text-forest-900 tracking-tight">
+            Admin Accounts
           </h1>
-          <p className="text-xs sm:text-sm text-muted mt-1">
-            Manage authorized staff accounts with role-based access control and bcrypt password encryption.
+          <p className="text-xs text-muted mt-0.5">
+            Manage authorized staff accounts with role-based access control and secure password protection.
           </p>
         </div>
 
         <button
           onClick={() => setIsModalOpen(true)}
-          className="px-4 py-2.5 bg-forest-800 hover:bg-forest-900 text-white rounded-xl text-xs font-bold shadow-sm transition-colors flex items-center space-x-2"
+          className="self-start sm:self-auto px-4 py-2 bg-forest-800 hover:bg-forest-900 text-white rounded-xl text-xs font-semibold shadow-xs transition-colors flex items-center space-x-1.5"
         >
           <Plus className="w-4 h-4 text-gold-400" />
           <span>Add Admin User</span>
@@ -104,57 +102,101 @@ export default function AdminUsersManager() {
         </div>
       )}
 
-      {/* Users Table */}
-      <div className="bg-[#FFFDFA] rounded-3xl border border-borderCream shadow-sm overflow-hidden">
+      {/* Main Users Container */}
+      <div className="bg-[#FFFDFA] rounded-2xl sm:rounded-3xl border border-borderCream shadow-xs overflow-hidden">
         {loading ? (
           <div className="text-center py-16 text-muted text-sm">Loading staff users...</div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse text-xs">
-              <thead>
-                <tr className="bg-cream-100/70 border-b border-borderCream text-forest-900 font-bold uppercase tracking-wider text-[11px]">
-                  <th className="py-3.5 px-4 sm:px-6">Username</th>
-                  <th className="py-3.5 px-4">Email</th>
-                  <th className="py-3.5 px-4">Role</th>
-                  <th className="py-3.5 px-4">Last Login</th>
-                  <th className="py-3.5 px-4">Status</th>
-                  <th className="py-3.5 px-4 sm:px-6 text-right">Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-borderCream/60">
-                {users.map((u) => (
-                  <tr key={u.id} className="hover:bg-cream-50/60 transition-colors">
-                    <td className="py-4 px-4 sm:px-6 font-bold text-forest-900">@{u.username}</td>
-                    <td className="py-4 px-4 text-muted">{u.email}</td>
-                    <td className="py-4 px-4">
-                      <span className="px-2 py-0.5 rounded-full bg-forest-100 text-forest-800 text-[10px] font-bold uppercase tracking-wider">
-                        {u.role}
-                      </span>
-                    </td>
-                    <td className="py-4 px-4 text-muted">
-                      {u.lastLoginAt ? new Date(u.lastLoginAt).toLocaleDateString('en-GB') : 'Never'}
-                    </td>
-                    <td className="py-4 px-4">
-                      <span className="px-2 py-0.5 rounded-full bg-green-100 text-green-800 text-[10px] font-bold uppercase">
-                        {u.isActive ? 'Active' : 'Disabled'}
-                      </span>
-                    </td>
-                    <td className="py-4 px-4 sm:px-6 text-right">
-                      {u.role !== 'SUPER_ADMIN' && (
-                        <button
-                          onClick={() => handleDelete(u.id)}
-                          className="p-1 text-red-500 hover:text-red-700"
-                          title="Remove user"
-                        >
-                          <Trash2 className="w-3.5 h-3.5 inline" />
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        ) : users.length === 0 ? (
+          <div className="text-center py-16 text-muted text-sm space-y-2">
+            <Shield className="w-10 h-10 text-muted/40 mx-auto" />
+            <p className="font-bold text-forest-800">No admin accounts found.</p>
           </div>
+        ) : (
+          <>
+            {/* Mobile Card List View (< 768px) */}
+            <div className="block md:hidden divide-y divide-borderCream/70">
+              {users.map((u) => (
+                <div key={u.id} className="p-4 space-y-2.5">
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <h4 className="font-bold text-forest-900 text-sm">@{u.username}</h4>
+                      <p className="text-xs text-muted mt-0.5">{u.email}</p>
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider bg-forest-100 text-forest-800 px-2.5 py-1 rounded-full flex-shrink-0">
+                      {u.role}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-2 border-t border-borderCream/50 text-xs">
+                    <div className="flex items-center space-x-2">
+                      <span className="inline-block w-2 h-2 rounded-full bg-emerald-500" />
+                      <span className="text-[11px] text-muted">
+                        {u.isActive ? 'Active' : 'Disabled'} · {u.lastLoginAt ? `Login: ${new Date(u.lastLoginAt).toLocaleDateString('en-GB')}` : 'Never logged in'}
+                      </span>
+                    </div>
+
+                    {u.role !== 'SUPER_ADMIN' && (
+                      <button
+                        onClick={() => handleDelete(u.id)}
+                        className="px-3 py-1 rounded-lg border border-red-200 bg-red-50 text-xs font-semibold text-red-700 hover:bg-red-100 transition-colors flex items-center space-x-1"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                        <span>Delete</span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop Table View (>= 768px) */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr className="bg-cream-100/70 border-b border-borderCream text-forest-900 font-bold uppercase tracking-wider text-[11px]">
+                    <th className="py-3.5 px-5">Username</th>
+                    <th className="py-3.5 px-4">Email</th>
+                    <th className="py-3.5 px-4">Role</th>
+                    <th className="py-3.5 px-4">Last Login</th>
+                    <th className="py-3.5 px-4">Status</th>
+                    <th className="py-3.5 px-5 text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-borderCream/60">
+                  {users.map((u) => (
+                    <tr key={u.id} className="hover:bg-cream-50/60 transition-colors">
+                      <td className="py-4 px-5 font-bold text-forest-900">@{u.username}</td>
+                      <td className="py-4 px-4 text-muted">{u.email}</td>
+                      <td className="py-4 px-4">
+                        <span className="px-2 py-0.5 rounded-full bg-forest-100 text-forest-800 text-[10px] font-bold uppercase tracking-wider">
+                          {u.role}
+                        </span>
+                      </td>
+                      <td className="py-4 px-4 text-muted">
+                        {u.lastLoginAt ? new Date(u.lastLoginAt).toLocaleDateString('en-GB') : 'Never'}
+                      </td>
+                      <td className="py-4 px-4">
+                        <span className="px-2 py-0.5 rounded-full bg-green-100 text-green-800 text-[10px] font-bold uppercase">
+                          {u.isActive ? 'Active' : 'Disabled'}
+                        </span>
+                      </td>
+                      <td className="py-4 px-5 text-right">
+                        {u.role !== 'SUPER_ADMIN' && (
+                          <button
+                            onClick={() => handleDelete(u.id)}
+                            className="p-1.5 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors"
+                            title="Remove user"
+                          >
+                            <Trash2 className="w-4 h-4 inline" />
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </div>
 

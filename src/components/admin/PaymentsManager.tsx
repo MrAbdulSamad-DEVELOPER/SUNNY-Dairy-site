@@ -163,12 +163,12 @@ export default function PaymentsManager() {
   return (
     <div className="space-y-6">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-borderCream">
         <div>
-          <h1 className="font-serif text-2xl sm:text-3xl font-bold text-forest-800">
-            Payment Verification
+          <h1 className="text-xl sm:text-2xl font-bold text-forest-900 tracking-tight">
+            Bank Payments
           </h1>
-          <p className="text-sm text-muted mt-1">
+          <p className="text-xs text-muted mt-0.5">
             Review customer UBL bank transfers, inspect receipts, and verify payments manually.
           </p>
         </div>
@@ -176,9 +176,9 @@ export default function PaymentsManager() {
         <button
           onClick={fetchPayments}
           disabled={loading}
-          className="inline-flex items-center justify-center space-x-2 bg-cream-100 hover:bg-cream-200 text-forest-800 border border-borderCream px-4 py-2 rounded-xl text-sm font-semibold transition-colors"
+          className="self-start sm:self-auto inline-flex items-center space-x-1.5 bg-white hover:bg-cream-100 text-forest-800 border border-borderCream px-3.5 py-1.5 rounded-xl text-xs font-semibold shadow-xs transition-colors"
         >
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-forest-800' : ''}`} />
+          <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-forest-800' : ''}`} />
           <span>Refresh</span>
         </button>
       </div>
@@ -304,8 +304,8 @@ export default function PaymentsManager() {
         </form>
       </div>
 
-      {/* Payments Table */}
-      <div className="bg-white rounded-3xl border border-borderCream shadow-sm overflow-hidden">
+      {/* Payments Container */}
+      <div className="bg-white rounded-2xl sm:rounded-3xl border border-borderCream shadow-xs overflow-hidden">
         {loading ? (
           <div className="p-12 text-center text-muted">
             <RefreshCw className="w-8 h-8 animate-spin mx-auto mb-3 text-forest-800" />
@@ -314,148 +314,243 @@ export default function PaymentsManager() {
         ) : payments.length === 0 ? (
           <div className="p-12 text-center text-muted">
             <CreditCard className="w-12 h-12 mx-auto mb-3 text-muted/50" />
-            <h3 className="font-serif text-lg font-bold text-forest-800">No payment submissions found</h3>
+            <h3 className="text-base font-bold text-forest-900">No payment submissions found</h3>
             <p className="text-xs text-muted max-w-sm mx-auto mt-1">
               When customers complete checkout with Advance UBL Bank Transfer, their receipts and details appear here for verification.
             </p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-cream-100/70 border-b border-borderCream text-xs font-bold text-forest-800 uppercase tracking-wider">
-                <tr>
-                  <th className="py-3.5 px-4">Date & Time</th>
-                  <th className="py-3.5 px-4">Order #</th>
-                  <th className="py-3.5 px-4">Customer</th>
-                  <th className="py-3.5 px-4">Amount</th>
-                  <th className="py-3.5 px-4">Sender / TID</th>
-                  <th className="py-3.5 px-4 text-center">Receipt</th>
-                  <th className="py-3.5 px-4">Status</th>
-                  <th className="py-3.5 px-4">Verification</th>
-                  <th className="py-3.5 px-4 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-borderCream">
-                {payments.map((p) => {
-                  const dateStr = new Date(p.createdAt).toLocaleDateString('en-PK', {
-                    day: 'numeric',
-                    month: 'short',
-                    year: 'numeric',
-                  });
-                  const timeStr = new Date(p.createdAt).toLocaleTimeString('en-PK', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  });
+          <>
+            {/* Mobile Card List View (< 768px) */}
+            <div className="block md:hidden divide-y divide-borderCream/70">
+              {payments.map((p) => {
+                const dateStr = new Date(p.createdAt).toLocaleDateString('en-PK', {
+                  day: 'numeric',
+                  month: 'short',
+                });
+                const timeStr = new Date(p.createdAt).toLocaleTimeString('en-PK', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                });
 
-                  return (
-                    <tr key={p.id} className="hover:bg-cream-50/50 transition-colors">
-                      <td className="py-4 px-4 text-xs">
-                        <span className="font-semibold text-forest-800 block">{dateStr}</span>
-                        <span className="text-muted text-[11px]">{timeStr}</span>
-                      </td>
+                return (
+                  <div key={p.id} className="p-4 space-y-3">
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <div className="flex items-center space-x-1.5">
+                          <span className="font-mono font-bold text-forest-900 text-sm">
+                            #{p.order.orderNumber}
+                          </span>
+                          <span className="text-[11px] text-muted">· {dateStr} {timeStr}</span>
+                        </div>
+                        <h4 className="font-bold text-forest-900 text-xs mt-0.5">
+                          {p.order.customerName} ({p.order.customerPhone})
+                        </h4>
+                      </div>
 
-                      <td className="py-4 px-4 font-mono text-xs font-bold">
-                        <Link
-                          href={`/admin/orders`}
-                          className="text-forest-800 hover:text-gold-600 transition-colors flex items-center space-x-1"
+                      <div className="flex-shrink-0">
+                        {getStatusBadge(p.paymentStatus)}
+                      </div>
+                    </div>
+
+                    <div className="p-2.5 rounded-xl bg-cream-50/70 border border-borderCream/60 space-y-1.5 text-xs">
+                      <div className="flex items-center justify-between">
+                        <span className="text-muted text-[11px]">Amount Paid:</span>
+                        <strong className="text-forest-900 text-sm">Rs {p.amount.toLocaleString()}</strong>
+                      </div>
+                      <div className="flex items-center justify-between text-[11px]">
+                        <span className="text-muted">Sender:</span>
+                        <span className="font-semibold text-forest-800">{p.senderName || 'Not specified'}</span>
+                      </div>
+                      <div className="flex items-center justify-between text-[11px]">
+                        <span className="text-muted">TID / Ref:</span>
+                        <span className="font-mono text-forest-800">{p.transactionReference || 'N/A'}</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between pt-1 gap-2">
+                      {p.receiptImageUrl ? (
+                        <button
+                          onClick={() => {
+                            setSelectedPayment(p);
+                            setActionNotes(p.adminNotes || '');
+                          }}
+                          className="px-3 py-1.5 rounded-lg border border-borderCream bg-white hover:bg-cream-100 text-xs font-semibold text-forest-800 inline-flex items-center space-x-1 shadow-xs"
                         >
-                          <span>{p.order.orderNumber}</span>
-                          <ExternalLink className="w-3 h-3 text-muted" />
-                        </Link>
-                      </td>
+                          <Eye className="w-3.5 h-3.5 text-forest-800" />
+                          <span>View Slip</span>
+                        </button>
+                      ) : (
+                        <span className="text-[11px] text-muted italic">No Slip</span>
+                      )}
 
-                      <td className="py-4 px-4 text-xs">
-                        <span className="font-bold text-forest-800 block">{p.order.customerName}</span>
-                        <span className="text-muted text-[11px]">{p.order.customerPhone}</span>
-                      </td>
-
-                      <td className="py-4 px-4 font-bold text-forest-800">
-                        Rs {p.amount.toLocaleString()}
-                      </td>
-
-                      <td className="py-4 px-4 text-xs">
-                        <span className="font-semibold text-forest-800 block">
-                          {p.senderName || 'Not specified'}
-                        </span>
-                        <span className="font-mono text-muted text-[11px] block mt-0.5">
-                          TID: {p.transactionReference || 'N/A'}
-                        </span>
-                      </td>
-
-                      <td className="py-4 px-4 text-center">
-                        {p.receiptImageUrl ? (
+                      <div className="flex items-center space-x-1.5">
+                        {p.paymentStatus !== 'VERIFIED' && (
                           <button
-                            onClick={() => {
-                              setSelectedPayment(p);
-                              setActionNotes(p.adminNotes || '');
-                            }}
-                            className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-lg border border-borderCream hover:border-forest-800 bg-white text-xs font-semibold text-forest-800 transition-all shadow-sm"
+                            onClick={() => handleUpdateStatus(p.id, 'VERIFIED')}
+                            disabled={isProcessing}
+                            className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition-colors flex items-center space-x-1 shadow-xs"
                           >
-                            <Eye className="w-3.5 h-3.5 text-forest-800" />
-                            <span>View</span>
+                            <Check className="w-3.5 h-3.5" />
+                            <span>Verify</span>
                           </button>
-                        ) : (
-                          <span className="text-xs text-muted italic">No receipt</span>
                         )}
-                      </td>
+                        <button
+                          onClick={() => {
+                            setSelectedPayment(p);
+                            setActionNotes(p.adminNotes || '');
+                          }}
+                          className="px-3 py-1.5 bg-cream-100 hover:bg-cream-200 text-forest-800 border border-borderCream rounded-lg text-xs font-semibold transition-colors"
+                        >
+                          <span>Manage</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
 
-                      <td className="py-4 px-4">{getStatusBadge(p.paymentStatus)}</td>
+            {/* Desktop Table View (>= 768px) */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead className="bg-cream-100/70 border-b border-borderCream text-xs font-bold text-forest-800 uppercase tracking-wider">
+                  <tr>
+                    <th className="py-3.5 px-4">Date & Time</th>
+                    <th className="py-3.5 px-4">Order #</th>
+                    <th className="py-3.5 px-4">Customer</th>
+                    <th className="py-3.5 px-4">Amount</th>
+                    <th className="py-3.5 px-4">Sender / TID</th>
+                    <th className="py-3.5 px-4 text-center">Receipt</th>
+                    <th className="py-3.5 px-4">Status</th>
+                    <th className="py-3.5 px-4">Verification</th>
+                    <th className="py-3.5 px-4 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-borderCream">
+                  {payments.map((p) => {
+                    const dateStr = new Date(p.createdAt).toLocaleDateString('en-PK', {
+                      day: 'numeric',
+                      month: 'short',
+                      year: 'numeric',
+                    });
+                    const timeStr = new Date(p.createdAt).toLocaleTimeString('en-PK', {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    });
 
-                      <td className="py-4 px-4 text-xs">
-                        {p.verifiedBy ? (
-                          <div>
-                            <span className="font-semibold text-forest-800 block">
-                              By: {p.verifiedBy}
-                            </span>
-                            {p.verificationTimestamp && (
-                              <span className="text-[11px] text-muted">
-                                {new Date(p.verificationTimestamp).toLocaleDateString('en-PK', {
-                                  month: 'short',
-                                  day: 'numeric',
-                                })}
-                              </span>
-                            )}
-                          </div>
-                        ) : (
-                          <span className="text-muted text-[11px] italic">Pending</span>
-                        )}
-                      </td>
+                    return (
+                      <tr key={p.id} className="hover:bg-cream-50/50 transition-colors">
+                        <td className="py-4 px-4 text-xs">
+                          <span className="font-semibold text-forest-800 block">{dateStr}</span>
+                          <span className="text-muted text-[11px]">{timeStr}</span>
+                        </td>
 
-                      <td className="py-4 px-4 text-right">
-                        <div className="flex items-center justify-end space-x-1.5">
-                          {p.paymentStatus !== 'VERIFIED' && (
-                            <button
-                              onClick={() => handleUpdateStatus(p.id, 'VERIFIED')}
-                              disabled={isProcessing}
-                              className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition-colors flex items-center space-x-1 shadow-sm"
-                              title="Mark as Verified (Confirm payment in UBL account)"
-                            >
-                              <Check className="w-3.5 h-3.5" />
-                              <span className="hidden sm:inline">Verify</span>
-                            </button>
-                          )}
+                        <td className="py-4 px-4 font-mono text-xs font-bold">
+                          <Link
+                            href={`/admin/orders`}
+                            className="text-forest-800 hover:text-gold-600 transition-colors flex items-center space-x-1"
+                          >
+                            <span>{p.order.orderNumber}</span>
+                            <ExternalLink className="w-3 h-3 text-muted" />
+                          </Link>
+                        </td>
 
-                          {p.paymentStatus !== 'REJECTED' && (
+                        <td className="py-4 px-4 text-xs">
+                          <span className="font-bold text-forest-800 block">{p.order.customerName}</span>
+                          <span className="text-muted text-[11px]">{p.order.customerPhone}</span>
+                        </td>
+
+                        <td className="py-4 px-4 font-bold text-forest-800">
+                          Rs {p.amount.toLocaleString()}
+                        </td>
+
+                        <td className="py-4 px-4 text-xs">
+                          <span className="font-semibold text-forest-800 block">
+                            {p.senderName || 'Not specified'}
+                          </span>
+                          <span className="font-mono text-muted text-[11px] block mt-0.5">
+                            TID: {p.transactionReference || 'N/A'}
+                          </span>
+                        </td>
+
+                        <td className="py-4 px-4 text-center">
+                          {p.receiptImageUrl ? (
                             <button
                               onClick={() => {
                                 setSelectedPayment(p);
+                                actionNotes;
+                                setSelectedPayment(p);
                                 setActionNotes(p.adminNotes || '');
                               }}
-                              className="px-2.5 py-1 bg-cream-100 hover:bg-rose-50 text-rose-700 border border-borderCream rounded-lg text-xs font-bold transition-colors"
-                              title="Review & Reject"
+                              className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-lg border border-borderCream hover:border-forest-800 bg-white text-xs font-semibold text-forest-800 transition-all shadow-sm"
                             >
-                              <X className="w-3.5 h-3.5" />
-                              <span className="hidden sm:inline">Reject</span>
+                              <Eye className="w-3.5 h-3.5 text-forest-800" />
+                              <span>View</span>
                             </button>
+                          ) : (
+                            <span className="text-xs text-muted italic">No receipt</span>
                           )}
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                        </td>
+
+                        <td className="py-4 px-4">{getStatusBadge(p.paymentStatus)}</td>
+
+                        <td className="py-4 px-4 text-xs">
+                          {p.verifiedBy ? (
+                            <div>
+                              <span className="font-semibold text-forest-800 block">
+                                By: {p.verifiedBy}
+                              </span>
+                              {p.verificationTimestamp && (
+                                <span className="text-[11px] text-muted">
+                                  {new Date(p.verificationTimestamp).toLocaleDateString('en-PK', {
+                                    month: 'short',
+                                    day: 'numeric',
+                                  })}
+                                </span>
+                              )}
+                            </div>
+                          ) : (
+                            <span className="text-muted text-[11px] italic">Pending</span>
+                          )}
+                        </td>
+
+                        <td className="py-4 px-4 text-right">
+                          <div className="flex items-center justify-end space-x-1.5">
+                            {p.paymentStatus !== 'VERIFIED' && (
+                              <button
+                                onClick={() => handleUpdateStatus(p.id, 'VERIFIED')}
+                                disabled={isProcessing}
+                                className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition-colors flex items-center space-x-1 shadow-sm"
+                                title="Mark as Verified (Confirm payment in UBL account)"
+                              >
+                                <Check className="w-3.5 h-3.5" />
+                                <span className="hidden sm:inline">Verify</span>
+                              </button>
+                            )}
+
+                            {p.paymentStatus !== 'REJECTED' && (
+                              <button
+                                onClick={() => {
+                                  setSelectedPayment(p);
+                                  setActionNotes(p.adminNotes || '');
+                                }}
+                                className="px-2.5 py-1 bg-cream-100 hover:bg-rose-50 text-rose-700 border border-borderCream rounded-lg text-xs font-bold transition-colors"
+                                title="Review & Reject"
+                              >
+                                <X className="w-3.5 h-3.5" />
+                                <span className="hidden sm:inline">Reject</span>
+                              </button>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </div>
 

@@ -288,28 +288,24 @@ export default function ProductsManager() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-borderCream">
+      {/* Clean Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-borderCream">
         <div>
-          <span className="text-xs font-bold uppercase tracking-widest text-gold-700">
-            SUNNY Dairy Catalog
-          </span>
-          <h1 className="font-serif text-3xl font-bold text-forest-800">
-            Products & Pricing Management
+          <h1 className="text-xl sm:text-2xl font-bold text-forest-900 tracking-tight">
+            Products
           </h1>
-          <p className="text-xs sm:text-sm text-muted mt-1">
-            Upload product photos, configure sizes, manage confirmed prices vs &ldquo;Price on Request&rdquo;, and update stock.
+          <p className="text-xs text-muted mt-0.5">
+            Upload product photos, configure sizes, manage confirmed prices, and update stock.
           </p>
         </div>
 
-        <div className="flex items-center space-x-3">
-          <button
-            onClick={openAddModal}
-            className="px-5 py-2.5 bg-forest-800 hover:bg-forest-900 text-white rounded-xl text-xs font-bold shadow-sm transition-colors flex items-center space-x-2"
-          >
-            <Plus className="w-4 h-4 text-gold-400" />
-            <span>Add New Product</span>
-          </button>
-        </div>
+        <button
+          onClick={openAddModal}
+          className="self-start sm:self-auto px-4 py-2 bg-forest-800 hover:bg-forest-900 text-white rounded-xl text-xs font-semibold shadow-xs transition-colors flex items-center space-x-1.5"
+        >
+          <Plus className="w-4 h-4 text-gold-400" />
+          <span>Add Product</span>
+        </button>
       </div>
 
       {message && (
