@@ -38,9 +38,14 @@ export const metadata: Metadata = {
     'DI Khan dairy',
   ],
   authors: [{ name: 'SUNNY Dairy' }],
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://sunny-dairy.netlify.app'),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL ||
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://sunny-dairy.vercel.app')
+  ),
   alternates: {
-    canonical: 'https://sunny-dairy.netlify.app',
+    canonical:
+      process.env.NEXT_PUBLIC_APP_URL ||
+      (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://sunny-dairy.vercel.app'),
   },
   icons: {
     icon: '/logo.png',
@@ -50,7 +55,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'SUNNY Dairy — Fresh Milk & Traditional Dairy Dera Ismail Khan',
     description: 'Fresh milk, makhan and desi ghee delivered with cash on delivery across Dera Ismail Khan.',
-    url: 'https://sunny-dairy.netlify.app',
+    url:
+      process.env.NEXT_PUBLIC_APP_URL ||
+      (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://sunny-dairy.vercel.app'),
     siteName: 'SUNNY Dairy',
     images: [
       {

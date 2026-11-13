@@ -43,15 +43,21 @@ export async function POST(req: NextRequest) {
     const ext = path.extname(file.name).toLowerCase() || '.jpg';
     const cleanFileName = `prod-${Date.now()}-${Math.random().toString(36).substring(2, 8)}${ext}`;
 
-    const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
-    if (!fs.existsSync(uploadsDir)) {
-      fs.mkdirSync(uploadsDir, { recursive: true });
+    let publicUrl: string;
+    try {
+      const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
+      if (!fs.existsSync(uploadsDir)) {
+        fs.mkdirSync(uploadsDir, { recursive: true });
+      }
+
+      const filePath = path.join(uploadsDir, cleanFileName);
+      fs.writeFileSync(filePath, buffer);
+
+      publicUrl = `/uploads/${cleanFileName}`;
+    } catch (fsErr) {
+      // Serverless fallback (e.g. Vercel read-only filesystem)
+      publicUrl = `data:${file.type};base64,${buffer.toString('base64')}`;
     }
-
-    const filePath = path.join(uploadsDir, cleanFileName);
-    fs.writeFileSync(filePath, buffer);
-
-    const publicUrl = `/uploads/${cleanFileName}`;
 
     await logActivity({
       action: 'UPLOAD_IMAGE',

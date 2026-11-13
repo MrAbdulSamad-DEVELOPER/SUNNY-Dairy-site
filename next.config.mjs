@@ -15,6 +15,11 @@ const nextConfig = {
       },
     ],
   },
+  experimental: {
+    outputFileTracingIncludes: {
+      '/**': ['./prisma/dev.db', './prisma/schema.prisma'],
+    },
+  },
   webpack: (config) => {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),

@@ -48,13 +48,19 @@ export async function POST(req: NextRequest) {
     const safeExt = ['jpg', 'jpeg', 'png', 'webp', 'pdf'].includes(ext) ? ext : 'jpg';
     const filename = `receipt-${Date.now()}-${Math.floor(1000 + Math.random() * 9000)}.${safeExt}`;
 
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'receipts');
-    await fs.mkdir(uploadDir, { recursive: true });
+    let publicUrl: string;
+    try {
+      const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'receipts');
+      await fs.mkdir(uploadDir, { recursive: true });
 
-    const filePath = path.join(uploadDir, filename);
-    await fs.writeFile(filePath, buffer);
+      const filePath = path.join(uploadDir, filename);
+      await fs.writeFile(filePath, buffer);
 
-    const publicUrl = `/uploads/receipts/${filename}`;
+      publicUrl = `/uploads/receipts/${filename}`;
+    } catch (fsErr) {
+      // Serverless fallback (e.g. Vercel read-only filesystem)
+      publicUrl = `data:${file.type};base64,${buffer.toString('base64')}`;
+    }
 
     return NextResponse.json({
       success: true,
