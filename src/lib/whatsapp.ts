@@ -1,5 +1,6 @@
 export const OFFICIAL_WHATSAPP_NUMBER = '96895234002';
 export const OFFICIAL_PHONE_NUMBER = '03449322930';
+export const OFFICIAL_EMAIL = 'sanaullah.ccs@gmail.com';
 export const OFFICIAL_STORE_NAME = 'SUNNY Dairy';
 export const OFFICIAL_STORE_OWNER = 'Sanaullah';
 

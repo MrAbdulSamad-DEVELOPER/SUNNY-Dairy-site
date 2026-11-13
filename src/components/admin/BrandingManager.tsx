@@ -14,7 +14,7 @@ export default function BrandingManager() {
     brand_description: 'Collected each morning, chilled and brought to your door. Order in a minute, pay in cash when it arrives.',
     store_phone: '03449322930',
     whatsapp_number: '96895234002',
-    store_email: 'info@sunnydairy.pk',
+    store_email: 'sanaullah.ccs@gmail.com',
     store_address: 'SUNNY Dairy Farm, Dera Ismail Khan, Pakistan',
     social_instagram: '',
     social_facebook: '',

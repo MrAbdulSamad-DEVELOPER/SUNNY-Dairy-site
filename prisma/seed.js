@@ -303,7 +303,7 @@ async function main() {
       { settingKey: 'store_owner', settingValue: 'Sanaullah', description: 'Store owner / verified contact' },
       { settingKey: 'store_phone', settingValue: '03449322930', description: 'Business phone for calls' },
       { settingKey: 'whatsapp_number', settingValue: '96895234002', description: 'WhatsApp international number without symbols' },
-      { settingKey: 'store_email', settingValue: 'info@sunnydairy.pk', description: 'Support email address' },
+      { settingKey: 'store_email', settingValue: 'sanaullah.ccs@gmail.com', description: 'Support email address' },
       { settingKey: 'store_address', settingValue: 'SUNNY Dairy Farm, Dera Ismail Khan, Khyber Pakhtunkhwa, Pakistan', description: 'Physical farm address' },
       { settingKey: 'store_logo', settingValue: '/logo.png', description: 'Path to brand logo' },
       { settingKey: 'store_favicon', settingValue: '/logo.png', description: 'Favicon image' },

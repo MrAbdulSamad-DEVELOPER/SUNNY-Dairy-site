@@ -5,6 +5,7 @@ import {
   OFFICIAL_STORE_OWNER,
   OFFICIAL_PHONE_NUMBER,
   OFFICIAL_WHATSAPP_NUMBER,
+  OFFICIAL_EMAIL,
   getWhatsAppUrl,
 } from '@/lib/whatsapp';
 
@@ -84,10 +85,10 @@ export default function ContactPage() {
                 <div>
                   <span className="text-xs text-muted font-semibold uppercase block">Email Inquiries</span>
                   <a
-                    href="mailto:contact@sunnydairy.pk"
+                    href={`mailto:${OFFICIAL_EMAIL}`}
                     className="text-base font-bold text-forest-800 hover:text-gold-700 transition-colors"
                   >
-                    contact@sunnydairy.pk
+                    {OFFICIAL_EMAIL}
                   </a>
                 </div>
               </div>
