@@ -1,0 +1,247 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model AdminUser {
+  id                  String        @id @default(cuid())
+  username            String        @unique
+  email               String        @unique
+  passwordHash        String        @map("password_hash")
+  role                String        @default("ADMIN") // SUPER_ADMIN, ADMIN, MANAGER
+  isActive            Boolean       @default(true) @map("is_active")
+  failedLoginAttempts Int           @default(0) @map("failed_login_attempts")
+  lockedUntil         DateTime?     @map("locked_until")
+  lastLoginAt         DateTime?     @map("last_login_at")
+  createdAt           DateTime      @default(now()) @map("created_at")
+  updatedAt           DateTime      @updatedAt @map("updated_at")
+  activityLogs        ActivityLog[]
+
+  @@map("admin_users")
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  description String?
+  products    Product[]
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  @@map("categories")
+}
+
+model Product {
+  id                String           @id @default(cuid())
+  name              String
+  slug              String           @unique
+  description       String
+  shortDescription  String?          @map("short_description")
+  categoryId        String           @map("category_id")
+  category          Category         @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  imageUrl          String           @map("image_url")
+  sku               String?
+  stockQuantity     Int              @default(100) @map("stock_quantity")
+  lowStockThreshold Int              @default(10) @map("low_stock_threshold")
+  expiryDate        DateTime?        @map("expiry_date")
+  isActive          Boolean          @default(true) @map("is_active")
+  isFeatured        Boolean          @default(false) @map("is_featured")
+  displayOrder      Int              @default(0) @map("display_order")
+  seoTitle          String?          @map("seo_title")
+  seoDescription    String?          @map("seo_description")
+  variants          ProductVariant[]
+  images            ProductImage[]
+  orderItems        OrderItem[]
+  inventoryLogs     InventoryLog[]
+  createdAt         DateTime         @default(now()) @map("created_at")
+  updatedAt         DateTime         @updatedAt @map("updated_at")
+
+  @@map("products")
+}
+
+model ProductImage {
+  id           String   @id @default(cuid())
+  productId    String   @map("product_id")
+  product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  imageUrl     String   @map("image_url")
+  isMain       Boolean  @default(false) @map("is_main")
+  displayOrder Int      @default(0) @map("display_order")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@map("product_images")
+}
+
+model ProductVariant {
+  id          String   @id @default(cuid())
+  productId   String   @map("product_id")
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  size        String
+  price       Float?
+  priceType   String   @default("ON_REQUEST") @map("price_type") // CONFIRMED or ON_REQUEST
+  isAvailable Boolean  @default(true) @map("is_available")
+  stock       Int      @default(50)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@unique([productId, size])
+  @@map("product_variants")
+}
+
+model Customer {
+  id        String   @id @default(cuid())
+  fullName  String   @map("full_name")
+  phone     String
+  whatsapp  String
+  orders    Order[]
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("customers")
+}
+
+model Order {
+  id                        String      @id @default(cuid())
+  orderNumber               String      @unique @map("order_number")
+  trackingCode              String?     @unique @map("tracking_code")
+  customerId                String?     @map("customer_id")
+  customer                  Customer?   @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  customerName              String      @map("customer_name")
+  customerPhone             String      @map("customer_phone")
+  customerWhatsapp          String      @map("customer_whatsapp")
+  deliveryAddress           String      @map("delivery_address")
+  city                      String
+  area                      String
+  deliveryInstructions      String?     @map("delivery_instructions")
+  orderStatus               String      @default("PENDING") @map("order_status") // PENDING, PRICE_CONFIRMATION_REQUIRED, CONFIRMED, PREPARING, OUT_FOR_DELIVERY, DELIVERED, CANCELLED
+  paymentMethod             String      @default("CASH_ON_DELIVERY") @map("payment_method") // CASH_ON_DELIVERY, WHATSAPP_CONFIRMATION
+  paymentStatus             String      @default("PENDING") @map("payment_status") // PENDING, PAID, REFUNDED
+  subtotal                  Float       @default(0.0)
+  deliveryCharges           Float       @default(0.0) @map("delivery_charges")
+  discountAmount            Float       @default(0.0) @map("discount_amount")
+  couponCode                String?     @map("coupon_code")
+  finalTotal                Float?      @map("final_total")
+  priceConfirmationRequired Boolean     @default(false) @map("price_confirmation_required")
+  estimatedDeliveryTime     String?     @map("estimated_delivery_time")
+  cancellationRequested     Boolean     @default(false) @map("cancellation_requested")
+  cancellationReason        String?     @map("cancellation_reason")
+  adminNotes                String?     @map("admin_notes")
+  items                     OrderItem[]
+  payments                  Payment[]
+  createdAt                 DateTime    @default(now()) @map("created_at")
+  updatedAt                 DateTime    @updatedAt @map("updated_at")
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id                        String   @id @default(cuid())
+  orderId                   String   @map("order_id")
+  order                     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId                 String   @map("product_id")
+  product                   Product  @relation(fields: [productId], references: [id])
+  productNameSnapshot       String   @map("product_name_snapshot")
+  selectedVariant           String   @map("selected_variant")
+  quantity                  Int
+  unitPriceSnapshot         Float?   @map("unit_price_snapshot")
+  confirmedPrice            Float?   @map("confirmed_price")
+  priceConfirmationRequired Boolean  @default(false) @map("price_confirmation_required")
+  createdAt                 DateTime @default(now()) @map("created_at")
+
+  @@map("order_items")
+}
+
+model InventoryLog {
+  id            String   @id @default(cuid())
+  productId     String   @map("product_id")
+  product       Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  variantId     String?  @map("variant_id")
+  changeAmount  Int      @map("change_amount")
+  previousStock Int      @map("previous_stock")
+  newStock      Int      @map("new_stock")
+  reason        String
+  adminUsername String?  @map("admin_username")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@map("inventory_logs")
+}
+
+model DeliveryZone {
+  id                    String   @id @default(cuid())
+  areaName              String   @map("area_name")
+  city                  String   @default("Dera Ismail Khan")
+  deliveryFee           Float    @default(150.0) @map("delivery_fee")
+  minOrderAmount        Float    @default(500.0) @map("min_order_amount")
+  freeDeliveryThreshold Float?   @map("free_delivery_threshold")
+  estimatedMinutes      Int      @default(60) @map("estimated_minutes")
+  isActive              Boolean  @default(true) @map("is_active")
+  createdAt             DateTime @default(now()) @map("created_at")
+  updatedAt             DateTime @updatedAt @map("updated_at")
+
+  @@map("delivery_zones")
+}
+
+model CmsSection {
+  id          String   @id @default(cuid())
+  sectionKey  String   @unique @map("section_key")
+  title       String?
+  subtitle    String?
+  content     String?
+  imageUrl    String?  @map("image_url")
+  buttonText  String?  @map("button_text")
+  buttonLink  String?  @map("button_link")
+  isEnabled   Boolean  @default(true) @map("is_enabled")
+  metadata    String?  // JSON string for extra section config
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("cms_sections")
+}
+
+model ActivityLog {
+  id            String     @id @default(cuid())
+  action        String
+  entityType    String     @map("entity_type")
+  entityId      String?    @map("entity_id")
+  details       String?
+  adminId       String?    @map("admin_id")
+  adminUser     AdminUser? @relation(fields: [adminId], references: [id], onDelete: SetNull)
+  adminUsername String     @map("admin_username")
+  ipAddress     String?    @map("ip_address")
+  createdAt     DateTime   @default(now()) @map("created_at")
+
+  @@map("activity_logs")
+}
+
+model SiteSetting {
+  id           String   @id @default(cuid())
+  settingKey   String   @unique @map("setting_key")
+  settingValue String   @map("setting_value")
+  description  String?
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("site_settings")
+}
+
+model Payment {
+  id                    String    @id @default(cuid())
+  orderId               String    @map("order_id")
+  order                 Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  paymentMethod         String    @map("payment_method") // ADVANCE_UBL, DIRECT_WHATSAPP
+  amount                Float
+  senderName            String?   @map("sender_name")
+  transactionReference  String?   @map("transaction_reference")
+  receiptImageUrl       String?   @map("receipt_image_url")
+  paymentStatus         String    @default("AWAITING_PAYMENT") @map("payment_status") // AWAITING_PAYMENT, PAYMENT_SUBMITTED, UNDER_VERIFICATION, VERIFIED, REJECTED
+  verificationTimestamp DateTime? @map("verification_timestamp")
+  verifiedBy            String?   @map("verified_by")
+  adminNotes            String?   @map("admin_notes")
+  createdAt             DateTime  @default(now()) @map("created_at")
+  updatedAt             DateTime  @updatedAt @map("updated_at")
+
+  @@map("payments")
+}
+
