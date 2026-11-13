@@ -1,0 +1,23 @@
+{
+  "name": "SUNNY Dairy — Pure Farm Milk & Sweets",
+  "short_name": "SUNNY Dairy",
+  "description": "Pure farm milk, makhan, and traditional sweets delivered to your door in Dera Ismail Khan, Pakistan.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF6ED",
+  "theme_color": "#124B32",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

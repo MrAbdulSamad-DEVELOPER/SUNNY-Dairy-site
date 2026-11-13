@@ -3,9 +3,21 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { checkoutSchema } from '@/lib/validations';
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
 
 export async function POST(req: NextRequest) {
   try {
+    const ip = getClientIp(req);
+    const rateLimit = checkRateLimit(`order_${ip}`, 10, 60000);
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        {
+          error: 'Too many order requests from your network. Please wait a minute before trying again.',
+        },
+        { status: 429 }
+      );
+    }
+
     const body = await req.json();
     const validatedData = checkoutSchema.parse(body);
 

@@ -3,15 +3,23 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { adminLoginSchema } from '@/lib/validations';
 import { signToken, logActivity } from '@/lib/auth';
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
 import prisma from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 
 export async function POST(req: NextRequest) {
   try {
+    const clientIp = getClientIp(req);
+    const rateLimit = checkRateLimit(`login_${clientIp}`, 10, 60000);
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { error: 'Too many login attempts. Please wait 1 minute before trying again.' },
+        { status: 429 }
+      );
+    }
+
     const body = await req.json();
     const { username, password } = adminLoginSchema.parse(body);
-
-    const clientIp = req.headers.get('x-forwarded-for') || req.ip || '127.0.0.1';
     const cleanUsername = username.trim().toLowerCase();
 
     // 1. Check if database has any admin user. If not, auto-seed default super admin

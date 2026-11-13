@@ -3,9 +3,19 @@ export const revalidate = 0;
 
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
 
 export async function GET(req: NextRequest) {
   try {
+    const ip = getClientIp(req);
+    const rateLimit = checkRateLimit(`track_${ip}`, 30, 60000);
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { error: 'Too many tracking attempts. Please wait a moment.' },
+        { status: 429 }
+      );
+    }
+
     const { searchParams } = new URL(req.url);
     const query = searchParams.get('query');
 
@@ -50,6 +60,15 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    const ip = getClientIp(req);
+    const rateLimit = checkRateLimit(`track_${ip}`, 30, 60000);
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { error: 'Too many tracking attempts. Please wait a moment.' },
+        { status: 429 }
+      );
+    }
+
     const body = await req.json().catch(() => ({}));
     const query = body.query;
 

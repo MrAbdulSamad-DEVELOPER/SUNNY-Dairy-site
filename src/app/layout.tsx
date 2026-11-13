@@ -65,6 +65,7 @@ export const metadata: Metadata = {
     shortcut: '/logo.png',
     apple: [{ url: '/logo.png', sizes: '180x180', type: 'image/png' }],
   },
+  manifest: '/manifest.json',
   openGraph: {
     title: 'SUNNY Dairy — Pure Milk & Farm Fresh Dairy Dera Ismail Khan',
     description:
