@@ -106,8 +106,24 @@ export default function BrandingManager() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Upload failed');
 
+      // Immediately auto-save logo to database so it updates across website instantly!
+      const saveRes = await fetch('/api/admin/settings', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ store_logo: data.url }),
+      });
+
+      if (!saveRes.ok) {
+        const saveErr = await saveRes.json().catch(() => ({}));
+        throw new Error(saveErr.error || 'Failed to save logo to database');
+      }
+
       setSettings((prev) => ({ ...prev, store_logo: data.url }));
-      setMessage('New logo uploaded successfully! Click "Save Branding & Business Info" to apply.');
+      setMessage('✓ New logo uploaded and saved to website successfully!');
+
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('store_settings_updated'));
+      }
     } catch (err: any) {
       setError(err.message || 'Error uploading logo');
     } finally {
@@ -117,9 +133,28 @@ export default function BrandingManager() {
     }
   };
 
-  const handleResetDefaultLogo = () => {
-    setSettings((prev) => ({ ...prev, store_logo: '/logo.png' }));
-    setMessage('Logo reset to default SUNNY Dairy logo. Click "Save Branding & Business Info" to apply.');
+  const handleResetDefaultLogo = async () => {
+    setUploadingLogo(true);
+    setError(null);
+    try {
+      const saveRes = await fetch('/api/admin/settings', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ store_logo: '/logo.png' }),
+      });
+
+      if (saveRes.ok) {
+        setSettings((prev) => ({ ...prev, store_logo: '/logo.png' }));
+        setMessage('✓ Logo reset to default SUNNY Dairy logo successfully!');
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new Event('store_settings_updated'));
+        }
+      }
+    } catch (err: any) {
+      setError('Failed to reset logo: ' + err.message);
+    } finally {
+      setUploadingLogo(false);
+    }
   };
 
   const handleSave = async (e: React.FormEvent) => {
