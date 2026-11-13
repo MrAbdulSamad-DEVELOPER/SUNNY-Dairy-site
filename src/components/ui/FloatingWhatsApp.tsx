@@ -3,18 +3,22 @@
 import React from 'react';
 import { usePathname } from 'next/navigation';
 import { MessageSquare } from 'lucide-react';
-import { getWhatsAppUrl, OFFICIAL_STORE_NAME } from '@/lib/whatsapp';
+import { getWhatsAppUrl, OFFICIAL_STORE_NAME, OFFICIAL_WHATSAPP_NUMBER } from '@/lib/whatsapp';
+import { useStoreSettings } from '@/lib/settings-context';
 
 export default function FloatingWhatsApp() {
   const pathname = usePathname();
+  const { settings } = useStoreSettings();
 
   // Hide on admin portal except login
   if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
     return null;
   }
 
-  const defaultMsg = `Hello ${OFFICIAL_STORE_NAME}! I want to order fresh farm milk and traditional dairy.`;
-  const whatsappUrl = getWhatsAppUrl(defaultMsg);
+  const activeStoreName = settings.store_name || OFFICIAL_STORE_NAME;
+  const activeWhatsapp = settings.whatsapp_number || OFFICIAL_WHATSAPP_NUMBER;
+  const defaultMsg = `Hello ${activeStoreName}! I want to order fresh farm milk and traditional dairy.`;
+  const whatsappUrl = `https://wa.me/${activeWhatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(defaultMsg)}`;
 
   return (
     <aside aria-label="Direct WhatsApp Contact" className="fixed bottom-6 right-6 z-50">

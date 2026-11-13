@@ -48,6 +48,9 @@ export default function SettingsManager() {
       const data = await res.json();
       if (data.success) {
         setMessage('Store settings and UBL bank transfer configuration saved successfully!');
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new Event('store_settings_updated'));
+        }
       } else {
         setMessage(data.error || 'Failed to save settings');
       }

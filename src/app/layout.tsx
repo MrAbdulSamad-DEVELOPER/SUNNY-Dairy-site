@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Playfair_Display, DM_Sans } from 'next/font/google';
 import './globals.css';
 import { CartProvider } from '@/lib/cart-context';
+import { SettingsProvider } from '@/lib/settings-context';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import CartDrawer from '@/components/cart/CartDrawer';
@@ -179,13 +180,15 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-cream-100 text-forest-800 antialiased selection:bg-gold-500 selection:text-white flex flex-col min-h-screen">
-        <CartProvider>
-          <Navbar />
-          <main className="flex-grow">{children}</main>
-          <CartDrawer />
-          <Footer />
-          <FloatingWhatsApp />
-        </CartProvider>
+        <SettingsProvider>
+          <CartProvider>
+            <Navbar />
+            <main className="flex-grow">{children}</main>
+            <CartDrawer />
+            <Footer />
+            <FloatingWhatsApp />
+          </CartProvider>
+        </SettingsProvider>
       </body>
     </html>
   );

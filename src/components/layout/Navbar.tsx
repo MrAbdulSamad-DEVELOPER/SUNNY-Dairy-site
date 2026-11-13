@@ -6,12 +6,18 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { ShoppingBag, Menu, X, Phone, Search } from 'lucide-react';
 import { useCart } from '@/lib/cart-context';
+import { useStoreSettings } from '@/lib/settings-context';
 import { OFFICIAL_PHONE_NUMBER } from '@/lib/whatsapp';
 
 export default function Navbar() {
   const pathname = usePathname();
   const { totalItemCount, setIsCartOpen } = useCart();
+  const { settings } = useStoreSettings();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const activeLogo = settings.store_logo || '/logo.png';
+  const activeStoreName = settings.store_name || 'SUNNY Dairy';
+  const activePhone = settings.store_phone || OFFICIAL_PHONE_NUMBER;
 
   const navLinks = [
     { label: 'Shop', href: '/shop' },
@@ -26,6 +32,10 @@ export default function Navbar() {
   if (isAdminPath) {
     return null;
   }
+
+  const nameParts = activeStoreName.split(' ');
+  const firstName = nameParts[0] || 'SUNNY';
+  const restName = nameParts.slice(1).join(' ') || 'Dairy';
 
   return (
     <header className="sticky top-0 z-40 bg-cream-100/95 backdrop-blur-md border-b border-borderCream/70 transition-all duration-200">
@@ -48,11 +58,11 @@ export default function Navbar() {
             </Link>
             <span className="text-forest-600">|</span>
             <a
-              href={`tel:${OFFICIAL_PHONE_NUMBER}`}
+              href={`tel:${activePhone}`}
               className="hover:text-gold-300 transition-colors flex items-center space-x-1 font-semibold whitespace-nowrap"
             >
               <Phone className="w-3 h-3 text-gold-400" />
-              <span>Call: {OFFICIAL_PHONE_NUMBER}</span>
+              <span>Call: {activePhone}</span>
             </a>
           </div>
         </div>
@@ -60,21 +70,18 @@ export default function Navbar() {
 
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20 gap-2 sm:gap-4">
-          {/* Logo with official logo.png - perfectly bounded to prevent overlapping */}
+          {/* Logo with dynamic branding - perfectly bounded to prevent overlapping */}
           <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group min-w-0 flex-shrink">
             <div className="relative h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 flex-shrink-0 flex items-center justify-center">
-              <Image
-                src="/logo.png"
-                alt="SUNNY Dairy"
-                width={56}
-                height={56}
-                priority
+              <img
+                src={activeLogo}
+                alt={activeStoreName}
                 className="h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 object-contain transition-transform group-hover:scale-105"
               />
             </div>
             <div className="flex flex-col min-w-0">
               <span className="font-serif text-base sm:text-lg md:text-xl font-bold tracking-tight text-forest-800 leading-tight whitespace-nowrap">
-                SUNNY <span className="text-gold-600">Dairy</span>
+                {firstName} <span className="text-gold-600">{restName}</span>
               </span>
               <span className="text-[9px] sm:text-[10px] uppercase tracking-wider text-muted font-bold mt-0.5 whitespace-nowrap hidden sm:block">
                 Pure & Farm Fresh

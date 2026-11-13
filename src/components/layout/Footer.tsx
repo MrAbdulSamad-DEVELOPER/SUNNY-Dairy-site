@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Phone, MessageSquare, MapPin, ShieldCheck, Heart } from 'lucide-react';
+import { useStoreSettings } from '@/lib/settings-context';
 import {
   OFFICIAL_PHONE_NUMBER,
   OFFICIAL_WHATSAPP_NUMBER,
@@ -15,15 +16,22 @@ import {
 
 export default function Footer() {
   const pathname = usePathname();
+  const { settings } = useStoreSettings();
 
   // If in admin dashboard (except login), don't render customer footer
   if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
     return null;
   }
 
+  const activeLogo = settings.store_logo || '/logo.png';
+  const activeStoreName = settings.store_name || OFFICIAL_STORE_NAME;
+  const activeOwner = settings.store_owner || OFFICIAL_STORE_OWNER;
+  const activePhone = settings.store_phone || OFFICIAL_PHONE_NUMBER;
+  const activeWhatsapp = settings.whatsapp_number || OFFICIAL_WHATSAPP_NUMBER;
+
   const currentYear = new Date().getFullYear();
   const whatsappUrl = getWhatsAppUrl(
-    'Hello Sanaullah bhai! I would like to inquire about fresh milk and dairy orders from SUNNY Dairy.'
+    `Hello ${activeOwner}! I would like to inquire about fresh milk and dairy orders from ${activeStoreName}.`
   );
 
   return (
@@ -34,12 +42,10 @@ export default function Footer() {
           <div className="md:col-span-5 space-y-4">
             <Link href="/" className="inline-flex items-center space-x-3 group">
               <div className="bg-white p-2 rounded-2xl shadow-sm inline-block">
-                <Image
-                  src="/logo.png"
-                  alt="SUNNY Dairy"
-                  width={150}
-                  height={50}
-                  className="h-10 w-auto object-contain"
+                <img
+                  src={activeLogo}
+                  alt={activeStoreName}
+                  className="h-10 w-auto max-w-[160px] object-contain"
                 />
               </div>
             </Link>
@@ -48,7 +54,7 @@ export default function Footer() {
             </p>
             <div className="pt-2 flex items-center space-x-2 text-xs text-gold-400 font-medium">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>Zero Preservatives · 100% Raw Pure · Managed by {OFFICIAL_STORE_OWNER}</span>
+              <span>Zero Preservatives · 100% Raw Pure · Managed by {activeOwner}</span>
             </div>
           </div>
 

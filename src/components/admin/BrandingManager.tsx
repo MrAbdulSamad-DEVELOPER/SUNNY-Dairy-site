@@ -4,6 +4,51 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Upload, Check, AlertCircle, Save, Phone, MessageSquare, Globe, Sparkles } from 'lucide-react';
 
+// Client-side lightweight image resizer (prevents uploading multi-megabyte raw photos that freeze the browser)
+function resizeImageFile(file: File, maxDimension = 400): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new window.Image();
+      img.onload = () => {
+        let width = img.width;
+        let height = img.height;
+        if (width > height) {
+          if (width > maxDimension) {
+            height = Math.round((height * maxDimension) / width);
+            width = maxDimension;
+          }
+        } else {
+          if (height > maxDimension) {
+            width = Math.round((width * maxDimension) / height);
+            height = maxDimension;
+          }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          return resolve(file);
+        }
+        ctx.drawImage(img, 0, 0, width, height);
+        canvas.toBlob(
+          (blob) => {
+            if (blob) resolve(blob);
+            else resolve(file);
+          },
+          file.type.includes('png') ? 'image/png' : 'image/jpeg',
+          0.88
+        );
+      };
+      img.onerror = () => resolve(file);
+      img.src = e.target?.result as string;
+    };
+    reader.onerror = () => resolve(file);
+    reader.readAsDataURL(file);
+  });
+}
+
 export default function BrandingManager() {
   const [settings, setSettings] = useState<Record<string, string>>({
     store_name: 'SUNNY Dairy',
@@ -39,16 +84,21 @@ export default function BrandingManager() {
   }, []);
 
   const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const rawFile = e.target.files?.[0];
+    if (!rawFile) return;
 
     setUploadingLogo(true);
     setError(null);
-
-    const formData = new FormData();
-    formData.append('file', file);
+    setMessage(null);
 
     try {
+      // Automatically optimize / resize file on client canvas (never freezes the browser)
+      const resizedBlob = await resizeImageFile(rawFile, 400);
+      const safeFile = new File([resizedBlob], rawFile.name, { type: resizedBlob.type });
+
+      const formData = new FormData();
+      formData.append('file', safeFile);
+
       const res = await fetch('/api/admin/upload', {
         method: 'POST',
         body: formData,
@@ -57,12 +107,19 @@ export default function BrandingManager() {
       if (!res.ok) throw new Error(data.error || 'Upload failed');
 
       setSettings((prev) => ({ ...prev, store_logo: data.url }));
-      setMessage('New logo uploaded! Remember to click Save Changes to persist.');
+      setMessage('New logo uploaded successfully! Click "Save Branding & Business Info" to apply.');
     } catch (err: any) {
       setError(err.message || 'Error uploading logo');
     } finally {
       setUploadingLogo(false);
+      // Reset input value so re-selecting same file works
+      e.target.value = '';
     }
+  };
+
+  const handleResetDefaultLogo = () => {
+    setSettings((prev) => ({ ...prev, store_logo: '/logo.png' }));
+    setMessage('Logo reset to default SUNNY Dairy logo. Click "Save Branding & Business Info" to apply.');
   };
 
   const handleSave = async (e: React.FormEvent) => {
@@ -81,6 +138,10 @@ export default function BrandingManager() {
       const data = await res.json();
       if (data.success) {
         setMessage('Branding & Store configuration saved successfully! Public storefront is updated.');
+        // Broadcast real-time update to Navbar, Footer, and Storefront immediately
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new Event('store_settings_updated'));
+        }
       } else {
         setError(data.error || 'Failed to save branding');
       }
@@ -136,28 +197,32 @@ export default function BrandingManager() {
               <span className="text-xs font-bold text-forest-800 uppercase tracking-wider block">
                 Active Website Logo
               </span>
-              <div className="relative h-32 w-full rounded-2xl border-2 border-dashed border-borderCream bg-cream-50 flex items-center justify-center p-4">
-                <Image
+              <div className="relative h-32 w-full rounded-2xl border-2 border-dashed border-borderCream bg-cream-50 flex items-center justify-center p-3 overflow-hidden">
+                <img
                   src={settings.store_logo || '/logo.png'}
-                  alt="Store Logo"
-                  fill
-                  className="object-contain p-2"
+                  alt="Store Logo Preview"
+                  className="max-h-24 max-w-full object-contain"
                 />
               </div>
-              <p className="text-[11px] text-muted">
-                Current source: <code>{settings.store_logo || '/logo.png'}</code>
+              <p className="text-[11px] text-muted truncate">
+                Current source:{' '}
+                <code className="text-forest-700 bg-cream-200/60 px-1 py-0.5 rounded text-[10px]">
+                  {settings.store_logo?.startsWith('data:')
+                    ? 'Custom Uploaded Image (Active)'
+                    : settings.store_logo || '/logo.png'}
+                </code>
               </p>
             </div>
 
-            {/* Upload New Logo */}
+            {/* Upload New Logo or Reset */}
             <div className="space-y-2 pt-2 border-t border-borderCream">
               <label className="block text-xs font-bold text-forest-800 uppercase tracking-wider">
                 Upload Replacement Logo
               </label>
-              <div className="flex items-center space-x-3">
-                <label className="cursor-pointer px-4 py-2 bg-forest-800 hover:bg-forest-900 text-white rounded-xl text-xs font-bold transition-colors inline-flex items-center space-x-2">
+              <div className="flex flex-wrap items-center gap-2.5">
+                <label className="cursor-pointer px-4 py-2 bg-forest-800 hover:bg-forest-900 text-white rounded-xl text-xs font-bold transition-colors inline-flex items-center space-x-2 shadow-sm">
                   <Upload className="w-3.5 h-3.5 text-gold-400" />
-                  <span>{uploadingLogo ? 'Uploading...' : 'Choose Image'}</span>
+                  <span>{uploadingLogo ? 'Processing...' : 'Choose Image'}</span>
                   <input
                     type="file"
                     accept="image/png,image/jpeg,image/webp"
@@ -166,7 +231,20 @@ export default function BrandingManager() {
                     className="hidden"
                   />
                 </label>
-                <span className="text-[11px] text-muted">PNG, JPG, or WebP</span>
+
+                {settings.store_logo && settings.store_logo !== '/logo.png' && (
+                  <button
+                    type="button"
+                    onClick={handleResetDefaultLogo}
+                    className="px-3 py-2 bg-cream-200 hover:bg-cream-300 text-forest-800 rounded-xl text-xs font-semibold transition-colors"
+                  >
+                    Reset Default Logo
+                  </button>
+                )}
+
+                <span className="text-[11px] text-muted block w-full">
+                  Instant client optimization · PNG, JPG, or WebP
+                </span>
               </div>
             </div>
           </div>
