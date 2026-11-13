@@ -102,6 +102,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
       ? product.imageUrl
       : `${SITE_URL}${product.imageUrl}`,
     sku: product.sku || product.slug,
+    category: product.category?.name || 'Dairy',
     brand: {
       '@type': 'Brand',
       name: 'SUNNY Dairy',
@@ -109,10 +110,14 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
     offers: {
       '@type': 'AggregateOffer',
       priceCurrency: 'PKR',
-      lowPrice: lowestPrice,
-      highPrice: highestPrice,
+      lowPrice: lowestPrice || 150,
+      highPrice: highestPrice || (lowestPrice ? lowestPrice * 2 : 1500),
       offerCount: product.variants.length || 1,
-      availability: 'https://schema.org/InStock',
+      availability: product.isActive
+        ? 'https://schema.org/InStock'
+        : 'https://schema.org/OutOfStock',
+      itemCondition: 'https://schema.org/NewCondition',
+      priceValidUntil: '2027-12-31',
       url: `${SITE_URL}/product/${product.slug}`,
       seller: {
         '@type': 'Organization',

@@ -8,6 +8,24 @@ import TrustBanner from '@/components/ui/TrustBanner';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 import { OFFICIAL_STORE_NAME, OFFICIAL_STORE_OWNER, OFFICIAL_PHONE_NUMBER } from '@/lib/whatsapp';
 
+const SITE_URL = 'https://sunny-dairy-web.vercel.app';
+
+export const metadata = {
+  title: `${OFFICIAL_STORE_NAME} — Pure Farm Milk, Makhan & Desi Ghee Dera Ismail Khan`,
+  description:
+    'Fresh cow milk, pure goat milk, cultured dahi, artisanal makhan, slow-simmered desi ghee, and traditional sweets delivered daily across Dera Ismail Khan by Sanaullah.',
+  alternates: {
+    canonical: SITE_URL,
+  },
+  openGraph: {
+    title: `${OFFICIAL_STORE_NAME} — Farm Fresh Milk & Dairy Dera Ismail Khan`,
+    description:
+      'Pure morning milk, farm-fresh makhan, traditional slow-simmered desi ghee, and authentic sweets delivered across Dera Ismail Khan. Cash on delivery available.',
+    url: SITE_URL,
+    type: 'website',
+  },
+};
+
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 

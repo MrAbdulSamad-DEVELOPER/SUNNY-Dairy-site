@@ -7,13 +7,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages = [
     { route: '', priority: 1.0, changeFrequency: 'daily' as const },
     { route: '/shop', priority: 0.95, changeFrequency: 'daily' as const },
-    { route: '/our-promise', priority: 0.8, changeFrequency: 'weekly' as const },
+    { route: '/about', priority: 0.85, changeFrequency: 'weekly' as const },
+    { route: '/our-promise', priority: 0.85, changeFrequency: 'weekly' as const },
     { route: '/delivery', priority: 0.85, changeFrequency: 'weekly' as const },
     { route: '/track', priority: 0.7, changeFrequency: 'always' as const },
     { route: '/contact', priority: 0.8, changeFrequency: 'monthly' as const },
-    { route: '/faq', priority: 0.7, changeFrequency: 'monthly' as const },
-    { route: '/privacy', priority: 0.5, changeFrequency: 'monthly' as const },
-    { route: '/terms', priority: 0.5, changeFrequency: 'monthly' as const },
+    { route: '/faq', priority: 0.75, changeFrequency: 'monthly' as const },
+    { route: '/privacy', priority: 0.4, changeFrequency: 'yearly' as const },
+    { route: '/terms', priority: 0.4, changeFrequency: 'yearly' as const },
   ].map(({ route, priority, changeFrequency }) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),

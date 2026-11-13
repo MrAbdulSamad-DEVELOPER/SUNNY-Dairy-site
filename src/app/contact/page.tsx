@@ -9,10 +9,21 @@ import {
   getWhatsAppUrl,
 } from '@/lib/whatsapp';
 
+const SITE_URL = 'https://sunny-dairy-web.vercel.app';
+
 export const metadata = {
   title: `Contact Us — ${OFFICIAL_STORE_NAME} Dera Ismail Khan`,
   description:
-    `Contact the ${OFFICIAL_STORE_NAME} dairy farm team and ${OFFICIAL_STORE_OWNER} for orders, deliveries, or farm inquiries in Dera Ismail Khan, Pakistan.`,
+    `Contact the ${OFFICIAL_STORE_NAME} dairy farm team and ${OFFICIAL_STORE_OWNER} for orders, deliveries, or farm inquiries in Dera Ismail Khan, Pakistan. Direct phone: ${OFFICIAL_PHONE_NUMBER}.`,
+  alternates: {
+    canonical: `${SITE_URL}/contact`,
+  },
+  openGraph: {
+    title: `Contact ${OFFICIAL_STORE_NAME} — Farm Direct Dairy in Dera Ismail Khan`,
+    description: `Direct phone: ${OFFICIAL_PHONE_NUMBER}, WhatsApp: +${OFFICIAL_WHATSAPP_NUMBER}, Email: ${OFFICIAL_EMAIL}. Contact ${OFFICIAL_STORE_OWNER} for fresh milk and sweets delivery.`,
+    url: `${SITE_URL}/contact`,
+    type: 'website',
+  },
 };
 
 export default function ContactPage() {

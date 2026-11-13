@@ -9,10 +9,22 @@ import {
   getWhatsAppUrl,
 } from '@/lib/whatsapp';
 
+const SITE_URL = 'https://sunny-dairy-web.vercel.app';
+
 export const metadata = {
   title: `Delivery Areas & FAQs — ${OFFICIAL_STORE_NAME} Dera Ismail Khan`,
   description:
     'Find our daily fresh milk delivery zones across Dera Ismail Khan, morning delivery hours, cold-chain protocol, and answers to common dairy questions.',
+  alternates: {
+    canonical: `${SITE_URL}/delivery`,
+  },
+  openGraph: {
+    title: `Fresh Milk Delivery Zones in Dera Ismail Khan — ${OFFICIAL_STORE_NAME}`,
+    description:
+      'Home delivery to Cantt, Circular Road, University Road, Bannu Road, Mandra, and all major areas in D.I. Khan. Cash on delivery available.',
+    url: `${SITE_URL}/delivery`,
+    type: 'website',
+  },
 };
 
 export default function DeliveryAndFAQPage() {
