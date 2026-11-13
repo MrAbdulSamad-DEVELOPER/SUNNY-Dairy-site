@@ -5,7 +5,7 @@ export const OFFICIAL_STORE_OWNER = 'Sanaullah';
 
 export const OFFICIAL_UBL_BANK_NAME = 'United Bank Limited (UBL)';
 export const OFFICIAL_UBL_ACCOUNT_NUMBER = '236525896';
-export const OFFICIAL_UBL_ACCOUNT_TITLE = 'SUNNY Dairy / Sanaullah';
+export const OFFICIAL_UBL_ACCOUNT_TITLE = 'Sanaullah and islamuddin';
 
 /**
  * Builds a clean WhatsApp direct order / inquiry message

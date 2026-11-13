@@ -112,36 +112,36 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
       </div>
 
-      {/* Card Footer: Price & Compact Order Button Horizontally Aligned */}
-      <div className="p-3.5 sm:p-4 pt-3 flex items-center justify-between gap-2.5 border-t border-borderCream/60 mt-1">
-        <div className="min-w-0 flex-1">
+      {/* Card Footer: Price & Compact Order Button */}
+      <div className="p-3.5 sm:p-4 pt-3 border-t border-borderCream/60 mt-auto flex flex-col justify-between gap-2.5">
+        <div className="flex items-center justify-between gap-2">
           {isConfirmed ? (
             <div>
-              <div className="font-serif text-lg sm:text-xl font-bold text-forest-800 tracking-tight leading-tight whitespace-nowrap">
+              <div className="font-serif text-lg sm:text-xl font-bold text-forest-800 tracking-tight leading-tight">
                 Rs {selectedVariant.price?.toLocaleString()}
               </div>
-              <span className="text-[10px] sm:text-[11px] text-muted block -mt-0.5 whitespace-nowrap">
+              <span className="text-[10px] sm:text-[11px] text-muted block mt-0.5">
                 confirmed price · per unit
               </span>
             </div>
           ) : (
             <div>
-              <div className="font-serif text-[15px] sm:text-base font-bold text-forest-800 leading-tight whitespace-nowrap">
+              <div className="font-serif text-base sm:text-lg font-bold text-forest-800 leading-tight">
                 Price on Request
               </div>
-              <span className="text-[10px] sm:text-[11px] text-gold-700 font-medium block mt-0.5 whitespace-nowrap">
+              <span className="text-[10px] sm:text-[11px] text-gold-700 font-medium block mt-0.5">
                 Confirm price on WhatsApp
               </span>
             </div>
           )}
         </div>
 
-        {/* Compact Action Button */}
+        {/* Action Button - Full width so text and button NEVER overlap */}
         <button
           type="button"
           onClick={handleAddToCart}
           disabled={!selectedVariant?.isAvailable}
-          className={`flex-shrink-0 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 active:scale-95 flex items-center justify-center space-x-1.5 shadow-sm whitespace-nowrap ${
+          className={`w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 active:scale-[0.98] flex items-center justify-center space-x-1.5 shadow-sm ${
             !selectedVariant?.isAvailable
               ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
               : addedAnimation
@@ -151,12 +151,12 @@ export default function ProductCard({ product }: ProductCardProps) {
         >
           {addedAnimation ? (
             <>
-              <Check className="w-3.5 h-3.5 text-gold-400 animate-bounce" />
-              <span>Added!</span>
+              <Check className="w-4 h-4 text-gold-400 animate-bounce" />
+              <span>Added to Basket!</span>
             </>
           ) : isConfirmed ? (
             <>
-              <ShoppingBag className="w-3.5 h-3.5 opacity-80" />
+              <ShoppingBag className="w-4 h-4 opacity-80" />
               <span>Add to cart</span>
             </>
           ) : (

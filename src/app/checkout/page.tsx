@@ -217,7 +217,7 @@ export default function CheckoutPage() {
           `*Items:*%0A${orderSummaryLines.join('%0A')}%0A%0A` +
           `*Total Payable:* Rs ${calculatedGrandTotal.toLocaleString()}%0A` +
           `*Payment Method:* Direct WhatsApp Order%0A%0A` +
-          `Please confirm batch availability for morning delivery in Dera Ismail Khan.`;
+          `Please confirm batch availability for delivery in ${data.city || 'Pakistan'}.`;
 
         const waUrl = `https://wa.me/${OFFICIAL_WHATSAPP_NUMBER}?text=${waMessage}`;
 
@@ -276,7 +276,7 @@ export default function CheckoutPage() {
           Checkout & Delivery Details
         </h1>
         <p className="text-xs sm:text-sm text-muted mt-1">
-          Serving Dera Ismail Khan with farm-fresh morning batches.
+          Delivering fresh dairy & traditional sweets all over Pakistan.
         </p>
       </div>
 
@@ -349,7 +349,7 @@ export default function CheckoutPage() {
           {/* Delivery Address */}
           <div className="bg-[#FFFDFA] rounded-3xl p-6 sm:p-8 border border-borderCream space-y-5 shadow-sm">
             <h2 className="font-serif text-xl font-bold text-forest-800 pb-2 border-b border-borderCream">
-              2. Delivery Address (Dera Ismail Khan)
+              2. Delivery Address (All Over Pakistan)
             </h2>
 
             <div className="space-y-4">
@@ -360,18 +360,21 @@ export default function CheckoutPage() {
                   </label>
                   <input
                     type="text"
+                    placeholder="e.g. Dera Ismail Khan, Lahore, Islamabad, Karachi"
                     {...register('city')}
-                    readOnly
-                    className="w-full px-4 py-2.5 rounded-xl border border-borderCream bg-cream-100 text-forest-800 font-semibold text-sm cursor-not-allowed"
+                    className="w-full px-4 py-2.5 rounded-xl border border-borderCream bg-white text-forest-800 font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-forest-800"
                   />
+                  {errors.city && (
+                    <p className="text-red-600 text-xs mt-1">{errors.city.message}</p>
+                  )}
                   <span className="text-[11px] text-muted block mt-1">
-                    Currently delivering fresh morning batches across Dera Ismail Khan
+                    Delivering fresh dairy & traditional sweets all over Pakistan
                   </span>
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold text-forest-800 uppercase tracking-wider mb-1.5">
-                    Area / Neighbourhood *
+                    Area / Sector / Colony *
                   </label>
                   <input
                     type="text"
@@ -791,7 +794,7 @@ export default function CheckoutPage() {
 
             <div className="flex items-center justify-center space-x-2 text-xs text-muted text-center pt-1">
               <ShieldCheck className="w-4 h-4 text-forest-600" />
-              <span>Safe farm cold-chain guarantee · Dera Ismail Khan</span>
+              <span>Safe farm cold-chain guarantee · All Over Pakistan</span>
             </div>
           </div>
         </div>

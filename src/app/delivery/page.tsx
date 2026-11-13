@@ -66,10 +66,10 @@ export default function DeliveryAndFAQPage() {
           Distribution & Questions
         </span>
         <h1 className="font-serif text-4xl sm:text-5xl font-bold text-forest-800 leading-tight">
-          Fresh morning delivery straight to your doorstep across Dera Ismail Khan
+          Fresh dairy delivery straight to your doorstep across Dera Ismail Khan and All Over Pakistan
         </h1>
         <p className="text-base sm:text-lg text-muted leading-relaxed">
-          {OFFICIAL_STORE_NAME} maintains a dedicated cold-chain morning delivery network across major residential sectors in Dera Ismail Khan.
+          {OFFICIAL_STORE_NAME} maintains a dedicated cold-chain delivery network across Dera Ismail Khan and delivers authentic farm-fresh dairy and traditional sweets to all cities across Pakistan.
         </p>
       </div>
 
@@ -113,7 +113,7 @@ export default function DeliveryAndFAQPage() {
             Current Coverage
           </span>
           <h2 className="font-serif text-3xl font-bold text-forest-800">
-            Covered Dera Ismail Khan Sectors & Neighborhoods
+            Delivery Coverage Across Pakistan & Dera Ismail Khan
           </h2>
           <p className="text-sm text-muted">
             If your area is not listed below, send us a WhatsApp message to verify our morning route.

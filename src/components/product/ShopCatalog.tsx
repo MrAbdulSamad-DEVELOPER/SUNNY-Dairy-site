@@ -50,7 +50,7 @@ export default function ShopCatalog({
             Milk, makhan & ghee
           </h2>
           <p className="text-sm sm:text-base text-muted max-w-2xl leading-relaxed">
-            Collected fresh daily from our farm. Guaranteed pure, unadulterated, and delivered chilled to your doorstep across Dera Ismail Khan.
+            Collected fresh daily from our farm. Guaranteed pure, unadulterated, and delivered chilled to your doorstep all over Pakistan.
           </p>
         </div>
       )}

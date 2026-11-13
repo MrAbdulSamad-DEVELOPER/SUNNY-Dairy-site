@@ -176,7 +176,7 @@ export default function CartDrawer() {
                 )}
 
                 <div className="flex justify-between text-xs text-muted pt-1">
-                  <span>Delivery in Dera Ismail Khan:</span>
+                  <span>Delivery (All Over Pakistan):</span>
                   <span className="font-medium text-forest-800">Cash on delivery</span>
                 </div>
               </div>

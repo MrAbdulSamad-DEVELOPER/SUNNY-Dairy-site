@@ -44,7 +44,7 @@ export default function Footer() {
               </div>
             </Link>
             <p className="text-forest-200 text-sm leading-relaxed max-w-sm">
-              Pure fresh cow milk, goat milk, traditional makhan, and authentic desi ghee delivered directly from our dairy farm to your doorstep in Dera Ismail Khan.
+              Pure fresh cow milk, goat milk, traditional makhan, and authentic desi ghee delivered directly from our dairy farm to your doorstep across Dera Ismail Khan and all over Pakistan.
             </p>
             <div className="pt-2 flex items-center space-x-2 text-xs text-gold-400 font-medium">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
@@ -145,7 +145,7 @@ export default function Footer() {
             <Link href="/admin/login" className="hover:text-gold-300 transition-colors">
               Staff Portal
             </Link>
-            <span className="text-forest-500">Pure Farm Dairy · Dera Ismail Khan</span>
+            <span className="text-forest-500">Pure Farm Dairy · Delivering All Over Pakistan</span>
           </div>
         </div>
       </div>

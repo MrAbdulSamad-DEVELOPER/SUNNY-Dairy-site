@@ -140,7 +140,7 @@ export default function ContactPage() {
                 <Clock className="w-5 h-5 text-gold-700 flex-shrink-0 mt-0.5" />
                 <div>
                   <span className="font-bold block">Chilled Doorstep Delivery:</span>
-                  <span className="text-muted">7:00 AM – 11:30 AM daily across Dera Ismail Khan</span>
+                  <span className="text-muted">Daily morning delivery in DI Khan & nationwide dispatch across Pakistan</span>
                 </div>
               </div>
 

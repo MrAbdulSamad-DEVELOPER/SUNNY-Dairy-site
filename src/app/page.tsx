@@ -42,7 +42,7 @@ export default async function HomePage() {
           <div className="lg:col-span-7 space-y-6 sm:space-y-8">
             <div className="inline-block">
               <span className="text-xs sm:text-sm font-bold tracking-widest text-gold-700 uppercase bg-gold-100/60 px-3 py-1 rounded-full border border-gold-200">
-                PURE MILK, MAKHAN & GHEE · DERA ISMAIL KHAN
+                PURE MILK, MAKHAN & GHEE · ALL OVER PAKISTAN
               </span>
             </div>
 
@@ -52,7 +52,7 @@ export default async function HomePage() {
             </h1>
 
             <p className="text-base sm:text-lg text-muted max-w-xl leading-relaxed">
-              Collected each morning at dawn, chilled below 4°C and delivered to your doorstep across Dera Ismail Khan. Order in a minute, pay in cash when it arrives.
+              Collected each morning at dawn, chilled below 4°C and delivered to your doorstep across Dera Ismail Khan and all over Pakistan. Order in a minute, pay when it arrives.
             </p>
 
             {/* Hero CTA Buttons */}
@@ -143,7 +143,7 @@ export default async function HomePage() {
               </div>
               <h3 className="font-serif text-lg font-bold text-forest-800">Instant Basket</h3>
               <p className="text-xs text-muted leading-relaxed">
-                Add to cart and enter your Dera Ismail Khan delivery location and contact number for morning dispatch.
+                Add to cart and enter your Pakistan delivery city, address, and contact number for fast dispatch.
               </p>
             </div>
 

@@ -11,7 +11,7 @@ export default function SettingsManager() {
     delivery_areas: 'Cantt, Circular Road, University Road, Bannu Road, Multan Road, Qayyum Nagar, Tank Road, Commissionery Bazaar',
     ubl_bank_name: 'United Bank Limited (UBL)',
     ubl_account_number: '236525896',
-    ubl_account_title: 'SUNNY Dairy / Sanaullah',
+    ubl_account_title: 'Sanaullah and islamuddin',
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -134,7 +134,7 @@ export default function SettingsManager() {
                 <input
                   type="text"
                   required
-                  value={settings.ubl_account_title || 'SUNNY Dairy / Sanaullah'}
+                  value={settings.ubl_account_title || 'Sanaullah and islamuddin'}
                   onChange={(e) => handleChange('ubl_account_title', e.target.value)}
                   className="w-full px-4 py-2.5 rounded-xl border border-amber-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-forest-800"
                 />
