@@ -192,7 +192,7 @@ export default function BrandingManager() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 w-full min-w-0 max-w-full">
       {/* Clean Header */}
       <div className="pb-3 border-b border-borderCream">
         <h1 className="text-xl sm:text-2xl font-bold text-forest-900 tracking-tight">

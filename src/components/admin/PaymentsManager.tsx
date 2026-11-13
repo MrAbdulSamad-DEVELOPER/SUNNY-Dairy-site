@@ -161,7 +161,7 @@ export default function PaymentsManager() {
     .reduce((sum, p) => sum + p.amount, 0);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 w-full min-w-0 max-w-full">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-borderCream">
         <div>

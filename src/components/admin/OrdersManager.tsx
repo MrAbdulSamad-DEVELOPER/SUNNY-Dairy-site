@@ -110,11 +110,11 @@ export default function OrdersManager() {
   ];
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4 w-full min-w-0 max-w-full">
       {/* Top Filter Bar */}
-      <div className="bg-[#FFFDFA] p-3.5 sm:p-5 rounded-2xl sm:rounded-3xl border border-borderCream shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+      <div className="bg-[#FFFDFA] p-3.5 sm:p-5 rounded-2xl sm:rounded-3xl border border-borderCream shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 min-w-0 max-w-full">
         {/* Search */}
-        <div className="relative w-full md:w-80">
+        <div className="relative w-full min-w-0 md:w-80">
           <Search className="w-4 h-4 absolute left-3 top-3 text-muted" />
           <input
             type="text"
@@ -126,7 +126,7 @@ export default function OrdersManager() {
         </div>
 
         {/* Status Filter Chips */}
-        <div className="flex items-center space-x-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 text-xs scrollbar-none">
+        <div className="flex items-center space-x-1.5 overflow-x-auto w-full min-w-0 max-w-full md:w-auto pb-1.5 md:pb-0 text-xs scrollbar-none">
           <button
             onClick={() => setStatusFilter('ALL')}
             className={`px-3 py-1.5 rounded-xl font-medium transition-colors whitespace-nowrap ${
@@ -181,7 +181,7 @@ export default function OrdersManager() {
       </div>
 
       {/* Orders Container */}
-      <div className="bg-[#FFFDFA] rounded-2xl sm:rounded-3xl border border-borderCream shadow-xs overflow-hidden">
+      <div className="bg-[#FFFDFA] rounded-2xl sm:rounded-3xl border border-borderCream shadow-xs overflow-hidden min-w-0 max-w-full">
         {loading ? (
           <div className="py-16 text-center text-muted text-xs">
             Loading orders from database...

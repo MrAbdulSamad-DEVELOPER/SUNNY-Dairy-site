@@ -66,7 +66,7 @@ export default function SettingsManager() {
   }
 
   return (
-    <div className="max-w-3xl bg-[#FFFDFA] rounded-3xl p-6 sm:p-8 border border-borderCream shadow-sm space-y-8">
+    <div className="w-full min-w-0 max-w-3xl bg-[#FFFDFA] rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-borderCream shadow-sm space-y-6 sm:space-y-8">
       {/* Clean Header */}
       <div className="pb-3 border-b border-borderCream">
         <h1 className="text-xl sm:text-2xl font-bold text-forest-900 tracking-tight">

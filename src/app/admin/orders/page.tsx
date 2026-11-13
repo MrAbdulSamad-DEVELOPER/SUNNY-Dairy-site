@@ -12,7 +12,7 @@ export default async function AdminOrdersPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-8 space-y-5">
+    <div className="w-full max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-8 space-y-5 min-w-0">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-borderCream">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-forest-900 tracking-tight">
