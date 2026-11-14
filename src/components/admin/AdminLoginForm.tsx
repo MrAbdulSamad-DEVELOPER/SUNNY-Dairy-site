@@ -131,7 +131,7 @@ export default function AdminLoginForm() {
         <div className="text-center space-y-3">
           <div className="relative w-24 h-16 mx-auto">
             <Image
-              src="/logo.png"
+              src="/nev-logo.png"
               alt="SUNNY Dairy Logo"
               fill
               className="object-contain"

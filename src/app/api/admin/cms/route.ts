@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import prisma from '@/lib/prisma';
 import { getCurrentAdmin, logActivity } from '@/lib/auth';
 
@@ -11,7 +12,14 @@ export async function GET() {
     sections.forEach((s) => {
       map[s.sectionKey] = s;
     });
-    return NextResponse.json({ success: true, sections: map });
+    return NextResponse.json(
+      { success: true, sections: map },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+        },
+      }
+    );
   } catch (error) {
     return NextResponse.json({ error: 'Failed to retrieve CMS content' }, { status: 500 });
   }
@@ -66,7 +74,20 @@ export async function PUT(req: NextRequest) {
       ipAddress: req.headers.get('x-forwarded-for') || undefined,
     });
 
-    return NextResponse.json({ success: true, section: updated });
+    try {
+      revalidatePath('/');
+    } catch (e) {
+      console.warn('Revalidation notice:', e);
+    }
+
+    return NextResponse.json(
+      { success: true, section: updated },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+        },
+      }
+    );
   } catch (error: any) {
     console.error('Error updating CMS content:', error);
     return NextResponse.json({ error: error.message || 'Server error' }, { status: 500 });

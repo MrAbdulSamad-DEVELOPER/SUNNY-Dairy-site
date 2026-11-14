@@ -91,7 +91,7 @@ export const metadata: Metadata = {
     siteName: 'SUNNY Dairy',
     images: [
       {
-        url: `${SITE_URL}/logo.png`,
+        url: `${SITE_URL}/nev-logo.png`,
         width: 1200,
         height: 630,
         alt: 'SUNNY Dairy Pure & Farm Fresh Dera Ismail Khan',
@@ -105,7 +105,7 @@ export const metadata: Metadata = {
     title: 'SUNNY Dairy — Pure Milk & Farm Fresh Dairy Dera Ismail Khan',
     description:
       'Fresh milk, butter, and desi ghee delivered daily to your door across Dera Ismail Khan. Managed by Sanaullah.',
-    images: [`${SITE_URL}/logo.png`],
+    images: [`${SITE_URL}/nev-logo.png`],
     creator: '@SunnyDairyPK',
   },
   robots: {
@@ -152,8 +152,8 @@ const jsonLd = {
       name: 'SUNNY Dairy',
       alternateName: ['SUNNY Dairy Pure & Farm Fresh', 'Sunny Dairy DI Khan'],
       url: SITE_URL,
-      logo: `${SITE_URL}/logo.png`,
-      image: `${SITE_URL}/logo.png`,
+      logo: `${SITE_URL}/nev-logo.png`,
+      image: `${SITE_URL}/nev-logo.png`,
       telephone: '+923449322930',
       email: 'sanaullah.ccs@gmail.com',
       priceRange: '₨100 - ₨5000',

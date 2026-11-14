@@ -30,7 +30,14 @@ export async function GET() {
       orderBy: { createdAt: 'desc' },
     });
 
-    return NextResponse.json({ success: true, customers });
+    return NextResponse.json(
+      { success: true, customers },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+        },
+      }
+    );
   } catch (error) {
     return NextResponse.json({ error: 'Failed to retrieve customers' }, { status: 500 });
   }

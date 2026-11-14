@@ -52,7 +52,30 @@ async function getProducts(): Promise<ProductDTO[]> {
 }
 
 export default async function HomePage() {
-  const products = await getProducts();
+  const [products, cmsSections, siteSettings] = await Promise.all([
+    getProducts(),
+    prisma.cmsSection.findMany().catch(() => []),
+    prisma.siteSetting.findMany().catch(() => []),
+  ]);
+
+  const cmsMap: Record<string, any> = {};
+  cmsSections.forEach((s) => {
+    cmsMap[s.sectionKey] = s;
+  });
+
+  const settingsMap: Record<string, string> = {};
+  siteSettings.forEach((s) => {
+    settingsMap[s.settingKey] = s.settingValue;
+  });
+
+  const heroSubtitle = cmsMap.hero?.subtitle || 'Pure Milk, Butter & Desi Ghee';
+  const heroTitle = cmsMap.hero?.title || 'Fresh milk. Straight from the farm.';
+  const heroContent =
+    cmsMap.hero?.content ||
+    'Collected each morning at dawn, chilled below 4°C and delivered to your doorstep across Dera Ismail Khan and all over Pakistan. Order in a minute, pay when it arrives.';
+  const heroImageUrl = cmsMap.hero?.imageUrl || '/products/hero-farm.jpg';
+  const heroButtonText = cmsMap.hero?.buttonText || 'Shop Now';
+  const heroButtonLink = cmsMap.hero?.buttonLink || '#shop-catalog';
 
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -111,7 +134,7 @@ export default async function HomePage() {
         '@type': 'Product',
         name: prod.name,
         description: prod.description || `Pure ${prod.name} from SUNNY Dairy farm Dera Ismail Khan`,
-        image: prod.imageUrl ? `${SITE_URL}${prod.imageUrl}` : `${SITE_URL}/logo.png`,
+        image: prod.imageUrl ? `${SITE_URL}${prod.imageUrl}` : `${SITE_URL}/nev-logo.png`,
         offers: {
           '@type': 'Offer',
           priceCurrency: 'PKR',
@@ -139,25 +162,24 @@ export default async function HomePage() {
           <div className="lg:col-span-7 space-y-4 sm:space-y-6 lg:space-y-8">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-100/80 border border-gold-300/80 text-gold-800 text-[11px] sm:text-xs font-bold tracking-wide uppercase shadow-2xs">
               <span className="w-1.5 h-1.5 rounded-full bg-gold-600 animate-pulse" />
-              <span>Pure Milk, Butter & Desi Ghee</span>
+              <span>{heroSubtitle}</span>
             </div>
 
             <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-forest-800 leading-[1.18] sm:leading-[1.12]">
-              Fresh milk. <br className="hidden sm:inline" />
-              <span className="text-forest-700">Straight from</span> the farm.
+              {heroTitle}
             </h1>
 
             <p className="text-sm sm:text-base lg:text-lg text-muted max-w-xl leading-relaxed">
-              Collected each morning at dawn, chilled below 4°C and delivered to your doorstep across Dera Ismail Khan and all over Pakistan. Order in a minute, pay when it arrives.
+              {heroContent}
             </p>
 
             {/* Hero CTA Buttons */}
             <div className="flex items-center gap-3 pt-1 sm:pt-2">
               <a
-                href="#shop-catalog"
+                href={heroButtonLink}
                 className="flex-1 sm:flex-initial px-6 sm:px-8 py-3 sm:py-3.5 bg-forest-800 hover:bg-forest-900 text-white rounded-full font-bold text-xs sm:text-sm transition-all duration-200 shadow-md hover:shadow-lg active:scale-95 text-center"
               >
-                Shop Now
+                {heroButtonText}
               </a>
               <Link
                 href="/our-promise"
@@ -188,7 +210,7 @@ export default async function HomePage() {
           <div className="lg:col-span-5 pt-2 sm:pt-0">
             <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl border-2 sm:border-4 border-white/90 aspect-[16/10] sm:aspect-[5/4] lg:aspect-[4/3] w-full">
               <Image
-                src="/products/hero-farm.jpg"
+                src={heroImageUrl || '/products/hero-farm.jpg'}
                 alt="SUNNY Dairy farm fresh milk bottles"
                 fill
                 priority
@@ -242,7 +264,7 @@ export default async function HomePage() {
               </div>
               <h3 className="font-serif text-lg font-bold text-forest-800">Instant Basket</h3>
               <p className="text-xs text-muted leading-relaxed">
-                Add to cart and enter your Pakistan delivery city, address, and contact number for fast dispatch.
+                Add to Basket and enter your delivery city, address, and contact number for fast dispatch.
               </p>
             </div>
 

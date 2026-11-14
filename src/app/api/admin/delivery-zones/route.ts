@@ -9,7 +9,14 @@ export async function GET() {
     const zones = await prisma.deliveryZone.findMany({
       orderBy: { areaName: 'asc' },
     });
-    return NextResponse.json({ success: true, zones });
+    return NextResponse.json(
+      { success: true, zones },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+        },
+      }
+    );
   } catch (error) {
     return NextResponse.json({ error: 'Failed to retrieve delivery zones' }, { status: 500 });
   }

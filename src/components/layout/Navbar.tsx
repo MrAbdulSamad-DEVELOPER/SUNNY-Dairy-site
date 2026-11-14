@@ -186,7 +186,7 @@ export default function Navbar() {
             <div className="flex items-center justify-between px-3 text-xs text-muted pt-1">
               <span>SUNNY Dairy Farm, Dera Ismail Khan</span>
               <Link
-                href="/admin/login"
+                href="/admin"
                 onClick={() => setMobileMenuOpen(false)}
                 className="hover:text-forest-800 underline"
               >

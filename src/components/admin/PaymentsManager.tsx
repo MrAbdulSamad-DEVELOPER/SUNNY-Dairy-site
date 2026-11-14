@@ -64,8 +64,12 @@ export default function PaymentsManager() {
       const params = new URLSearchParams();
       if (filterStatus !== 'ALL') params.append('status', filterStatus);
       if (search.trim()) params.append('search', search.trim());
+      params.append('_t', String(Date.now()));
 
-      const res = await fetch(`/api/admin/payments?${params.toString()}`);
+      const res = await fetch(`/api/admin/payments?${params.toString()}`, {
+        cache: 'no-store',
+        headers: { 'Cache-Control': 'no-cache', Pragma: 'no-cache' },
+      });
       if (!res.ok) throw new Error('Failed to fetch payments');
       const data = await res.json();
       setPayments(data.payments || []);

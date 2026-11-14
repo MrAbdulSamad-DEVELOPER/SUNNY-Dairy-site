@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Shield, Plus, Trash2, Check, AlertCircle, User, Lock, Mail, KeyRound, RefreshCw } from 'lucide-react';
+import { Shield, Plus, Trash2, Check, AlertCircle, User, Lock, Mail, KeyRound, RefreshCw, X } from 'lucide-react';
 
 export default function AdminUsersManager() {
   const [users, setUsers] = useState<any[]>([]);
@@ -19,7 +19,10 @@ export default function AdminUsersManager() {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/admin/users');
+      const res = await fetch(`/api/admin/users?_t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: { 'Cache-Control': 'no-cache', Pragma: 'no-cache' },
+      });
       const data = await res.json();
       if (data.success) {
         setUsers(data.users);
@@ -255,19 +258,30 @@ export default function AdminUsersManager() {
 
       {/* Create Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-forest-950/50 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#FFFDFA] rounded-3xl max-w-md w-full p-6 sm:p-8 border border-borderCream shadow-2xl space-y-4">
-            <h3 className="font-serif text-xl font-bold text-forest-800 pb-2 border-b border-borderCream">
-              Add New Staff User
-            </h3>
+        <div className="fixed inset-0 z-50 bg-black/60 flex flex-col justify-end sm:justify-center sm:items-center sm:p-4 overflow-hidden">
+          <div className="bg-[#FFFDFA] w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl border border-borderCream shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-150">
+            <div className="flex-shrink-0 px-5 py-4 border-b border-borderCream flex items-center justify-between">
+              <h3 className="font-serif text-lg font-bold text-forest-900">
+                Add New Staff User
+              </h3>
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(false)}
+                className="p-1.5 rounded-full hover:bg-cream-100 text-muted hover:text-forest-900 transition-colors"
+                aria-label="Close"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
 
-            {error && (
-              <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-800 text-xs">
-                {error}
-              </div>
-            )}
+            <form id="admin-user-form" onSubmit={handleCreate} className="flex-1 overflow-y-auto p-5 space-y-3.5 text-xs">
+              {error && (
+                <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-800 text-xs font-semibold flex items-center space-x-2">
+                  <span>⚠️</span>
+                  <span>{error}</span>
+                </div>
+              )}
 
-            <form onSubmit={handleCreate} className="space-y-3.5 text-xs">
               <div>
                 <label className="block font-bold text-forest-800 uppercase tracking-wider mb-1">
                   Username *
@@ -279,7 +293,7 @@ export default function AdminUsersManager() {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="e.g. staff1"
-                    className="w-full pl-9 pr-3 py-2 rounded-xl border border-borderCream bg-white focus:outline-none focus:ring-2 focus:ring-forest-800"
+                    className="w-full pl-9 pr-3 py-2 rounded-xl border border-borderCream bg-white focus:outline-none focus:ring-1 focus:ring-forest-800"
                   />
                   <User className="w-4 h-4 text-muted absolute left-3 top-2.5" />
                 </div>
@@ -296,7 +310,7 @@ export default function AdminUsersManager() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="e.g. staff@example.com"
-                    className="w-full pl-9 pr-3 py-2 rounded-xl border border-borderCream bg-white focus:outline-none focus:ring-2 focus:ring-forest-800"
+                    className="w-full pl-9 pr-3 py-2 rounded-xl border border-borderCream bg-white focus:outline-none focus:ring-1 focus:ring-forest-800"
                   />
                   <Mail className="w-4 h-4 text-muted absolute left-3 top-2.5" />
                 </div>
@@ -314,7 +328,7 @@ export default function AdminUsersManager() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter staff password"
-                    className="w-full pl-9 pr-3 py-2 rounded-xl border border-borderCream bg-white focus:outline-none focus:ring-2 focus:ring-forest-800"
+                    className="w-full pl-9 pr-3 py-2 rounded-xl border border-borderCream bg-white focus:outline-none focus:ring-1 focus:ring-forest-800"
                   />
                   <Lock className="w-4 h-4 text-muted absolute left-3 top-2.5" />
                 </div>
@@ -327,30 +341,38 @@ export default function AdminUsersManager() {
                 <select
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-borderCream bg-white font-semibold focus:outline-none focus:ring-2 focus:ring-forest-800"
+                  className="w-full px-3 py-2 rounded-xl border border-borderCream bg-white font-semibold focus:outline-none focus:ring-1 focus:ring-forest-800"
                 >
                   <option value="ADMIN">Administrator (Full catalog & orders)</option>
                   <option value="MANAGER">Manager (Orders & dispatch)</option>
                 </select>
               </div>
-
-              <div className="flex justify-end space-x-2 pt-3 border-t border-borderCream">
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 rounded-xl border border-borderCream text-muted font-semibold hover:bg-cream-100"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={saving}
-                  className="px-5 py-2 rounded-xl bg-forest-800 hover:bg-forest-900 text-white font-bold transition-all shadow-xs"
-                >
-                  {saving ? 'Creating...' : 'Create Account'}
-                </button>
-              </div>
             </form>
+
+            <div className="flex-shrink-0 px-5 py-3.5 border-t border-borderCream bg-cream-50 flex items-center justify-end space-x-2.5">
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(false)}
+                className="px-4 py-2 rounded-xl border border-borderCream text-xs font-semibold text-muted hover:text-forest-900 hover:bg-cream-100 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                form="admin-user-form"
+                disabled={saving}
+                className="px-5 py-2 rounded-xl bg-forest-800 hover:bg-forest-900 text-white text-xs font-bold shadow-md disabled:opacity-50 transition-all flex items-center space-x-1.5"
+              >
+                {saving ? (
+                  <>
+                    <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <span>Creating...</span>
+                  </>
+                ) : (
+                  <span>Create Account</span>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -30,7 +30,10 @@ export default function CmsManager() {
   const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/api/admin/cms')
+    fetch(`/api/admin/cms?_t=${Date.now()}`, {
+      cache: 'no-store',
+      headers: { 'Cache-Control': 'no-cache', Pragma: 'no-cache' },
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.sections) {

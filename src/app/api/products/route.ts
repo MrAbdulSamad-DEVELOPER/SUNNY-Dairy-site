@@ -91,19 +91,49 @@ export async function POST(req: NextRequest) {
       seoDescription,
     } = body;
 
-    if (!name || !description || !categoryId) {
-      return NextResponse.json({ error: 'Missing required product fields' }, { status: 400 });
+    if (!name || !name.trim()) {
+      return NextResponse.json({ error: 'Product name is required' }, { status: 400 });
     }
 
-    const cleanSlug = slug || name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    // Defensive fallback for categoryId
+    let targetCategoryId = categoryId;
+    if (!targetCategoryId) {
+      const firstCat = await prisma.category.findFirst({ orderBy: { createdAt: 'asc' } });
+      if (firstCat) {
+        targetCategoryId = firstCat.id;
+      } else {
+        const defaultCat = await prisma.category.create({
+          data: {
+            name: 'Pure Dairy',
+            slug: 'pure-dairy',
+            description: 'Farm fresh pure dairy products',
+          },
+        });
+        targetCategoryId = defaultCat.id;
+      }
+    }
+
+    const cleanDescription = (description && description.trim())
+      ? description.trim()
+      : (shortDescription && shortDescription.trim())
+        ? shortDescription.trim()
+        : `${name.trim()} - 100% pure and farm-fresh dairy from SUNNY Dairy.`;
+
+    const cleanSlug = slug
+      ? slug.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+      : name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+    const cleanVariants = (variants && Array.isArray(variants) && variants.length > 0)
+      ? variants
+      : [{ size: '1 Unit', priceType: 'ON_REQUEST', price: null, isAvailable: true, stock: 50 }];
 
     const newProduct = await prisma.product.create({
       data: {
-        name,
+        name: name.trim(),
         slug: cleanSlug,
-        description,
+        description: cleanDescription,
         shortDescription: shortDescription || null,
-        categoryId,
+        categoryId: targetCategoryId,
         imageUrl: imageUrl || '/products/cow-milk.jpg',
         sku: sku || null,
         stockQuantity: parseInt(stockQuantity, 10) || 100,
@@ -113,8 +143,8 @@ export async function POST(req: NextRequest) {
         seoTitle: seoTitle || null,
         seoDescription: seoDescription || null,
         variants: {
-          create: (variants || []).map((v: any) => ({
-            size: v.size,
+          create: cleanVariants.map((v: any) => ({
+            size: v.size || '1 Unit',
             price: v.priceType === 'CONFIRMED' && v.price !== null && v.price !== '' ? parseFloat(v.price) : null,
             priceType: v.priceType || 'ON_REQUEST',
             isAvailable: v.isAvailable !== undefined ? v.isAvailable : true,

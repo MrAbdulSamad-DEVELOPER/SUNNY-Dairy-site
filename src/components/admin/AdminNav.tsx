@@ -82,7 +82,7 @@ export default function AdminNav() {
       <header className="lg:hidden bg-forest-950 text-cream-100 border-b border-forest-800 px-3 py-2 flex items-center justify-between sticky top-0 z-40 shadow-sm">
         <div className="flex items-center space-x-2 flex-shrink-0">
           <div className="w-7 h-7 rounded-md overflow-hidden bg-white p-0.5 flex-shrink-0 shadow-xs">
-            <img src="/logo.png" alt="SUNNY Dairy" className="w-full h-full object-contain" />
+            <img src="/nev-logo.png" alt="SUNNY Dairy" className="w-full h-full object-contain" />
           </div>
           <span className="font-bold text-sm text-white tracking-tight">Admin</span>
         </div>
@@ -116,7 +116,7 @@ export default function AdminNav() {
         <div className="p-4 border-b border-forest-850 flex items-center justify-between">
           <Link href="/admin" className="flex items-center space-x-2.5">
             <div className="relative w-9 h-9 rounded-xl bg-white p-1 shadow-sm flex-shrink-0">
-              <Image src="/logo.png" alt="SUNNY Dairy" fill className="object-contain" priority />
+              <Image src="/nev-logo.png" alt="SUNNY Dairy" fill className="object-contain" priority />
             </div>
             <div>
               <span className="font-bold text-sm text-white block tracking-tight">
@@ -152,7 +152,7 @@ export default function AdminNav() {
                     <Link
                       key={item.href}
                       href={item.href}
-                      prefetch={true}
+                      prefetch={false}
                       onClick={() => setMobileOpen(false)}
                       className={`flex items-center space-x-2.5 px-3 py-2 rounded-xl font-medium transition-all ${
                         isActive

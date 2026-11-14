@@ -441,27 +441,37 @@ export default function ProductsManager() {
 
       {/* Edit / Add Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-forest-950/50 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#FFFDFA] rounded-3xl max-w-2xl w-full p-6 sm:p-8 border border-borderCream shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center pb-3 border-b border-borderCream">
-              <h3 className="font-serif text-xl font-bold text-forest-800">
-                {editingProduct ? 'Edit Product & Rates' : 'Add New Dairy Product'}
-              </h3>
+        <div className="fixed inset-0 z-50 bg-black/60 flex flex-col justify-end sm:justify-center sm:items-center sm:p-4 overflow-hidden">
+          <div className="bg-[#FFFDFA] w-full sm:max-w-2xl h-[92vh] sm:h-auto sm:max-h-[88vh] rounded-t-3xl sm:rounded-3xl border border-borderCream shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-150">
+            {/* Sticky Header */}
+            <div className="flex-shrink-0 px-5 py-4 border-b border-borderCream bg-[#FFFDFA] flex items-center justify-between">
+              <div>
+                <h3 className="font-serif text-lg sm:text-xl font-bold text-forest-900">
+                  {editingProduct ? 'Edit Product & Rates' : 'Add New Dairy Product'}
+                </h3>
+                <p className="text-[11px] text-muted">
+                  Configure details, sizes, and pricing below.
+                </p>
+              </div>
               <button
+                type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="p-1 text-muted hover:text-forest-800"
+                className="p-1.5 rounded-full hover:bg-cream-100 text-muted hover:text-forest-900 transition-colors"
+                aria-label="Close"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            {error && (
-              <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-800 text-xs">
-                {error}
-              </div>
-            )}
+            {/* Scrollable Form Body */}
+            <form id="product-modal-form" onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 text-xs">
+              {error && (
+                <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-800 text-xs font-semibold flex items-center space-x-2">
+                  <span>⚠️</span>
+                  <span>{error}</span>
+                </div>
+              )}
 
-            <form onSubmit={handleSubmit} className="space-y-4 text-xs">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block font-bold text-forest-800 uppercase tracking-wider mb-1">
@@ -575,13 +585,13 @@ export default function ProductsManager() {
 
               <div>
                 <label className="block font-bold text-forest-800 uppercase tracking-wider mb-1">
-                  Full Description *
+                  Full Description
                 </label>
                 <textarea
                   rows={2}
-                  required
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Detailed description of the product"
                   className="w-full px-3 py-2 rounded-xl border border-borderCream bg-white"
                 />
               </div>
@@ -672,24 +682,38 @@ export default function ProductsManager() {
                   ))}
                 </div>
               </div>
+            </form>
 
-              <div className="flex justify-end space-x-3 pt-4 border-t border-borderCream">
+            {/* Sticky Action Footer */}
+            <div className="flex-shrink-0 px-5 py-3.5 border-t border-borderCream bg-cream-50 flex items-center justify-between gap-3">
+              <span className="text-[11px] text-muted hidden sm:inline">
+                Changes apply instantly.
+              </span>
+              <div className="flex items-center space-x-2.5 ml-auto w-full sm:w-auto justify-end">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 rounded-xl border border-borderCream text-muted font-semibold hover:text-forest-800"
+                  className="px-4 py-2 rounded-xl border border-borderCream text-xs font-semibold text-muted hover:text-forest-900 hover:bg-cream-100 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
+                  form="product-modal-form"
                   disabled={saving}
-                  className="px-6 py-2 rounded-xl bg-forest-800 hover:bg-forest-900 text-white font-bold shadow-md"
+                  className="px-6 py-2 rounded-xl bg-forest-800 hover:bg-forest-900 text-white text-xs font-bold shadow-md disabled:opacity-50 transition-all flex items-center justify-center space-x-1.5"
                 >
-                  {saving ? 'Saving...' : 'Save Product'}
+                  {saving ? (
+                    <>
+                      <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      <span>Saving...</span>
+                    </>
+                  ) : (
+                    <span>Save Product</span>
+                  )}
                 </button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       )}

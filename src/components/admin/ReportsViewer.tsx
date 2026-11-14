@@ -11,7 +11,10 @@ export default function ReportsViewer() {
   const fetchReport = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/admin/reports?range=${range}`);
+      const res = await fetch(`/api/admin/reports?range=${range}&_t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: { 'Cache-Control': 'no-cache', Pragma: 'no-cache' },
+      });
       const data = await res.json();
       if (data.success) {
         setReport(data);

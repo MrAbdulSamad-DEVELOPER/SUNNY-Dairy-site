@@ -19,7 +19,7 @@ export default function NotFound() {
       <div className="max-w-md w-full text-center space-y-6 bg-[#FFFDFA] p-8 sm:p-10 rounded-3xl border border-borderCream shadow-sm">
         {/* Brand Icon */}
         <div className="w-16 h-16 rounded-2xl bg-cream-100 flex items-center justify-center mx-auto shadow-xs border border-borderCream">
-          <img src="/logo.png" alt="SUNNY Dairy" className="w-10 h-10 object-contain" />
+          <img src="/nev-logo.png" alt="SUNNY Dairy" className="w-10 h-10 object-contain" />
         </div>
 
         <div className="space-y-2">

@@ -68,7 +68,7 @@ export default async function OrderInvoicePage({ params }: InvoicePageProps) {
           <div className="space-y-1">
             <div className="relative h-12 w-40 flex items-center">
               <Image
-                src="/logo.png"
+                src="/nev-logo.png"
                 alt={OFFICIAL_STORE_NAME}
                 width={160}
                 height={50}

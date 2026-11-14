@@ -53,7 +53,7 @@ export default function BrandingManager() {
   const [settings, setSettings] = useState<Record<string, string>>({
     store_name: 'SUNNY Dairy',
     store_owner: 'Sanaullah',
-    store_logo: '/logo.png',
+    store_logo: '/nev-logo.png',
     store_favicon: '/logo.png',
     tagline: 'Fresh milk. Straight from the farm.',
     brand_description: 'Collected each morning, chilled and brought to your door. Order in a minute, pay in cash when it arrives.',
@@ -72,7 +72,10 @@ export default function BrandingManager() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/api/admin/settings')
+    fetch(`/api/admin/settings?_t=${Date.now()}`, {
+      cache: 'no-store',
+      headers: { 'Cache-Control': 'no-cache', Pragma: 'no-cache' },
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.settings) {
@@ -140,11 +143,11 @@ export default function BrandingManager() {
       const saveRes = await fetch('/api/admin/settings', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ store_logo: '/logo.png' }),
+        body: JSON.stringify({ store_logo: '/nev-logo.png' }),
       });
 
       if (saveRes.ok) {
-        setSettings((prev) => ({ ...prev, store_logo: '/logo.png' }));
+        setSettings((prev) => ({ ...prev, store_logo: '/nev-logo.png' }));
         setMessage('✓ Logo reset to default SUNNY Dairy logo successfully!');
         if (typeof window !== 'undefined') {
           window.dispatchEvent(new Event('store_settings_updated'));
@@ -232,7 +235,7 @@ export default function BrandingManager() {
               </span>
               <div className="relative h-32 w-full rounded-2xl border-2 border-dashed border-borderCream bg-cream-50 flex items-center justify-center p-3 overflow-hidden">
                 <img
-                  src={settings.store_logo || '/logo.png'}
+                  src={settings.store_logo || '/nev-logo.png'}
                   alt="Store Logo Preview"
                   className="max-h-24 max-w-full object-contain"
                 />
@@ -242,7 +245,7 @@ export default function BrandingManager() {
                 <code className="text-forest-700 bg-cream-200/60 px-1 py-0.5 rounded text-[10px]">
                   {settings.store_logo?.startsWith('data:')
                     ? 'Custom Uploaded Image (Active)'
-                    : settings.store_logo || '/logo.png'}
+                    : settings.store_logo || '/nev-logo.png'}
                 </code>
               </p>
             </div>
@@ -265,7 +268,7 @@ export default function BrandingManager() {
                   />
                 </label>
 
-                {settings.store_logo && settings.store_logo !== '/logo.png' && (
+                {settings.store_logo && settings.store_logo !== '/nev-logo.png' && (
                   <button
                     type="button"
                     onClick={handleResetDefaultLogo}

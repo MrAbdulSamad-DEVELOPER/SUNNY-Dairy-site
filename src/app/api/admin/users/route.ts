@@ -24,7 +24,14 @@ export async function GET() {
       },
       orderBy: { createdAt: 'asc' },
     });
-    return NextResponse.json({ success: true, users, currentUser: current });
+    return NextResponse.json(
+      { success: true, users, currentUser: current },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+        },
+      }
+    );
   } catch (error) {
     return NextResponse.json({ error: 'Failed to retrieve admin users' }, { status: 500 });
   }

@@ -23,7 +23,7 @@ export default function Footer() {
     return null;
   }
 
-  const activeLogo = '/logo.png';
+  const activeLogo = '/nev-logo.png';
   const activeStoreName = settings.store_name || OFFICIAL_STORE_NAME;
   const activeOwner = settings.store_owner || OFFICIAL_STORE_OWNER;
   const activePhone = settings.store_phone || OFFICIAL_PHONE_NUMBER;
@@ -148,7 +148,7 @@ export default function Footer() {
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-forest-400 space-y-4 sm:space-y-0">
           <p>© {currentYear} {OFFICIAL_STORE_NAME}. Owned & Operated by {OFFICIAL_STORE_OWNER}. All rights reserved.</p>
           <div className="flex items-center space-x-6">
-            <Link href="/admin/login" className="hover:text-gold-300 transition-colors">
+            <Link href="/admin" className="hover:text-gold-300 transition-colors">
               Staff Portal
             </Link>
             <span className="text-forest-500">Pure Farm Dairy · Delivering All Over Pakistan</span>

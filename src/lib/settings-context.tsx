@@ -22,7 +22,7 @@ export interface StoreSettings {
 
 const DEFAULT_SETTINGS: StoreSettings = {
   store_name: OFFICIAL_STORE_NAME,
-  store_logo: '/logo.png',
+  store_logo: '/nev-logo.png',
   store_owner: OFFICIAL_STORE_OWNER,
   store_phone: OFFICIAL_PHONE_NUMBER,
   whatsapp_number: OFFICIAL_WHATSAPP_NUMBER,

@@ -157,7 +157,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           ) : isConfirmed ? (
             <>
               <ShoppingBag className="w-4 h-4 opacity-80" />
-              <span>Add to cart</span>
+              <span>Add to Basket</span>
             </>
           ) : (
             <>

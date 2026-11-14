@@ -9,7 +9,10 @@ export default function CustomersManager() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/admin/customers')
+    fetch(`/api/admin/customers?_t=${Date.now()}`, {
+      cache: 'no-store',
+      headers: { 'Cache-Control': 'no-cache', Pragma: 'no-cache' },
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.success) setCustomers(data.customers);

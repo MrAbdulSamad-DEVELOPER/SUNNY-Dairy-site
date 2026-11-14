@@ -76,7 +76,9 @@ export async function PUT(
     if (slug !== undefined) updateData.slug = slug;
     if (description !== undefined) updateData.description = description;
     if (shortDescription !== undefined) updateData.shortDescription = shortDescription;
-    if (categoryId !== undefined) updateData.categoryId = categoryId;
+    if (categoryId !== undefined && categoryId !== '') {
+      updateData.categoryId = categoryId;
+    }
     if (imageUrl !== undefined) updateData.imageUrl = imageUrl;
     if (sku !== undefined) updateData.sku = sku;
     if (stockQuantity !== undefined && !isNaN(parseInt(stockQuantity, 10))) {

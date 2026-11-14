@@ -18,11 +18,14 @@ export default function OrdersManager() {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
-  const fetchOrders = async () => {
+  const fetchOrders = async (query = search, status = statusFilter) => {
     setLoading(true);
     try {
-      const url = `/api/admin/orders?search=${encodeURIComponent(search)}&status=${encodeURIComponent(statusFilter)}`;
-      const res = await fetch(url);
+      const url = `/api/admin/orders?search=${encodeURIComponent(query)}&status=${encodeURIComponent(status)}&_t=${Date.now()}`;
+      const res = await fetch(url, {
+        cache: 'no-store',
+        headers: { 'Cache-Control': 'no-cache', Pragma: 'no-cache' },
+      });
       const data = await res.json();
       if (data.success) {
         setOrders(data.orders);
@@ -35,7 +38,10 @@ export default function OrdersManager() {
   };
 
   useEffect(() => {
-    fetchOrders();
+    const handler = setTimeout(() => {
+      fetchOrders(search, statusFilter);
+    }, 250);
+    return () => clearTimeout(handler);
   }, [search, statusFilter]);
 
   const handleOpenDetail = (order: OrderDTO) => {

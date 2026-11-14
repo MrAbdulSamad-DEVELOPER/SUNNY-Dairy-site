@@ -82,7 +82,7 @@ export default function AdminSetupPage() {
       <div className="max-w-md w-full bg-[#FFFDFA] rounded-3xl p-8 sm:p-10 border border-borderCream shadow-xl space-y-6">
         <div className="text-center space-y-3">
           <div className="relative w-28 h-20 mx-auto">
-            <Image src="/logo.png" alt="SUNNY Dairy Logo" fill className="object-contain" priority />
+            <Image src="/nev-logo.png" alt="SUNNY Dairy Logo" fill className="object-contain" priority />
           </div>
           <div className="space-y-1">
             <span className="text-[11px] font-bold uppercase tracking-widest text-gold-700">

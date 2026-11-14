@@ -11,7 +11,10 @@ export default function ActivityLogsViewer() {
   const fetchLogs = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/admin/activity');
+      const res = await fetch(`/api/admin/activity?_t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: { 'Cache-Control': 'no-cache', Pragma: 'no-cache' },
+      });
       const data = await res.json();
       if (data.success) setLogs(data.logs);
     } catch (e) {

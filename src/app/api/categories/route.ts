@@ -14,7 +14,14 @@ export async function GET() {
       },
     });
 
-    return NextResponse.json({ success: true, categories });
+    return NextResponse.json(
+      { success: true, categories },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+        },
+      }
+    );
   } catch (error) {
     return NextResponse.json({ error: 'Failed to retrieve categories' }, { status: 500 });
   }

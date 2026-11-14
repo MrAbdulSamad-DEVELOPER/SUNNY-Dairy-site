@@ -18,7 +18,10 @@ export default function SettingsManager() {
   const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/api/settings')
+    fetch(`/api/admin/settings?_t=${Date.now()}`, {
+      cache: 'no-store',
+      headers: { 'Cache-Control': 'no-cache', Pragma: 'no-cache' },
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.settings) {
@@ -39,7 +42,7 @@ export default function SettingsManager() {
     setMessage(null);
 
     try {
-      const res = await fetch('/api/settings', {
+      const res = await fetch('/api/admin/settings', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(settings),
