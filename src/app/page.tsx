@@ -55,61 +55,60 @@ export default async function HomePage() {
   return (
     <div className="space-y-12 sm:space-y-16">
       {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-10 lg:pt-14">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-10 lg:pt-14">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-center">
           {/* Left Text Column */}
-          <div className="lg:col-span-7 space-y-6 sm:space-y-8">
-            <div className="inline-block">
-              <span className="text-xs sm:text-sm font-bold tracking-widest text-gold-700 uppercase bg-gold-100/60 px-3 py-1 rounded-full border border-gold-200">
-                PURE MILK, MAKHAN & GHEE · ALL OVER PAKISTAN
-              </span>
+          <div className="lg:col-span-7 space-y-4 sm:space-y-6 lg:space-y-8">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-100/80 border border-gold-300/80 text-gold-800 text-[11px] sm:text-xs font-bold tracking-wide uppercase shadow-2xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-gold-600 animate-pulse" />
+              <span>Pure Milk, Makhan & Desi Ghee</span>
             </div>
 
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-forest-800 leading-[1.12]">
-              Fresh milk. <br />
+            <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-forest-800 leading-[1.18] sm:leading-[1.12]">
+              Fresh milk. <br className="hidden sm:inline" />
               <span className="text-forest-700">Straight from</span> the farm.
             </h1>
 
-            <p className="text-base sm:text-lg text-muted max-w-xl leading-relaxed">
+            <p className="text-sm sm:text-base lg:text-lg text-muted max-w-xl leading-relaxed">
               Collected each morning at dawn, chilled below 4°C and delivered to your doorstep across Dera Ismail Khan and all over Pakistan. Order in a minute, pay when it arrives.
             </p>
 
             {/* Hero CTA Buttons */}
-            <div className="flex flex-wrap items-center gap-4 pt-2">
+            <div className="flex items-center gap-3 pt-1 sm:pt-2">
               <a
                 href="#shop-catalog"
-                className="px-8 py-3.5 bg-forest-800 hover:bg-forest-900 text-white rounded-full font-semibold text-sm sm:text-base transition-all duration-200 shadow-md hover:shadow-lg active:scale-95"
+                className="flex-1 sm:flex-initial px-6 sm:px-8 py-3 sm:py-3.5 bg-forest-800 hover:bg-forest-900 text-white rounded-full font-bold text-xs sm:text-sm transition-all duration-200 shadow-md hover:shadow-lg active:scale-95 text-center"
               >
                 Shop Now
               </a>
               <Link
                 href="/our-promise"
-                className="px-8 py-3.5 bg-transparent hover:bg-cream-200/80 text-forest-800 border border-forest-800/40 rounded-full font-semibold text-sm sm:text-base transition-all duration-200 active:scale-95"
+                className="flex-1 sm:flex-initial px-6 sm:px-8 py-3 sm:py-3.5 bg-transparent hover:bg-cream-200/80 text-forest-800 border border-forest-800/40 rounded-full font-bold text-xs sm:text-sm transition-all duration-200 active:scale-95 text-center"
               >
                 Our Promise
               </Link>
             </div>
 
             {/* Quick trust metrics */}
-            <div className="pt-4 flex flex-wrap gap-6 text-xs text-muted font-medium">
+            <div className="pt-2 sm:pt-4 grid grid-cols-1 sm:flex sm:flex-wrap gap-2 sm:gap-6 text-xs text-forest-800/85 font-medium">
               <span className="flex items-center space-x-1.5">
-                <CheckCircle2 className="w-4 h-4 text-forest-600" />
+                <CheckCircle2 className="w-4 h-4 text-forest-600 flex-shrink-0" />
                 <span>Zero water adulteration</span>
               </span>
               <span className="flex items-center space-x-1.5">
-                <CheckCircle2 className="w-4 h-4 text-forest-600" />
+                <CheckCircle2 className="w-4 h-4 text-forest-600 flex-shrink-0" />
                 <span>Daily morning milking</span>
               </span>
               <span className="flex items-center space-x-1.5">
-                <CheckCircle2 className="w-4 h-4 text-forest-600" />
+                <CheckCircle2 className="w-4 h-4 text-forest-600 flex-shrink-0" />
                 <span>Cold-chain delivery</span>
               </span>
             </div>
           </div>
 
           {/* Right Hero Image Column */}
-          <div className="lg:col-span-5">
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white/80 aspect-[4/3] sm:aspect-[5/4] lg:aspect-[4/3] w-full">
+          <div className="lg:col-span-5 pt-2 sm:pt-0">
+            <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl border-2 sm:border-4 border-white/90 aspect-[16/10] sm:aspect-[5/4] lg:aspect-[4/3] w-full">
               <Image
                 src="/products/hero-farm.jpg"
                 alt="SUNNY Dairy farm fresh milk bottles"

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -14,6 +14,46 @@ export default function Navbar() {
   const { totalItemCount, setIsCartOpen } = useCart();
   const { settings } = useStoreSettings();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    let ticking = false;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          // If mobile menu is open, keep navbar pinned visible
+          if (mobileMenuOpen) {
+            setIsVisible(true);
+            setLastScrollY(currentScrollY);
+            ticking = false;
+            return;
+          }
+
+          // At top of page, always show
+          if (currentScrollY < 50) {
+            setIsVisible(true);
+          } else if (currentScrollY > lastScrollY && currentScrollY - lastScrollY > 6) {
+            // Scrolling down -> hide navbar smoothly
+            setIsVisible(false);
+          } else if (lastScrollY - currentScrollY > 6) {
+            // Scrolling up -> reveal navbar smoothly
+            setIsVisible(true);
+          }
+
+          setLastScrollY(currentScrollY);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY, mobileMenuOpen]);
 
   const activeLogo = settings.store_logo || '/logo.png';
   const activeStoreName = settings.store_name || 'SUNNY Dairy';
@@ -38,7 +78,11 @@ export default function Navbar() {
   const restName = nameParts.slice(1).join(' ') || 'Dairy';
 
   return (
-    <header className="sticky top-0 z-40 bg-cream-100/95 backdrop-blur-md border-b border-borderCream/70 transition-all duration-200">
+    <header
+      className={`sticky top-0 z-40 bg-cream-100/95 backdrop-blur-md border-b border-borderCream/70 transition-transform duration-300 ease-in-out ${
+        isVisible ? 'translate-y-0' : '-translate-y-full'
+      }`}
+    >
       {/* Top quick banner */}
       <div className="bg-forest-900 text-cream-100 text-[11px] sm:text-xs py-1.5 px-3 sm:px-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
