@@ -55,7 +55,8 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY, mobileMenuOpen]);
 
-  const activeLogo = settings.store_logo || '/logo.png';
+  // Navbar specifically uses /nev-logo.png as instructed
+  const activeLogo = '/nev-logo.png';
   const activeStoreName = settings.store_name || 'SUNNY Dairy';
   const activePhone = settings.store_phone || OFFICIAL_PHONE_NUMBER;
 

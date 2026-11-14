@@ -87,7 +87,7 @@ export default async function AdminDashboardOverviewPage() {
           </Link>
           <Link
             href="/admin/products"
-            className="px-3.5 py-2 bg-gold-500 hover:bg-gold-600 text-forest-950 rounded-xl text-xs font-bold shadow-xs transition-colors"
+            className="px-3.5 py-2 btn-gold-shimmer rounded-xl text-xs font-bold shadow-xs transition-colors"
           >
             Products
           </Link>
@@ -278,7 +278,7 @@ export default async function AdminDashboardOverviewPage() {
             <div className="pt-2">
               <Link
                 href="/admin/products"
-                className="inline-block w-full text-center py-2.5 px-4 bg-gold-500 hover:bg-gold-600 text-forest-950 font-bold rounded-xl text-xs transition-colors"
+                className="inline-block w-full text-center py-2.5 px-4 btn-gold-shimmer rounded-xl text-xs font-bold transition-colors"
               >
                 Manage Products & Edit Prices
               </Link>

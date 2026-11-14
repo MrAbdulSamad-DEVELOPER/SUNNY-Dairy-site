@@ -205,7 +205,7 @@ export default async function HomePage() {
             <div className="pt-2">
               <Link
                 href="/our-promise"
-                className="inline-flex items-center space-x-2 bg-gold-500 hover:bg-gold-600 text-forest-950 font-bold px-6 py-3 rounded-xl text-sm transition-all shadow-sm"
+                className="inline-flex items-center space-x-2 btn-gold-shimmer px-6 py-3 rounded-xl text-sm transition-all"
               >
                 <span>Read Our Full Quality Standard</span>
                 <ArrowRight className="w-4 h-4" />

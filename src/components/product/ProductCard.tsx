@@ -146,7 +146,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
               : addedAnimation
               ? 'bg-forest-800 text-white'
-              : 'bg-gold-500 hover:bg-gold-600 text-forest-950 font-bold'
+              : 'btn-gold-shimmer font-bold'
           }`}
         >
           {addedAnimation ? (

@@ -211,7 +211,7 @@ export default function ProductDetailView({
                     ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                     : added
                     ? 'bg-forest-800 text-white'
-                    : 'bg-gold-500 hover:bg-gold-600 text-forest-950'
+                    : 'btn-gold-shimmer'
                 }`}
               >
                 {added ? (

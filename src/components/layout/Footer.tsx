@@ -23,7 +23,7 @@ export default function Footer() {
     return null;
   }
 
-  const activeLogo = settings.store_logo || '/logo.png';
+  const activeLogo = '/logo.png';
   const activeStoreName = settings.store_name || OFFICIAL_STORE_NAME;
   const activeOwner = settings.store_owner || OFFICIAL_STORE_OWNER;
   const activePhone = settings.store_phone || OFFICIAL_PHONE_NUMBER;

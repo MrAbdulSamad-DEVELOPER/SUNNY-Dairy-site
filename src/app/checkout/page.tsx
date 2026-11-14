@@ -779,7 +779,7 @@ export default function CheckoutPage() {
                 isSubmitting
                   ? 'bg-forest-700 text-forest-200 cursor-wait'
                   : selectedPaymentMethod === 'ADVANCE_UBL'
-                  ? 'bg-gold-500 hover:bg-gold-600 text-forest-950 active:scale-[0.99]'
+                  ? 'btn-gold-shimmer active:scale-[0.99]'
                   : 'bg-emerald-700 hover:bg-emerald-800 text-white active:scale-[0.99]'
               }`}
             >

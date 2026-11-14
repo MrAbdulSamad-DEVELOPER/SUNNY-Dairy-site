@@ -47,3 +47,101 @@ h1, h2, h3, h4, .font-serif {
 .animate-fade-in {
   animation: fadeIn 0.3s ease-out forwards;
 }
+
+/* Golden Button Luxury Shimmer Animation (as in reference video) */
+@keyframes goldShimmerBeam {
+  0% {
+    transform: translateX(-150%) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(250%) skewX(-20deg);
+  }
+}
+
+@keyframes goldPeriodicGleam {
+  0%, 75% {
+    transform: translateX(-150%) skewX(-20deg);
+    opacity: 0;
+  }
+  76% {
+    opacity: 1;
+  }
+  90%, 100% {
+    transform: translateX(250%) skewX(-20deg);
+    opacity: 1;
+  }
+}
+
+.btn-gold-shimmer {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #ECCB7B 0%, #D4AF37 40%, #BF912B 100%);
+  color: #0B2B1B !important;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(212, 175, 55, 0.28);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Diagonal Light Sweep Beam */
+.btn-gold-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 65%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 25%,
+    rgba(255, 255, 255, 0.75) 50%,
+    rgba(255, 255, 255, 0.2) 75%,
+    transparent 100%
+  );
+  transform: translateX(-150%) skewX(-20deg);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Hover: Trigger swift light sweep across the button */
+.btn-gold-shimmer:hover::after {
+  animation: goldShimmerBeam 0.75s ease-in-out forwards;
+}
+
+/* Idle: Periodic subtle glimmer to draw attention */
+.btn-gold-shimmer:not(:hover)::after {
+  animation: goldPeriodicGleam 4.5s infinite ease-in-out;
+}
+
+.btn-gold-shimmer:hover {
+  background: linear-gradient(135deg, #F0D38A 0%, #DFBA45 40%, #CA9D35 100%);
+  box-shadow: 0 6px 22px rgba(212, 175, 55, 0.45);
+  transform: translateY(-1.5px);
+  filter: brightness(1.02);
+}
+
+.btn-gold-shimmer:active {
+  transform: translateY(0.5px) scale(0.985);
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+}
+
+/* Child arrow icon shift */
+.btn-gold-shimmer svg {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 2;
+  position: relative;
+}
+
+.btn-gold-shimmer:hover svg {
+  transform: translateX(4px);
+}
+
+/* Ensure text and icons stay above light sweep */
+.btn-gold-shimmer > * {
+  position: relative;
+  z-index: 2;
+}
