@@ -120,7 +120,12 @@ export async function PUT(
       where: { id: params.id },
       include: {
         category: true,
-        variants: true,
+        variants: {
+          orderBy: { size: 'asc' },
+        },
+        images: {
+          orderBy: { displayOrder: 'asc' },
+        },
       },
     });
 
@@ -135,8 +140,11 @@ export async function PUT(
     });
 
     try {
+      revalidatePath('/', 'layout');
       revalidatePath('/');
       revalidatePath('/shop');
+      revalidatePath('/admin/products');
+      revalidatePath('/admin/inventory');
       if (updated?.slug) {
         revalidatePath(`/product/${updated.slug}`);
       }

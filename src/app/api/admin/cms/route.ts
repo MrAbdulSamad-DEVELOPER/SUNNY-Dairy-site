@@ -33,55 +33,75 @@ export async function PUT(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { sectionKey, title, subtitle, content, imageUrl, buttonText, buttonLink, isEnabled, metadata } = body;
 
-    if (!sectionKey) {
-      return NextResponse.json({ error: 'sectionKey is required' }, { status: 400 });
+    // Support both single section and bulk sections payload
+    const sectionsToUpsert: any[] = [];
+    if (body.sections && typeof body.sections === 'object') {
+      if (Array.isArray(body.sections)) {
+        sectionsToUpsert.push(...body.sections);
+      } else {
+        for (const [key, val] of Object.entries(body.sections)) {
+          sectionsToUpsert.push({ sectionKey: key, ...(val as object) });
+        }
+      }
+    } else if (body.sectionKey) {
+      sectionsToUpsert.push(body);
     }
 
-    const updated = await prisma.cmsSection.upsert({
-      where: { sectionKey },
-      update: {
-        title,
-        subtitle,
-        content,
-        imageUrl,
-        buttonText,
-        buttonLink,
-        isEnabled: isEnabled !== undefined ? isEnabled : true,
-        metadata: metadata !== undefined ? (typeof metadata === 'string' ? metadata : JSON.stringify(metadata)) : undefined,
-      },
-      create: {
-        sectionKey,
-        title,
-        subtitle,
-        content,
-        imageUrl,
-        buttonText,
-        buttonLink,
-        isEnabled: isEnabled !== undefined ? isEnabled : true,
-        metadata: metadata !== undefined ? (typeof metadata === 'string' ? metadata : JSON.stringify(metadata)) : undefined,
-      },
-    });
+    if (sectionsToUpsert.length === 0) {
+      return NextResponse.json({ error: 'No sections provided to update' }, { status: 400 });
+    }
+
+    const results = [];
+    for (const item of sectionsToUpsert) {
+      const { sectionKey, title, subtitle, content, imageUrl, buttonText, buttonLink, isEnabled, metadata } = item;
+      if (!sectionKey) continue;
+
+      const updated = await prisma.cmsSection.upsert({
+        where: { sectionKey },
+        update: {
+          title,
+          subtitle,
+          content,
+          imageUrl,
+          buttonText,
+          buttonLink,
+          isEnabled: isEnabled !== undefined ? isEnabled : true,
+          metadata: metadata !== undefined ? (typeof metadata === 'string' ? metadata : JSON.stringify(metadata)) : undefined,
+        },
+        create: {
+          sectionKey,
+          title,
+          subtitle,
+          content,
+          imageUrl,
+          buttonText,
+          buttonLink,
+          isEnabled: isEnabled !== undefined ? isEnabled : true,
+          metadata: metadata !== undefined ? (typeof metadata === 'string' ? metadata : JSON.stringify(metadata)) : undefined,
+        },
+      });
+      results.push(updated);
+    }
 
     await logActivity({
       action: 'UPDATE_CMS_CONTENT',
       entityType: 'CMS_SECTION',
-      entityId: sectionKey,
-      details: `Updated homepage CMS section "${sectionKey}"`,
+      details: `Updated ${results.length} homepage CMS section(s)`,
       adminId: admin.id,
       adminUsername: admin.username,
       ipAddress: req.headers.get('x-forwarded-for') || undefined,
     });
 
     try {
+      revalidatePath('/', 'layout');
       revalidatePath('/');
     } catch (e) {
       console.warn('Revalidation notice:', e);
     }
 
     return NextResponse.json(
-      { success: true, section: updated },
+      { success: true, sections: results },
       {
         headers: {
           'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',

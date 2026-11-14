@@ -42,22 +42,22 @@ export default function ProductsManager() {
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
-  const fetchCatalog = async () => {
-    setLoading(true);
+  const fetchCatalog = async (showLoadingSpinner = true) => {
+    if (showLoadingSpinner) setLoading(true);
     try {
       const timestamp = Date.now();
       const [prodRes, catRes] = await Promise.all([
         fetch(`/api/products?includeInactive=true&_t=${timestamp}`, {
           cache: 'no-store',
           headers: {
-            'Cache-Control': 'no-cache',
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
             Pragma: 'no-cache',
           },
         }),
         fetch(`/api/categories?_t=${timestamp}`, {
           cache: 'no-store',
           headers: {
-            'Cache-Control': 'no-cache',
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
             Pragma: 'no-cache',
           },
         }),
@@ -74,7 +74,7 @@ export default function ProductsManager() {
     } catch (e) {
       console.error('Failed to fetch catalog:', e);
     } finally {
-      setLoading(false);
+      if (showLoadingSpinner) setLoading(false);
     }
   };
 
@@ -246,16 +246,22 @@ export default function ProductsManager() {
 
       // Instantly update UI on the very first save
       if (data.product) {
-        setProducts((prev) =>
-          editingProduct
-            ? prev.map((p) => (p.id === data.product.id ? data.product : p))
-            : [data.product, ...prev]
-        );
+        setProducts((prev) => {
+          const exists = prev.some((p) => p.id === data.product.id);
+          if (exists) {
+            return prev.map((p) => (p.id === data.product.id ? data.product : p));
+          } else {
+            return [data.product, ...prev];
+          }
+        });
       }
 
       setIsModalOpen(false);
-      setMessage('Product saved successfully!');
-      fetchCatalog();
+      setMessage('✓ Product saved permanently on the first save!');
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('store_products_updated'));
+      }
+      fetchCatalog(false);
     } catch (err: any) {
       setError(err.message || 'Error occurred while saving');
     } finally {
@@ -271,7 +277,10 @@ export default function ProductsManager() {
       const res = await fetch(`/api/products/${productId}`, { method: 'DELETE' });
       if (res.ok) {
         setMessage('Product deleted');
-        fetchCatalog();
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new Event('store_products_updated'));
+        }
+        fetchCatalog(false);
       }
     } catch (e) {
       console.error(e);
@@ -442,7 +451,10 @@ export default function ProductsManager() {
       {/* Edit / Add Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/60 flex flex-col justify-end sm:justify-center sm:items-center sm:p-4 overflow-hidden">
-          <div className="bg-[#FFFDFA] w-full sm:max-w-2xl h-[92vh] sm:h-auto sm:max-h-[88vh] rounded-t-3xl sm:rounded-3xl border border-borderCream shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-150">
+          <form
+            onSubmit={handleSubmit}
+            className="bg-[#FFFDFA] w-full sm:max-w-2xl h-[92vh] sm:h-auto sm:max-h-[88vh] rounded-t-3xl sm:rounded-3xl border border-borderCream shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-150"
+          >
             {/* Sticky Header */}
             <div className="flex-shrink-0 px-5 py-4 border-b border-borderCream bg-[#FFFDFA] flex items-center justify-between">
               <div>
@@ -464,7 +476,7 @@ export default function ProductsManager() {
             </div>
 
             {/* Scrollable Form Body */}
-            <form id="product-modal-form" onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 text-xs">
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 text-xs">
               {error && (
                 <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-800 text-xs font-semibold flex items-center space-x-2">
                   <span>⚠️</span>
@@ -682,9 +694,9 @@ export default function ProductsManager() {
                   ))}
                 </div>
               </div>
-            </form>
+            </div>
 
-            {/* Sticky Action Footer */}
+            {/* Sticky Action Footer - DIRECT CHILD OF FORM */}
             <div className="flex-shrink-0 px-5 py-3.5 border-t border-borderCream bg-cream-50 flex items-center justify-between gap-3">
               <span className="text-[11px] text-muted hidden sm:inline">
                 Changes apply instantly.
@@ -699,9 +711,8 @@ export default function ProductsManager() {
                 </button>
                 <button
                   type="submit"
-                  form="product-modal-form"
                   disabled={saving}
-                  className="px-6 py-2 rounded-xl bg-forest-800 hover:bg-forest-900 text-white text-xs font-bold shadow-md disabled:opacity-50 transition-all flex items-center justify-center space-x-1.5"
+                  className="px-6 py-2 rounded-xl bg-forest-800 hover:bg-forest-900 text-white text-xs font-bold shadow-md disabled:opacity-50 transition-all flex items-center justify-center space-x-1.5 cursor-pointer active:scale-95"
                 >
                   {saving ? (
                     <>
@@ -714,7 +725,7 @@ export default function ProductsManager() {
                 </button>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       )}
     </div>

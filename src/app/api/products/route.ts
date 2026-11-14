@@ -154,7 +154,12 @@ export async function POST(req: NextRequest) {
       },
       include: {
         category: true,
-        variants: true,
+        variants: {
+          orderBy: { size: 'asc' },
+        },
+        images: {
+          orderBy: { displayOrder: 'asc' },
+        },
       },
     });
 
@@ -169,8 +174,11 @@ export async function POST(req: NextRequest) {
     });
 
     try {
+      revalidatePath('/', 'layout');
       revalidatePath('/');
       revalidatePath('/shop');
+      revalidatePath('/admin/products');
+      revalidatePath('/admin/inventory');
       revalidatePath('/product/[slug]', 'page');
     } catch (e) {
       console.warn('Revalidation notice:', e);

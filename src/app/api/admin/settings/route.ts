@@ -55,11 +55,14 @@ export async function PUT(req: NextRequest) {
     }
 
     try {
+      revalidatePath('/', 'layout');
       revalidatePath('/');
       revalidatePath('/shop');
       revalidatePath('/contact');
       revalidatePath('/delivery');
       revalidatePath('/track');
+      revalidatePath('/admin/settings');
+      revalidatePath('/admin/branding');
     } catch (e) {
       console.warn('Revalidation notice:', e);
     }

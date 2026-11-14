@@ -45,26 +45,51 @@ const SettingsContext = createContext<SettingsContextValue>({
 export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const [settings, setSettings] = useState<StoreSettings>(DEFAULT_SETTINGS);
 
+  // Immediate synchronous cache hydration on mount to avoid stale flash
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const cached = localStorage.getItem('sunny_store_settings');
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (parsed && typeof parsed === 'object') {
+            setSettings((prev) => ({ ...prev, ...parsed }));
+          }
+        }
+      } catch (e) {
+        // ignore storage errors
+      }
+    }
+  }, []);
+
   const refreshSettings = useCallback(async () => {
     try {
       const res = await fetch(`/api/settings?_t=${Date.now()}`, {
         cache: 'no-store',
         headers: {
-          'Cache-Control': 'no-cache',
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
           Pragma: 'no-cache',
         },
       });
       const data = await res.json();
       if (data.success && data.settings) {
-        setSettings((prev) => ({
-          ...prev,
-          ...data.settings,
-          store_name: data.settings.store_name || prev.store_name,
-          store_logo: data.settings.store_logo || prev.store_logo,
-          store_phone: data.settings.store_phone || prev.store_phone,
-          whatsapp_number: data.settings.whatsapp_number || prev.whatsapp_number,
-          store_email: data.settings.store_email || prev.store_email,
-        }));
+        setSettings((prev) => {
+          const merged = {
+            ...prev,
+            ...data.settings,
+            store_name: data.settings.store_name !== undefined ? data.settings.store_name : prev.store_name,
+            store_logo: data.settings.store_logo !== undefined ? data.settings.store_logo : prev.store_logo,
+            store_phone: data.settings.store_phone !== undefined ? data.settings.store_phone : prev.store_phone,
+            whatsapp_number: data.settings.whatsapp_number !== undefined ? data.settings.whatsapp_number : prev.whatsapp_number,
+            store_email: data.settings.store_email !== undefined ? data.settings.store_email : prev.store_email,
+          };
+          if (typeof window !== 'undefined') {
+            try {
+              localStorage.setItem('sunny_store_settings', JSON.stringify(merged));
+            } catch (e) {}
+          }
+          return merged;
+        });
       }
     } catch (err) {
       console.warn('Failed to fetch real-time store settings:', err);
@@ -76,12 +101,23 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
 
     // Listen to real-time custom updates dispatched from admin panel
     const handleSettingsUpdate = () => {
+      if (typeof window !== 'undefined') {
+        try {
+          const cached = localStorage.getItem('sunny_store_settings');
+          if (cached) {
+            const parsed = JSON.parse(cached);
+            if (parsed) setSettings((prev) => ({ ...prev, ...parsed }));
+          }
+        } catch (e) {}
+      }
       refreshSettings();
     };
 
     window.addEventListener('store_settings_updated', handleSettingsUpdate);
+    window.addEventListener('storage', handleSettingsUpdate);
     return () => {
       window.removeEventListener('store_settings_updated', handleSettingsUpdate);
+      window.removeEventListener('storage', handleSettingsUpdate);
     };
   }, [refreshSettings]);
 

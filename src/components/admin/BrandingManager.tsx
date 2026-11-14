@@ -175,11 +175,14 @@ export default function BrandingManager() {
 
       const data = await res.json();
       if (data.success) {
-        setMessage('Branding & Store configuration saved successfully! Public storefront is updated.');
-        // Broadcast real-time update to Navbar, Footer, and Storefront immediately
         if (typeof window !== 'undefined') {
-          window.dispatchEvent(new Event('store_settings_updated'));
+          try {
+            const existing = JSON.parse(localStorage.getItem('sunny_store_settings') || '{}');
+            localStorage.setItem('sunny_store_settings', JSON.stringify({ ...existing, ...settings }));
+            window.dispatchEvent(new Event('store_settings_updated'));
+          } catch (e) {}
         }
+        setMessage('✓ Branding & Store configuration saved permanently on the first click! Public storefront is updated.');
       } else {
         setError(data.error || 'Failed to save branding');
       }

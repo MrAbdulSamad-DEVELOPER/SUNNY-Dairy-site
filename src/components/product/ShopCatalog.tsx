@@ -25,28 +25,35 @@ export default function ShopCatalog({
     }
   }, [initialProducts]);
 
-  // Live real-time fetch on mount (guarantees instantaneous updates after admin changes)
+  // Live real-time fetch on mount and on admin product update events
   useEffect(() => {
     let isMounted = true;
-    fetch(`/api/products?_t=${Date.now()}`, {
-      cache: 'no-store',
-      headers: {
-        'Cache-Control': 'no-cache',
-        Pragma: 'no-cache',
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (isMounted && data.success && Array.isArray(data.products) && data.products.length > 0) {
-          setProducts(data.products);
-        }
-      })
-      .catch((err) => {
-        console.warn('Real-time catalog sync fallback:', err);
-      });
 
+    const loadFreshProducts = () => {
+      fetch(`/api/products?_t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          Pragma: 'no-cache',
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (isMounted && data.success && Array.isArray(data.products)) {
+            setProducts(data.products);
+          }
+        })
+        .catch((err) => {
+          console.warn('Real-time catalog sync fallback:', err);
+        });
+    };
+
+    loadFreshProducts();
+
+    window.addEventListener('store_products_updated', loadFreshProducts);
     return () => {
       isMounted = false;
+      window.removeEventListener('store_products_updated', loadFreshProducts);
     };
   }, []);
 

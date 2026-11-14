@@ -73,22 +73,25 @@ export default function CmsManager() {
     setMessage(null);
 
     try {
-      await Promise.all([
-        fetch('/api/admin/cms', {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ sectionKey: 'hero', ...hero }),
+      const res = await fetch('/api/admin/cms', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sections: {
+            hero: { ...hero },
+            about: { ...about },
+          },
         }),
-        fetch('/api/admin/cms', {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ sectionKey: 'about', ...about }),
-        }),
-      ]);
+      });
 
-      setMessage('Homepage CMS content saved successfully! Refresh the public website to view.');
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to save CMS sections');
+      }
+
+      setMessage('✓ Homepage CMS content saved permanently on the first save! Live website is updated.');
     } catch (e: any) {
-      setMessage('Failed to save CMS sections');
+      setMessage('Failed to save CMS sections: ' + (e.message || 'Server error'));
     } finally {
       setSaving(false);
     }

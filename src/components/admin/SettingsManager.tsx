@@ -50,10 +50,14 @@ export default function SettingsManager() {
 
       const data = await res.json();
       if (data.success) {
-        setMessage('Store settings and UBL bank transfer configuration saved successfully!');
         if (typeof window !== 'undefined') {
-          window.dispatchEvent(new Event('store_settings_updated'));
+          try {
+            const existing = JSON.parse(localStorage.getItem('sunny_store_settings') || '{}');
+            localStorage.setItem('sunny_store_settings', JSON.stringify({ ...existing, ...settings }));
+            window.dispatchEvent(new Event('store_settings_updated'));
+          } catch (e) {}
         }
+        setMessage('✓ Store settings and UBL bank transfer configuration saved permanently on the first click!');
       } else {
         setMessage(data.error || 'Failed to save settings');
       }

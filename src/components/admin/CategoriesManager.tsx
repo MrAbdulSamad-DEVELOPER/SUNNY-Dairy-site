@@ -222,7 +222,10 @@ export default function CategoriesManager() {
 
       {isModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/60 flex flex-col justify-end sm:justify-center sm:items-center sm:p-4 overflow-hidden">
-          <div className="bg-[#FFFDFA] w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl border border-borderCream shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-150">
+          <form
+            onSubmit={handleSave}
+            className="bg-[#FFFDFA] w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl border border-borderCream shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-150"
+          >
             <div className="flex-shrink-0 px-5 py-4 border-b border-borderCream flex items-center justify-between">
               <h3 className="font-serif text-lg font-bold text-forest-900">
                 {editingCat ? 'Edit Category' : 'Add Category'}
@@ -237,7 +240,7 @@ export default function CategoriesManager() {
               </button>
             </div>
 
-            <form id="category-form" onSubmit={handleSave} className="flex-1 overflow-y-auto p-5 space-y-3.5 text-xs">
+            <div className="flex-1 overflow-y-auto p-5 space-y-3.5 text-xs">
               <div>
                 <label className="block font-bold text-forest-800 uppercase tracking-wider mb-1">
                   Category Name *
@@ -275,7 +278,7 @@ export default function CategoriesManager() {
                   className="w-full px-3 py-2 rounded-xl border border-borderCream bg-white focus:outline-none focus:ring-1 focus:ring-forest-800"
                 />
               </div>
-            </form>
+            </div>
 
             <div className="flex-shrink-0 px-5 py-3.5 border-t border-borderCream bg-cream-50 flex items-center justify-end space-x-2.5">
               <button
@@ -287,9 +290,8 @@ export default function CategoriesManager() {
               </button>
               <button
                 type="submit"
-                form="category-form"
                 disabled={saving}
-                className="px-5 py-2 rounded-xl bg-forest-800 hover:bg-forest-900 text-white text-xs font-bold shadow-md disabled:opacity-50 transition-all flex items-center space-x-1.5"
+                className="px-5 py-2 rounded-xl bg-forest-800 hover:bg-forest-900 text-white text-xs font-bold shadow-md disabled:opacity-50 transition-all flex items-center space-x-1.5 cursor-pointer active:scale-95"
               >
                 {saving ? (
                   <>
@@ -301,7 +303,7 @@ export default function CategoriesManager() {
                 )}
               </button>
             </div>
-          </div>
+          </form>
         </div>
       )}
     </div>

@@ -259,7 +259,10 @@ export default function AdminUsersManager() {
       {/* Create Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/60 flex flex-col justify-end sm:justify-center sm:items-center sm:p-4 overflow-hidden">
-          <div className="bg-[#FFFDFA] w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl border border-borderCream shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-150">
+          <form
+            onSubmit={handleCreate}
+            className="bg-[#FFFDFA] w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl border border-borderCream shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-150"
+          >
             <div className="flex-shrink-0 px-5 py-4 border-b border-borderCream flex items-center justify-between">
               <h3 className="font-serif text-lg font-bold text-forest-900">
                 Add New Staff User
@@ -274,7 +277,7 @@ export default function AdminUsersManager() {
               </button>
             </div>
 
-            <form id="admin-user-form" onSubmit={handleCreate} className="flex-1 overflow-y-auto p-5 space-y-3.5 text-xs">
+            <div className="flex-1 overflow-y-auto p-5 space-y-3.5 text-xs">
               {error && (
                 <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-800 text-xs font-semibold flex items-center space-x-2">
                   <span>⚠️</span>
@@ -347,7 +350,7 @@ export default function AdminUsersManager() {
                   <option value="MANAGER">Manager (Orders & dispatch)</option>
                 </select>
               </div>
-            </form>
+            </div>
 
             <div className="flex-shrink-0 px-5 py-3.5 border-t border-borderCream bg-cream-50 flex items-center justify-end space-x-2.5">
               <button
@@ -359,9 +362,8 @@ export default function AdminUsersManager() {
               </button>
               <button
                 type="submit"
-                form="admin-user-form"
                 disabled={saving}
-                className="px-5 py-2 rounded-xl bg-forest-800 hover:bg-forest-900 text-white text-xs font-bold shadow-md disabled:opacity-50 transition-all flex items-center space-x-1.5"
+                className="px-5 py-2 rounded-xl bg-forest-800 hover:bg-forest-900 text-white text-xs font-bold shadow-md disabled:opacity-50 transition-all flex items-center space-x-1.5 cursor-pointer active:scale-95"
               >
                 {saving ? (
                   <>
@@ -373,7 +375,7 @@ export default function AdminUsersManager() {
                 )}
               </button>
             </div>
-          </div>
+          </form>
         </div>
       )}
     </div>
