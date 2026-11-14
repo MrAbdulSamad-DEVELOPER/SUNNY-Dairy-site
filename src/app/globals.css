@@ -16,6 +16,24 @@ body {
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Milk Drop Cursor Set Integration */
+html, body {
+  cursor: url('/milk_drop_cursor_set/default.cur'), url('/milk_drop_cursor_set/cursor.cur'), url('/milk_drop_cursor_set/milk-drop.png') 4 3, url('/milk_drop_cursor_set/default.png') 4 3, auto;
+}
+
+a, button, input[type="submit"], input[type="button"], [role="button"], select, .cursor-pointer {
+  cursor: url('/milk_drop_cursor_set/pointer.cur'), url('/milk_drop_cursor_set/pointer.png') 4 3, pointer !important;
+}
+
+/* Performance optimizations for fast scrolling & rendering */
+.content-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 400px;
 }
 
 h1, h2, h3, h4, .font-serif {

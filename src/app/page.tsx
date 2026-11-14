@@ -56,8 +56,84 @@ async function getProducts(): Promise<ProductDTO[]> {
 export default async function HomePage() {
   const products = await getProducts();
 
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Kya doodh mein koi paani ya chemical ki milaawat hoti hai?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Bilkul nahi. SUNNY Dairy ka sab se pehla usool Zero Water Dilution hai. Har subah milking ke baad lactometer aur lab tests ke zariye fat content aur purity check ki jati hai. Doodh mein na koi paani milaya jata hai aur na hi koi chemical ya powder.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Doodh kacha hota hai ya ubla hua (boiled)?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Hamara doodh 100% natural raw fresh whole milk hota hai jo milking ke foran baad stainless steel chillers mein 4°C se kam darja-hararat par chill kiya jata hai. Ghar pohnchne ke baad aap isey aam tareeqay se ubaal kar istemal karein. Ubalne par is par gaari, moti malaai ki teh aayegi.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Order karne ka tareeqa aur delivery timing kya hai?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Aap website par Add to Cart kar ke ya seedha WhatsApp par message kar ke order kar sakte hain. Subah ki delivery timing 7:00 AM se 11:30 AM tak hoti hai. Dera Ismail Khan ke tamam ilaaqon (Cantt, Circular Road, Bannu Road, Mandra) mein doorstep delivery hoti hai.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Payment kaise karni hoti hai?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Sab se aasan tareeqa Cash on Delivery hai — rider jab aapke ghar fresh doodh pohnchaye to aap quality inspect kar ke cash ada karein. Iske ilawa advance bank transfer ka option bhi available hai.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Kya rozana rozana (monthly subscription) doodh lagwaya ja sakta hai?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Jee haan! Aap rozana 1 Litre, 2 Litre ya 5 Litre ka subscription le sakte hain. Kisi din delivery roknii ho ya zyada doodh chahiye ho to aap sirf WhatsApp par aik message bhej kar routine adjust karwa sakte hain.',
+        },
+      },
+    ],
+  };
+
+  const itemListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: products.map((prod, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'Product',
+        name: prod.name,
+        description: prod.description || `Pure ${prod.name} from SUNNY Dairy farm Dera Ismail Khan`,
+        image: prod.imageUrl ? `${SITE_URL}${prod.imageUrl}` : `${SITE_URL}/logo.png`,
+        offers: {
+          '@type': 'Offer',
+          priceCurrency: 'PKR',
+          price: prod.variants?.[0]?.price || '300',
+          availability: 'https://schema.org/InStock',
+        },
+      },
+    })),
+  };
+
   return (
     <div className="space-y-10 sm:space-y-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
+      />
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-10 lg:pt-14">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-center">
