@@ -38,7 +38,7 @@ h1, h2, h3, h4, .font-serif {
   background: #124B32;
 }
 
-/* Animation utilities */
+/* Base Animation utilities */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
@@ -48,27 +48,61 @@ h1, h2, h3, h4, .font-serif {
   animation: fadeIn 0.3s ease-out forwards;
 }
 
-/* Golden Button Luxury Shimmer Animation (as in reference video) */
+/* Ultra-Smooth Luxury Page Transition Animation */
+@keyframes pageSmoothTransition {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(1.5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.page-transition-wrapper {
+  animation: pageSmoothTransition 0.36s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: opacity, transform, filter;
+  width: 100%;
+}
+
+/* Top Progress Line Animation for Route Changes */
+@keyframes topProgressSweep {
+  0% {
+    width: 0%;
+    opacity: 1;
+  }
+  60% {
+    width: 75%;
+    opacity: 1;
+  }
+  100% {
+    width: 100%;
+    opacity: 0;
+  }
+}
+
+.top-nav-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #124B32 0%, #D4AF37 50%, #F3E5AB 100%);
+  z-index: 99999;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+  pointer-events: none;
+  animation: topProgressSweep 0.5s ease-out forwards;
+}
+
+/* Golden Button Luxury Shimmer Animation (ONLY on hover of that specific button) */
 @keyframes goldShimmerBeam {
   0% {
     transform: translateX(-150%) skewX(-20deg);
   }
   100% {
     transform: translateX(250%) skewX(-20deg);
-  }
-}
-
-@keyframes goldPeriodicGleam {
-  0%, 75% {
-    transform: translateX(-150%) skewX(-20deg);
-    opacity: 0;
-  }
-  76% {
-    opacity: 1;
-  }
-  90%, 100% {
-    transform: translateX(250%) skewX(-20deg);
-    opacity: 1;
   }
 }
 
@@ -79,14 +113,14 @@ h1, h2, h3, h4, .font-serif {
   color: #0B2B1B !important;
   font-weight: 700;
   box-shadow: 0 4px 14px rgba(212, 175, 55, 0.28);
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   isolation: isolate;
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Diagonal Light Sweep Beam */
+/* Diagonal Light Sweep Beam - HIDDEN by default, animates ONLY when hovered */
 .btn-gold-shimmer::after {
   content: '';
   position: absolute;
@@ -97,24 +131,21 @@ h1, h2, h3, h4, .font-serif {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.2) 25%,
-    rgba(255, 255, 255, 0.75) 50%,
-    rgba(255, 255, 255, 0.2) 75%,
+    rgba(255, 255, 255, 0.15) 20%,
+    rgba(255, 255, 255, 0.8) 50%,
+    rgba(255, 255, 255, 0.15) 80%,
     transparent 100%
   );
   transform: translateX(-150%) skewX(-20deg);
   pointer-events: none;
   z-index: 1;
+  opacity: 0;
 }
 
-/* Hover: Trigger swift light sweep across the button */
+/* STRICT: ONLY the button currently under the mouse cursor will animate! */
 .btn-gold-shimmer:hover::after {
-  animation: goldShimmerBeam 0.75s ease-in-out forwards;
-}
-
-/* Idle: Periodic subtle glimmer to draw attention */
-.btn-gold-shimmer:not(:hover)::after {
-  animation: goldPeriodicGleam 4.5s infinite ease-in-out;
+  opacity: 1;
+  animation: goldShimmerBeam 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .btn-gold-shimmer:hover {
@@ -129,7 +160,7 @@ h1, h2, h3, h4, .font-serif {
   box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
 }
 
-/* Child arrow icon shift */
+/* Child arrow icon shift on hover */
 .btn-gold-shimmer svg {
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 2;

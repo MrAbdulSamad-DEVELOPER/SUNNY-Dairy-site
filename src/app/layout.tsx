@@ -1,3 +1,4 @@
+import React, { Suspense } from 'react';
 import type { Metadata, Viewport } from 'next';
 import { Playfair_Display, DM_Sans } from 'next/font/google';
 import './globals.css';
@@ -7,6 +8,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import CartDrawer from '@/components/cart/CartDrawer';
 import FloatingWhatsApp from '@/components/ui/FloatingWhatsApp';
+import NavigationProgressBar from '@/components/layout/NavigationProgressBar';
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -204,6 +206,9 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-cream-100 text-forest-800 antialiased selection:bg-gold-500 selection:text-white flex flex-col min-h-screen">
+        <Suspense fallback={null}>
+          <NavigationProgressBar />
+        </Suspense>
         <SettingsProvider>
           <CartProvider>
             <Navbar />
