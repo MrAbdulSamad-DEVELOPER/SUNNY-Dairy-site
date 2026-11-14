@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Calendar, Check, MessageSquare, ArrowRight, Milk, Sparkles, Clock, ShieldCheck } from 'lucide-react';
-import { OFFICIAL_WHATSAPP_NUMBER, OFFICIAL_STORE_NAME } from '@/lib/whatsapp';
+import { Calendar, Check, MessageSquare, ArrowRight, Clock, ShieldCheck, Plus, Minus, Sliders } from 'lucide-react';
+import { OFFICIAL_WHATSAPP_NUMBER } from '@/lib/whatsapp';
 
 export default function DailySubscriptionBanner() {
-  const [selectedPlan, setSelectedPlan] = useState<'1L' | '2L' | '5L'>('2L');
+  const [selectedPlan, setSelectedPlan] = useState<'1L' | '3L' | 'custom'>('3L');
+  const [customLitres, setCustomLitres] = useState<number>(4);
 
   const plans = [
     {
@@ -16,26 +17,35 @@ export default function DailySubscriptionBanner() {
       tag: 'Starter Plan',
     },
     {
-      id: '2L' as const,
-      title: '2 Litres Daily',
-      subtitle: 'Most Popular for Small Families',
-      description: 'Ideal for breakfast, fresh homemade yogurt, and daily milk consumption for kids.',
+      id: '3L' as const,
+      title: '3 Litres Daily',
+      subtitle: 'Most Popular for Families',
+      description: 'Ideal for breakfast, fresh homemade yogurt, children nutrition, and evening tea.',
       tag: 'Family Choice',
       featured: true,
     },
-    {
-      id: '5L' as const,
-      title: '5 Litres Daily',
-      subtitle: 'Complete Joint Family Nutrition',
-      description: 'Daily fresh supply for larger households. Fresh churned butter and rich natural cream every day.',
-      tag: 'Best Value',
-    },
   ];
 
-  const handleSubscribe = (planId: string) => {
-    const text = `Hello! I would like to inquire about the SUNNY Dairy Daily Milk Subscription (${planId} Daily). Please share current monthly pricing and delivery timing for my area.`;
+  const handleSubscribe = () => {
+    const qtyText = selectedPlan === 'custom' 
+      ? `${customLitres} ${customLitres === 1 ? 'Litre' : 'Litres'}`
+      : selectedPlan === '1L'
+      ? '1 Litre'
+      : '3 Litres';
+
+    const text = `Hello! I would like to inquire about the SUNNY Dairy Daily Milk Subscription (${qtyText} Daily). Please share current monthly pricing and delivery timing for my area in Dera Ismail Khan.`;
     const url = `https://wa.me/${OFFICIAL_WHATSAPP_NUMBER.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
+  };
+
+  const getButtonText = () => {
+    if (selectedPlan === 'custom') {
+      return `Setup ${customLitres} ${customLitres === 1 ? 'Litre' : 'Litres'} Daily on WhatsApp`;
+    }
+    if (selectedPlan === '1L') {
+      return 'Setup 1 Litre Daily on WhatsApp';
+    }
+    return 'Setup 3 Litres Daily on WhatsApp';
   };
 
   return (
@@ -60,7 +70,7 @@ export default function DailySubscriptionBanner() {
           </p>
         </div>
 
-        {/* Plan Cards */}
+        {/* Plan Cards: 1 Litre, 3 Litres, Custom */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
           {plans.map((plan) => {
             const isSelected = selectedPlan === plan.id;
@@ -111,6 +121,109 @@ export default function DailySubscriptionBanner() {
               </div>
             );
           })}
+
+          {/* Card 3: Custom Litres Plan */}
+          {(() => {
+            const isSelected = selectedPlan === 'custom';
+            return (
+              <div
+                onClick={() => setSelectedPlan('custom')}
+                className={`cursor-pointer rounded-2xl p-5 border-2 transition-all relative flex flex-col justify-between ${
+                  isSelected
+                    ? 'border-forest-800 bg-forest-50/40 shadow-md ring-1 ring-forest-800'
+                    : 'border-borderCream bg-white hover:border-gold-300 hover:shadow-xs'
+                }`}
+              >
+                <span className="absolute -top-3 right-4 bg-forest-800 text-gold-300 text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-xs flex items-center space-x-1">
+                  <Sliders className="w-2.5 h-2.5" />
+                  <span>Custom Litres</span>
+                </span>
+
+                <div className="space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <span className="font-serif text-xl font-bold text-forest-900">Custom Litres</span>
+                    <div
+                      className={`w-5 h-5 rounded-full border flex items-center justify-center ${
+                        isSelected ? 'border-forest-800 bg-forest-800 text-white' : 'border-borderCream'
+                      }`}
+                    >
+                      {isSelected && <Check className="w-3 h-3" />}
+                    </div>
+                  </div>
+
+                  <p className="text-[11px] font-bold text-gold-700 uppercase tracking-wide">
+                    Select Your Exact Daily Need
+                  </p>
+
+                  <p className="text-xs text-muted leading-relaxed">
+                    Choose any daily quantity tailored for joint families, hostels, offices, or special dietary requirements.
+                  </p>
+
+                  {/* Interactive Quantity Stepper */}
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedPlan('custom');
+                    }}
+                    className="p-2.5 rounded-xl bg-white border border-borderCream space-y-2 shadow-xs"
+                  >
+                    <div className="flex items-center justify-between space-x-2">
+                      <button
+                        type="button"
+                        onClick={() => setCustomLitres((prev) => Math.max(1, prev - 1))}
+                        className="w-8 h-8 rounded-lg bg-cream-100 hover:bg-cream-200 border border-borderCream text-forest-900 font-bold flex items-center justify-center active:scale-95 transition-all"
+                        aria-label="Decrease litres"
+                      >
+                        <Minus className="w-3.5 h-3.5" />
+                      </button>
+
+                      <div className="flex-1 text-center font-bold text-forest-900 text-sm">
+                        {customLitres} {customLitres === 1 ? 'Litre' : 'Litres'} Daily
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => setCustomLitres((prev) => Math.min(50, prev + 1))}
+                        className="w-8 h-8 rounded-lg bg-cream-100 hover:bg-cream-200 border border-borderCream text-forest-900 font-bold flex items-center justify-center active:scale-95 transition-all"
+                        aria-label="Increase litres"
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+
+                    {/* Quick selection pills */}
+                    <div className="flex items-center justify-center space-x-1.5 pt-1">
+                      {[2, 4, 6, 10].map((litres) => (
+                        <button
+                          key={litres}
+                          type="button"
+                          onClick={() => {
+                            setCustomLitres(litres);
+                            setSelectedPlan('custom');
+                          }}
+                          className={`px-2 py-0.5 rounded text-[10px] font-bold transition-colors ${
+                            customLitres === litres
+                              ? 'bg-forest-800 text-white'
+                              : 'bg-cream-100 text-forest-800 hover:bg-cream-200'
+                          }`}
+                        >
+                          {litres}L
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-3 mt-3 border-t border-borderCream/60 flex items-center justify-between text-xs">
+                  <span className="text-forest-700 font-semibold flex items-center space-x-1">
+                    <Clock className="w-3.5 h-3.5" />
+                    <span>Delivered 7:00 – 8:30 AM</span>
+                  </span>
+                  <span className="text-muted text-[11px]">Pause anytime</span>
+                </div>
+              </div>
+            );
+          })()}
         </div>
 
         {/* Benefits bar & CTA */}
@@ -128,11 +241,11 @@ export default function DailySubscriptionBanner() {
 
           <button
             type="button"
-            onClick={() => handleSubscribe(selectedPlan)}
+            onClick={handleSubscribe}
             className="btn-gold-shimmer px-6 py-3 rounded-xl text-xs sm:text-sm font-bold shadow-md flex items-center justify-center space-x-2 active:scale-95 transition-all"
           >
             <MessageSquare className="w-4 h-4" />
-            <span>Setup Daily Delivery on WhatsApp</span>
+            <span>{getButtonText()}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
