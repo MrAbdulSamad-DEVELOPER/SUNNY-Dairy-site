@@ -5,6 +5,10 @@ import prisma from '@/lib/prisma';
 import { ProductDTO } from '@/types';
 import ShopCatalog from '@/components/product/ShopCatalog';
 import TrustBanner from '@/components/ui/TrustBanner';
+import BatchStatusTicker from '@/components/ui/BatchStatusTicker';
+import DailySubscriptionBanner from '@/components/ui/DailySubscriptionBanner';
+import CustomerReviews from '@/components/ui/CustomerReviews';
+import FaqSection from '@/components/ui/FaqSection';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 import { OFFICIAL_STORE_NAME, OFFICIAL_STORE_OWNER, OFFICIAL_PHONE_NUMBER } from '@/lib/whatsapp';
 
@@ -53,7 +57,7 @@ export default async function HomePage() {
   const products = await getProducts();
 
   return (
-    <div className="space-y-12 sm:space-y-16">
+    <div className="space-y-10 sm:space-y-16">
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-10 lg:pt-14">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-center">
@@ -123,11 +127,17 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Live Farm Batch Status Ticker */}
+      <BatchStatusTicker />
+
       {/* Trust Benefits Banner */}
       <TrustBanner />
 
       {/* The Shop Catalog Section */}
       <ShopCatalog initialProducts={products} />
+
+      {/* Daily Milk Subscription Feature */}
+      <DailySubscriptionBanner />
 
       {/* How Ordering Works Section */}
       <section className="bg-[#FAF3E4] py-16 border-y border-borderCream">
@@ -187,6 +197,12 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Customer Reviews & Local Social Proof */}
+      <CustomerReviews />
+
+      {/* Frequently Asked Questions */}
+      <FaqSection />
 
       {/* Our Promise Feature Callout */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
