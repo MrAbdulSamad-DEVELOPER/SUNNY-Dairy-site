@@ -17,6 +17,7 @@ export default function AdminLoginForm() {
   const [mode, setMode] = useState<'login' | 'forgot' | 'reset'>('login');
   const [forgotIdentity, setForgotIdentity] = useState('');
   const [forgotSuccess, setForgotSuccess] = useState<string | null>(null);
+  const [directResetUrl, setDirectResetUrl] = useState<string | null>(null);
   const [devCode, setDevCode] = useState<string | null>(null);
   const [resetCode, setResetCode] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -53,6 +54,7 @@ export default function AdminLoginForm() {
     setLoading(true);
     setError(null);
     setForgotSuccess(null);
+    setDirectResetUrl(null);
     setDevCode(null);
 
     try {
@@ -64,15 +66,17 @@ export default function AdminLoginForm() {
 
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error || 'Failed to request password reset');
+        throw new Error(data.error || 'Password reset request failed');
       }
 
-      setForgotSuccess(data.message || 'Reset code sent to recovery email.');
+      setForgotSuccess(data.message || 'Password reset link aapke email par bhej diya gaya hai.');
+      if (data.resetUrl) {
+        setDirectResetUrl(data.resetUrl);
+      }
       if (data.devCode) {
         setDevCode(data.devCode);
         setResetCode(data.devCode);
       }
-      setMode('reset');
     } catch (err: any) {
       setError(err.message || 'Error processing request');
     } finally {
@@ -146,7 +150,7 @@ export default function AdminLoginForm() {
             </h1>
             <p className="text-xs text-muted">
               {mode === 'login' && 'Enter your authorized administrator credentials'}
-              {mode === 'forgot' && 'Recovery instructions will be dispatched to sanaullah.ccs@gmail.com'}
+              {mode === 'forgot' && 'Apna registered administrator email darj karein'}
               {mode === 'reset' && 'Enter your verification code and set a new password'}
             </p>
           </div>
@@ -160,9 +164,20 @@ export default function AdminLoginForm() {
         )}
 
         {forgotSuccess && mode === 'forgot' && (
-          <div className="p-3.5 rounded-xl bg-green-50 border border-green-200 text-green-800 text-xs flex items-center space-x-2">
-            <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
-            <span>{forgotSuccess}</span>
+          <div className="p-4 rounded-2xl bg-green-50 border border-green-200 text-green-900 text-xs space-y-2.5">
+            <div className="flex items-start space-x-2">
+              <CheckCircle2 className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
+              <span className="leading-relaxed">{forgotSuccess}</span>
+            </div>
+            {directResetUrl && (
+              <a
+                href={directResetUrl}
+                className="w-full py-2.5 px-3 rounded-xl bg-forest-800 hover:bg-forest-900 text-white font-bold text-xs flex items-center justify-center space-x-2 transition-all shadow-sm"
+              >
+                <span>Naya Password Set Karne Ke Liye Yahan Click Karein</span>
+                <ArrowRight className="w-3.5 h-3.5 text-gold-400" />
+              </a>
+            )}
           </div>
         )}
 
@@ -203,6 +218,8 @@ export default function AdminLoginForm() {
                   type="button"
                   onClick={() => {
                     setError(null);
+                    setForgotSuccess(null);
+                    setDirectResetUrl(null);
                     setMode('forgot');
                   }}
                   className="text-[11px] font-semibold text-gold-700 hover:text-gold-800 hover:underline"
@@ -244,16 +261,9 @@ export default function AdminLoginForm() {
         {/* 2. Forgot Password Request Form */}
         {mode === 'forgot' && (
           <form onSubmit={handleForgotPassword} className="space-y-4">
-            <div className="p-3.5 rounded-2xl bg-cream-100 border border-borderCream text-xs text-forest-800 space-y-1">
-              <p className="font-semibold text-forest-900">Recovery Email Notification</p>
-              <p className="text-[11px] text-muted">
-                A verification code and 1-click password reset link will be sent to the administrator recovery address: <strong className="text-forest-900">sanaullah.ccs@gmail.com</strong>
-              </p>
-            </div>
-
             <div>
               <label className="block text-xs font-bold text-forest-800 uppercase tracking-wider mb-1.5">
-                Admin Username or Email
+                Registered Admin Email
               </label>
               <div className="relative">
                 <input
@@ -261,7 +271,7 @@ export default function AdminLoginForm() {
                   required
                   value={forgotIdentity}
                   onChange={(e) => setForgotIdentity(e.target.value)}
-                  placeholder="Enter admin username"
+                  placeholder="Enter your registered admin email"
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-borderCream bg-white text-sm text-forest-800 focus:outline-none focus:ring-2 focus:ring-forest-800"
                 />
                 <Mail className="w-4 h-4 text-muted absolute left-3.5 top-3" />
@@ -274,10 +284,10 @@ export default function AdminLoginForm() {
               className="w-full py-3 px-4 rounded-xl bg-forest-800 hover:bg-forest-900 text-white font-bold text-sm shadow-md transition-all active:scale-[0.99] flex items-center justify-center space-x-2"
             >
               {loading ? (
-                <span>Sending Code...</span>
+                <span>Sending Reset Link...</span>
               ) : (
                 <>
-                  <span>Send Reset Code to Email</span>
+                  <span>Send Reset Link to Email</span>
                   <ArrowRight className="w-4 h-4 text-gold-400" />
                 </>
               )}
@@ -287,6 +297,8 @@ export default function AdminLoginForm() {
               type="button"
               onClick={() => {
                 setError(null);
+                setForgotSuccess(null);
+                setDirectResetUrl(null);
                 setMode('login');
               }}
               className="w-full py-2 text-xs font-semibold text-muted hover:text-forest-800 flex items-center justify-center space-x-1"
@@ -307,7 +319,7 @@ export default function AdminLoginForm() {
                   {devCode}
                 </span>
                 <p className="text-[10px] text-amber-800 mt-1">
-                  (Email dispatched to sanaullah.ccs@gmail.com. Verification code auto-filled for instant recovery).
+                  (Verification code auto-detected from password reset request).
                 </p>
               </div>
             )}

@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
         await prisma.adminUser.create({
           data: {
             username: 'admin',
-            email: 'admin@sunnydairy.pk',
+            email: 'sanaullah.ccs@gmail.com',
             passwordHash: defaultHash,
             role: 'SUPER_ADMIN',
             isActive: true,

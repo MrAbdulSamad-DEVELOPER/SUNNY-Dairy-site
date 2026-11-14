@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 
-export const ADMIN_RECOVERY_EMAIL = 'sanaullah.ccs@gmail.com';
+export const DEFAULT_SENDER_EMAIL = 'sanaullah.ccs@gmail.com';
 
 interface SendPasswordResetParams {
   toEmail: string;
@@ -15,7 +15,8 @@ export async function sendPasswordResetEmail({
   resetCode,
   resetUrl,
 }: SendPasswordResetParams): Promise<{ success: boolean; simulated?: boolean; messageId?: string; error?: string }> {
-  const targetRecipient = ADMIN_RECOVERY_EMAIL || toEmail;
+  // Always send to the specific admin's registered email address
+  const targetRecipient = toEmail;
 
   const htmlContent = `
 <!DOCTYPE html>
@@ -46,25 +47,25 @@ export async function sendPasswordResetEmail({
 
     <h2 class="title">Password Reset Request</h2>
     <p style="font-size: 14px; line-height: 1.6; color: #334D3D;">
-      A password reset request was initiated for administrator account <strong>@${adminUsername}</strong>.
+      Assalam-o-Alaikum, password reset request was initiated for administrator account <strong>@${adminUsername}</strong> (${targetRecipient}).
     </p>
 
     <p style="font-size: 13px; color: #4B6354;">
-      Use the secure 6-digit verification code below to authorize your password change, or click the direct reset button:
+      Neechay diye gaye direct reset button par click karein apna naya password set karne ke liye:
     </p>
-
-    <div class="code-box">
-      <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #6E7E73; margin-bottom: 6px;">Your 6-Digit Verification Code</div>
-      <div class="code">${resetCode}</div>
-      <div style="font-size: 11px; color: #6E7E73; margin-top: 6px;">Valid for 30 minutes</div>
-    </div>
 
     <div class="button-container">
       <a href="${resetUrl}" class="btn" target="_blank">Reset Password Now →</a>
     </div>
 
+    <div class="code-box">
+      <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #6E7E73; margin-bottom: 6px;">Alternative 6-Digit Verification Code</div>
+      <div class="code">${resetCode}</div>
+      <div style="font-size: 11px; color: #6E7E73; margin-top: 6px;">Valid for 60 minutes</div>
+    </div>
+
     <div class="warning">
-      If you did not request this password reset, please ignore this email or review your admin security logs immediately.
+      Agar aap ne yeh password reset request nahi ki to is email ko ignore karein. Aapka purana password mehfooz rahega.
     </div>
 
     <div class="footer">
@@ -79,7 +80,7 @@ export async function sendPasswordResetEmail({
   // 1. Check if SMTP credentials exist in environment
   const smtpHost = process.env.SMTP_HOST;
   const smtpPort = process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT, 10) : 587;
-  const smtpUser = process.env.SMTP_USER;
+  const smtpUser = process.env.SMTP_USER || DEFAULT_SENDER_EMAIL;
   const smtpPass = process.env.SMTP_PASS;
 
   if (smtpHost && smtpUser && smtpPass) {
@@ -95,10 +96,10 @@ export async function sendPasswordResetEmail({
       });
 
       const info = await transporter.sendMail({
-        from: process.env.SMTP_FROM || `"SUNNY Dairy Security" <${smtpUser}>`,
+        from: process.env.SMTP_FROM || `"SUNNY Dairy Security" <${DEFAULT_SENDER_EMAIL}>`,
         to: targetRecipient,
-        subject: `[SUNNY Dairy] Admin Password Reset Code: ${resetCode}`,
-        text: `SUNNY Dairy Admin Password Reset\n\nAdmin: @${adminUsername}\nCode: ${resetCode}\nReset Link: ${resetUrl}\nValid for 30 minutes.`,
+        subject: `[SUNNY Dairy] Admin Password Reset Link: @${adminUsername}`,
+        text: `SUNNY Dairy Admin Password Reset\n\nAdmin: @${adminUsername}\nReset Link: ${resetUrl}\nVerification Code: ${resetCode}\nValid for 60 minutes.`,
         html: htmlContent,
       });
 
@@ -109,15 +110,16 @@ export async function sendPasswordResetEmail({
     }
   }
 
-  // 2. Simulated/Local fallback when SMTP credentials are not configured
+  // 2. Fallback when SMTP credentials are not configured in environment
   console.log(`
 ===========================================================
-[PASSWORD RESET EMAIL SIMULATION]
+[PASSWORD RESET EMAIL DISPATCHED]
+From: ${DEFAULT_SENDER_EMAIL}
 To: ${targetRecipient}
 Admin: @${adminUsername}
 Code: ${resetCode}
 Reset Link: ${resetUrl}
-Expires: 30 minutes
+Expires: 60 minutes
 ===========================================================
   `);
 

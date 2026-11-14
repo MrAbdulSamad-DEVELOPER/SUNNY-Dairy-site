@@ -88,7 +88,7 @@ function ResetPasswordContent() {
               Set New Password
             </h1>
             <p className="text-xs text-muted">
-              Enter your reset credentials dispatched to sanaullah.ccs@gmail.com
+              Apna naya password darj karein takey aapka administrator account update ho sakay.
             </p>
           </div>
         </div>
@@ -108,25 +108,32 @@ function ResetPasswordContent() {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-xs font-bold text-forest-800 uppercase tracking-wider mb-1.5">
-              6-Digit Code or Reset Token
-            </label>
-            <div className="relative">
-              <input
-                type="text"
-                required
-                value={code || token}
-                onChange={(e) => {
-                  setCode(e.target.value.trim());
-                  setToken(e.target.value.trim());
-                }}
-                placeholder="Enter 6-digit code or token"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-borderCream bg-white text-sm font-mono text-forest-800 focus:outline-none focus:ring-2 focus:ring-forest-800"
-              />
-              <KeyRound className="w-4 h-4 text-muted absolute left-3.5 top-3" />
+          {token ? (
+            <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center space-x-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+              <span>Password reset link tasdeeq shuda hai. Naya password set karein.</span>
             </div>
-          </div>
+          ) : (
+            <div>
+              <label className="block text-xs font-bold text-forest-800 uppercase tracking-wider mb-1.5">
+                6-Digit Code or Reset Token
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  required
+                  value={code || token}
+                  onChange={(e) => {
+                    setCode(e.target.value.trim());
+                    setToken(e.target.value.trim());
+                  }}
+                  placeholder="Enter 6-digit code or token"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-borderCream bg-white text-sm font-mono text-forest-800 focus:outline-none focus:ring-2 focus:ring-forest-800"
+                />
+                <KeyRound className="w-4 h-4 text-muted absolute left-3.5 top-3" />
+              </div>
+            </div>
+          )}
 
           <div>
             <label className="block text-xs font-bold text-forest-800 uppercase tracking-wider mb-1.5">
