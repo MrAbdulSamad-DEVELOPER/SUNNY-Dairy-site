@@ -9,14 +9,14 @@ const SITE_URL = 'https://sunny-dairy-web.vercel.app';
 export const metadata = {
   title: `Shop All Farm Dairy & Traditional Sweets — ${OFFICIAL_STORE_NAME}`,
   description:
-    'Browse pure cow milk, goat milk, dahi, pure makhan, desi ghee, paneer, and authentic Pakistani sweets. Fresh daily delivery across Dera Ismail Khan.',
+    'Browse pure cow milk, goat milk, natural yogurt, pure butter, desi ghee, paneer, and authentic traditional sweets. Fresh daily delivery across Dera Ismail Khan.',
   alternates: {
     canonical: `${SITE_URL}/shop`,
   },
   openGraph: {
     title: `Fresh Dairy & Authentic Sweets Catalog — ${OFFICIAL_STORE_NAME}`,
     description:
-      'Order fresh farm milk, slow-churned makhan, desi pure ghee, and artisanal sweets delivered to your door across Dera Ismail Khan.',
+      'Order fresh farm milk, slow-churned butter, desi pure ghee, and artisanal sweets delivered to your door across Dera Ismail Khan.',
     url: `${SITE_URL}/shop`,
     type: 'website',
   },

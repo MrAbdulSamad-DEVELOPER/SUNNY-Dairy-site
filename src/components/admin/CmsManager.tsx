@@ -7,7 +7,7 @@ import { Save, Check, AlertCircle, FileText, Upload, Eye } from 'lucide-react';
 export default function CmsManager() {
   const [hero, setHero] = useState({
     title: 'Fresh milk. Straight from the farm.',
-    subtitle: 'MILK, MAKHAN & GHEE · PAKISTAN',
+    subtitle: 'MILK, BUTTER & GHEE · PAKISTAN',
     content: 'Collected each morning, chilled and brought to your door. Order in a minute, pay in cash when it arrives.',
     imageUrl: '/products/hero-farm.jpg',
     buttonText: 'Shop Now',

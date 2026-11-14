@@ -54,11 +54,11 @@ export default function DeliveryAndFAQPage() {
     },
     {
       q: 'What is the minimum order quantity for home delivery?',
-      a: 'We deliver orders starting from 2 liters of milk or any combination of milk, makhan, or sweets. There is no large order requirement.',
+      a: 'We deliver orders starting from 2 liters of milk or any combination of milk, butter, or sweets. There is no large order requirement.',
     },
     {
-      q: 'How is Makhan and Desi Ghee packaged?',
-      a: 'Makhan is packaged in chilled greaseproof parchment containers, while our Desi Pure Ghee is sealed in food-grade, airtight jars to preserve its authentic aroma and golden granular texture.',
+      q: 'How is Butter and Desi Ghee packaged?',
+      a: 'Fresh butter is packaged in chilled greaseproof parchment containers, while our Desi Pure Ghee is sealed in food-grade, airtight jars to preserve its authentic aroma and golden granular texture.',
     },
     {
       q: 'How can I pause or change my daily milk delivery?',

@@ -12,7 +12,7 @@ export default function CustomerReviews() {
       stars: 5,
       date: 'Ordered 40+ times',
       comment:
-        'Dera Ismail Khan mein itna khalis aur moti malaai wala doodh milna nemat se kam nahi. Bachon ki sehat ke liye main bilkul mutma’in hoon. Subah waqt par delivery hoti hai.',
+        'Finding pure whole milk with thick natural cream in Dera Ismail Khan is a true blessing. Our children love the fresh taste, and morning delivery is always punctual.',
     },
     {
       name: 'Haji Muhammad Aslam',
@@ -21,7 +21,7 @@ export default function CustomerReviews() {
       stars: 5,
       date: 'Monthly Subscriber',
       comment:
-        'Inka Desi Pure Ghee aur Makhan bilkul gaon ke tareeqay ka khalis hai. Pakkae hue saalan mein aisi khushboo aati hai jaisi bachpan mein milti thi. Zero chemicals aur zero adulteration.',
+        'Their pure desi ghee and artisanal butter have that authentic village aroma and granular golden texture. Food cooked with it smells incredible, with zero chemicals or additives.',
     },
     {
       name: 'Malik Zeeshan Awan',
@@ -30,7 +30,7 @@ export default function CustomerReviews() {
       stars: 5,
       date: 'Weekly Order',
       comment:
-        'Badayuni Peda aur Barfi ka zaiqa shandaar hai. Sanaullah sahab khud har batch ki nigrani karte hain jo inki service ko commercial brands se 100 darjay behtar banata hai.',
+        'The traditional sweets and fresh milk are outstanding in quality. Sanaullah personally oversees production, making their service far superior to commercial brands.',
     },
   ];
 

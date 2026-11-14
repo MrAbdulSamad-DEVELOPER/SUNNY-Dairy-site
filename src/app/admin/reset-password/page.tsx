@@ -88,7 +88,7 @@ function ResetPasswordContent() {
               Set New Password
             </h1>
             <p className="text-xs text-muted">
-              Apna naya password darj karein takey aapka administrator account update ho sakay.
+              Enter your new password to update your administrator credentials.
             </p>
           </div>
         </div>
@@ -111,7 +111,7 @@ function ResetPasswordContent() {
           {token ? (
             <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center space-x-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-              <span>Password reset link tasdeeq shuda hai. Naya password set karein.</span>
+              <span>Password reset link is verified. Please set your new password below.</span>
             </div>
           ) : (
             <div>

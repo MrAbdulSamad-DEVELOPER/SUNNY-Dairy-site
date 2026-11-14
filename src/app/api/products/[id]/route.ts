@@ -71,23 +71,28 @@ export async function PUT(
       seoDescription,
     } = body;
 
+    const updateData: any = {};
+    if (name !== undefined) updateData.name = name;
+    if (slug !== undefined) updateData.slug = slug;
+    if (description !== undefined) updateData.description = description;
+    if (shortDescription !== undefined) updateData.shortDescription = shortDescription;
+    if (categoryId !== undefined) updateData.categoryId = categoryId;
+    if (imageUrl !== undefined) updateData.imageUrl = imageUrl;
+    if (sku !== undefined) updateData.sku = sku;
+    if (stockQuantity !== undefined && !isNaN(parseInt(stockQuantity, 10))) {
+      updateData.stockQuantity = parseInt(stockQuantity, 10);
+    }
+    if (lowStockThreshold !== undefined && !isNaN(parseInt(lowStockThreshold, 10))) {
+      updateData.lowStockThreshold = parseInt(lowStockThreshold, 10);
+    }
+    if (isActive !== undefined) updateData.isActive = isActive;
+    if (isFeatured !== undefined) updateData.isFeatured = isFeatured;
+    if (seoTitle !== undefined) updateData.seoTitle = seoTitle;
+    if (seoDescription !== undefined) updateData.seoDescription = seoDescription;
+
     await prisma.product.update({
       where: { id: params.id },
-      data: {
-        name,
-        slug,
-        description,
-        shortDescription,
-        categoryId,
-        imageUrl,
-        sku,
-        stockQuantity: parseInt(stockQuantity, 10),
-        lowStockThreshold: parseInt(lowStockThreshold, 10),
-        isActive,
-        isFeatured,
-        seoTitle,
-        seoDescription,
-      },
+      data: updateData,
     });
 
     if (variants && Array.isArray(variants)) {

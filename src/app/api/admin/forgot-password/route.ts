@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     const identity = (body.identity || '').trim().toLowerCase();
 
     if (!identity) {
-      return NextResponse.json({ error: 'Barah-e-karam apna registered admin email darj karein.' }, { status: 400 });
+      return NextResponse.json({ error: 'Please enter your registered administrator email address.' }, { status: 400 });
     }
 
     // Look up admin by either email or username
@@ -37,14 +37,14 @@ export async function POST(req: NextRequest) {
 
     if (!admin) {
       return NextResponse.json(
-        { error: 'Is email ya username se koi registered admin account nahi mila. Barah-e-karam durust email darj karein.' },
+        { error: 'No registered administrator account found with this email. Please verify and try again.' },
         { status: 404 }
       );
     }
 
     if (!admin.isActive) {
       return NextResponse.json(
-        { error: 'Yeh admin account filhal deactivated hai. Super Admin se rabta karein.' },
+        { error: 'This administrator account is currently deactivated. Please contact the Super Admin.' },
         { status: 403 }
       );
     }
@@ -87,7 +87,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: `Password reset link aapke registered email (${admin.email}) par bhej diya gaya hai.`,
+      message: `Password reset instructions have been sent to your registered email (${admin.email}).`,
       targetEmail: admin.email,
       resetUrl,
       simulated: sendResult.simulated,

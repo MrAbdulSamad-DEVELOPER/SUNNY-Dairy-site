@@ -7,6 +7,11 @@ import prisma from '@/lib/prisma';
 import { getCurrentAdmin, logActivity } from '@/lib/auth';
 
 export async function GET() {
+  const admin = await getCurrentAdmin();
+  if (!admin) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   try {
     const settings = await prisma.siteSetting.findMany();
     const settingsMap: Record<string, string> = {};

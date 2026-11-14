@@ -47,11 +47,11 @@ export async function sendPasswordResetEmail({
 
     <h2 class="title">Password Reset Request</h2>
     <p style="font-size: 14px; line-height: 1.6; color: #334D3D;">
-      Assalam-o-Alaikum, password reset request was initiated for administrator account <strong>@${adminUsername}</strong> (${targetRecipient}).
+      A password reset request was initiated for administrator account <strong>@${adminUsername}</strong> (${targetRecipient}).
     </p>
 
     <p style="font-size: 13px; color: #4B6354;">
-      Neechay diye gaye direct reset button par click karein apna naya password set karne ke liye:
+      Click the direct button below to securely set your new administrator password:
     </p>
 
     <div class="button-container">
@@ -65,7 +65,7 @@ export async function sendPasswordResetEmail({
     </div>
 
     <div class="warning">
-      Agar aap ne yeh password reset request nahi ki to is email ko ignore karein. Aapka purana password mehfooz rahega.
+      If you did not request this password reset, please disregard this email. Your current password remains secure and unchanged.
     </div>
 
     <div class="footer">

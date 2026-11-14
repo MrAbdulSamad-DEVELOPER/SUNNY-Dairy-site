@@ -23,14 +23,14 @@ export default function TermsPage() {
         <section className="space-y-2">
           <h2 className="font-serif text-lg font-bold text-forest-800">1. Nature of Products</h2>
           <p className="text-muted">
-            {OFFICIAL_STORE_NAME} provides farm-fresh raw milk, cultured dahi, artisanal makhan, desi ghee, and traditional sweets. Because these products are pure and contain zero chemical stabilizers or synthetic preservatives, they are highly perishable. Customers should immediately refrigerate or boil raw milk upon receipt.
+            {OFFICIAL_STORE_NAME} provides farm-fresh raw milk, cultured yogurt, artisanal butter, desi ghee, and traditional sweets. Because these products are pure and contain zero chemical stabilizers or synthetic preservatives, they are highly perishable. Customers should immediately refrigerate or boil raw milk upon receipt.
           </p>
         </section>
 
         <section className="space-y-2">
           <h2 className="font-serif text-lg font-bold text-forest-800">2. Pricing & &ldquo;Price on Request&rdquo;</h2>
           <p className="text-muted">
-            Prices for certain dairy items (fresh milk, dahi, and traditional sweets) are subject to daily farm yield and batch sizes. These items are marked as &ldquo;Price on Request&rdquo;. Final amounts are confirmed with the customer via WhatsApp or phone call prior to dispatch. Placing an order online does not charge any card.
+            Prices for certain dairy items (fresh milk, yogurt, and traditional sweets) are subject to daily farm yield and batch sizes. These items are marked as &ldquo;Price on Request&rdquo;. Final amounts are confirmed with the customer via WhatsApp or phone call prior to dispatch. Placing an order online does not charge any card.
           </p>
         </section>
 

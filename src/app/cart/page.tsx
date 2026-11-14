@@ -44,7 +44,7 @@ export default function CartPage() {
           </div>
           <h2 className="font-serif text-2xl font-bold text-forest-800">Your basket is currently empty</h2>
           <p className="text-sm text-muted max-w-sm mx-auto">
-            Choose from our farm fresh cow milk, goat milk, dahi, pure makhan, or traditional sweets.
+            Choose from our farm fresh cow milk, goat milk, natural yogurt, pure butter, or traditional sweets.
           </p>
           <div className="pt-2">
             <Link

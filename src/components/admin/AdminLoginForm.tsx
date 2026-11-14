@@ -150,7 +150,7 @@ export default function AdminLoginForm() {
             </h1>
             <p className="text-xs text-muted">
               {mode === 'login' && 'Enter your authorized administrator credentials'}
-              {mode === 'forgot' && 'Apna registered administrator email darj karein'}
+              {mode === 'forgot' && 'Enter your registered administrator email address'}
               {mode === 'reset' && 'Enter your verification code and set a new password'}
             </p>
           </div>
@@ -174,7 +174,7 @@ export default function AdminLoginForm() {
                 href={directResetUrl}
                 className="w-full py-2.5 px-3 rounded-xl bg-forest-800 hover:bg-forest-900 text-white font-bold text-xs flex items-center justify-center space-x-2 transition-all shadow-sm"
               >
-                <span>Naya Password Set Karne Ke Liye Yahan Click Karein</span>
+                <span>Click Here to Set Your New Password</span>
                 <ArrowRight className="w-3.5 h-3.5 text-gold-400" />
               </a>
             )}

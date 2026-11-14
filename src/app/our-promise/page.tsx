@@ -7,7 +7,7 @@ import { OFFICIAL_STORE_NAME, OFFICIAL_STORE_OWNER } from '@/lib/whatsapp';
 export const metadata = {
   title: `Our Promise — Pure Farm Milk & Authentic Heritage — ${OFFICIAL_STORE_NAME}`,
   description:
-    'Our dairy standards: zero dilution, no artificial hormones, cold-chain chilling below 4°C, and traditional wooden churned makhan and ghee.',
+    'Our dairy standards: zero dilution, no artificial hormones, cold-chain chilling below 4°C, and traditional churned butter and ghee.',
 };
 
 export default function OurPromisePage() {
@@ -32,9 +32,9 @@ export default function OurPromisePage() {
     },
     {
       icon: Sparkles,
-      title: 'Traditional Churning for Makhan & Ghee',
+      title: 'Traditional Churning for Butter & Ghee',
       description:
-        'Our desi ghee is prepared by slow-simmering cultured butter (makhan) over low flame until golden and fragrant, preserving ancient digestive qualities.',
+        'Our desi ghee is prepared by slow-simmering cultured butter over low flame until golden and fragrant, preserving natural rich digestive qualities.',
     },
   ];
 

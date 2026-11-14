@@ -13,16 +13,16 @@ import { OFFICIAL_STORE_NAME, OFFICIAL_STORE_OWNER, OFFICIAL_PHONE_NUMBER } from
 const SITE_URL = 'https://sunny-dairy-web.vercel.app';
 
 export const metadata = {
-  title: `${OFFICIAL_STORE_NAME} — Pure Farm Milk, Makhan & Desi Ghee Dera Ismail Khan`,
+  title: `${OFFICIAL_STORE_NAME} — Pure Farm Milk, Butter & Desi Ghee Dera Ismail Khan`,
   description:
-    'Fresh cow milk, pure goat milk, cultured dahi, artisanal makhan, slow-simmered desi ghee, and traditional sweets delivered daily across Dera Ismail Khan by Sanaullah.',
+    'Fresh cow milk, pure goat milk, natural yogurt, artisanal butter, slow-simmered desi ghee, and traditional sweets delivered daily across Dera Ismail Khan by Sanaullah.',
   alternates: {
     canonical: SITE_URL,
   },
   openGraph: {
     title: `${OFFICIAL_STORE_NAME} — Farm Fresh Milk & Dairy Dera Ismail Khan`,
     description:
-      'Pure morning milk, farm-fresh makhan, traditional slow-simmered desi ghee, and authentic sweets delivered across Dera Ismail Khan. Cash on delivery available.',
+      'Pure morning milk, farm-fresh butter, traditional slow-simmered desi ghee, and authentic sweets delivered across Dera Ismail Khan. Cash on delivery available.',
     url: SITE_URL,
     type: 'website',
   },
@@ -60,42 +60,42 @@ export default async function HomePage() {
     mainEntity: [
       {
         '@type': 'Question',
-        name: 'Kya doodh mein koi paani ya chemical ki milaawat hoti hai?',
+        name: 'Is there any water dilution or chemicals added to the milk?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Bilkul nahi. SUNNY Dairy ka sab se pehla usool Zero Water Dilution hai. Har subah milking ke baad lactometer aur lab tests ke zariye fat content aur purity check ki jati hai. Doodh mein na koi paani milaya jata hai aur na hi koi chemical ya powder.',
+          text: 'Absolutely not. SUNNY Dairy strictly adheres to a Zero Water Dilution policy. Every morning after milking, fat content and purity are verified using lactometers and testing kits. We never add water, preservatives, chemicals, or milk powder.',
         },
       },
       {
         '@type': 'Question',
-        name: 'Doodh kacha hota hai ya ubla hua (boiled)?',
+        name: 'Is the milk raw or boiled?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Hamara doodh 100% natural raw fresh whole milk hota hai jo milking ke foran baad stainless steel chillers mein 4°C se kam darja-hararat par chill kiya jata hai. Ghar pohnchne ke baad aap isey aam tareeqay se ubaal kar istemal karein. Ubalne par is par gaari, moti malaai ki teh aayegi.',
+          text: 'Our milk is 100% natural, fresh raw whole milk chilled immediately after milking to below 4°C in food-grade stainless steel chillers. Once delivered to your home, simply boil it following normal kitchen practice. When boiled, you will notice a thick, rich layer of natural clotted cream.',
         },
       },
       {
         '@type': 'Question',
-        name: 'Order karne ka tareeqa aur delivery timing kya hai?',
+        name: 'How do I place an order and what are the delivery hours?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Aap website par Add to Cart kar ke ya seedha WhatsApp par message kar ke order kar sakte hain. Subah ki delivery timing 7:00 AM se 11:30 AM tak hoti hai. Dera Ismail Khan ke tamam ilaaqon (Cantt, Circular Road, Bannu Road, Mandra) mein doorstep delivery hoti hai.',
+          text: 'You can easily place an order through our website by adding products to your cart, or message us directly via WhatsApp. Morning deliveries take place between 7:00 AM and 11:30 AM across all major areas of Dera Ismail Khan (Cantt, Circular Road, Bannu Road, Mandra, and surrounding areas).',
         },
       },
       {
         '@type': 'Question',
-        name: 'Payment kaise karni hoti hai?',
+        name: 'What payment methods are available?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Sab se aasan tareeqa Cash on Delivery hai — rider jab aapke ghar fresh doodh pohnchaye to aap quality inspect kar ke cash ada karein. Iske ilawa advance bank transfer ka option bhi available hai.',
+          text: 'Our most popular option is Cash on Delivery (COD) — inspect your fresh dairy at your doorstep upon delivery and pay the rider directly. We also accept advance direct bank transfers via UBL.',
         },
       },
       {
         '@type': 'Question',
-        name: 'Kya rozana rozana (monthly subscription) doodh lagwaya ja sakta hai?',
+        name: 'Can I set up a daily or monthly milk subscription?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Jee haan! Aap rozana 1 Litre, 2 Litre ya 5 Litre ka subscription le sakte hain. Kisi din delivery roknii ho ya zyada doodh chahiye ho to aap sirf WhatsApp par aik message bhej kar routine adjust karwa sakte hain.',
+          text: 'Yes! You can subscribe for daily delivery of 1 Liter, 2 Liters, 5 Liters, or more. If you ever need to pause delivery or adjust your order quantity, simply notify us via WhatsApp with a single message to adjust your routine.',
         },
       },
     ],
@@ -139,7 +139,7 @@ export default async function HomePage() {
           <div className="lg:col-span-7 space-y-4 sm:space-y-6 lg:space-y-8">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-100/80 border border-gold-300/80 text-gold-800 text-[11px] sm:text-xs font-bold tracking-wide uppercase shadow-2xs">
               <span className="w-1.5 h-1.5 rounded-full bg-gold-600 animate-pulse" />
-              <span>Pure Milk, Makhan & Desi Ghee</span>
+              <span>Pure Milk, Butter & Desi Ghee</span>
             </div>
 
             <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-forest-800 leading-[1.18] sm:leading-[1.12]">
@@ -232,7 +232,7 @@ export default async function HomePage() {
               </div>
               <h3 className="font-serif text-lg font-bold text-forest-800">Choose Products</h3>
               <p className="text-xs text-muted leading-relaxed">
-                Browse our fresh cow milk, goat milk, pure makhan, ghee, and traditional sweets. Select your preferred sizes.
+                Browse our fresh cow milk, goat milk, pure butter, ghee, and traditional sweets. Select your preferred sizes.
               </p>
             </div>
 

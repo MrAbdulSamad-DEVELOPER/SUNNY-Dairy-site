@@ -19,7 +19,7 @@ export default function DailySubscriptionBanner() {
       id: '2L' as const,
       title: '2 Litres Daily',
       subtitle: 'Most Popular for Small Families',
-      description: 'Ideal for breakfast, fresh homemade yogurt (dahi), and daily milk consumption for kids.',
+      description: 'Ideal for breakfast, fresh homemade yogurt, and daily milk consumption for kids.',
       tag: 'Family Choice',
       featured: true,
     },
@@ -27,13 +27,13 @@ export default function DailySubscriptionBanner() {
       id: '5L' as const,
       title: '5 Litres Daily',
       subtitle: 'Complete Joint Family Nutrition',
-      description: 'Daily fresh supply for larger households. Fresh makhan and thick malai everyday.',
+      description: 'Daily fresh supply for larger households. Fresh churned butter and rich natural cream every day.',
       tag: 'Best Value',
     },
   ];
 
   const handleSubscribe = (planId: string) => {
-    const text = `Assalam-o-Alaikum! I want to inquire about the SUNNY Dairy Daily Milk Subscription (${planId} Daily). Please share current monthly pricing and delivery timing for my area.`;
+    const text = `Hello! I would like to inquire about the SUNNY Dairy Daily Milk Subscription (${planId} Daily). Please share current monthly pricing and delivery timing for my area.`;
     const url = `https://wa.me/${OFFICIAL_WHATSAPP_NUMBER.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
   };
@@ -47,7 +47,7 @@ export default function DailySubscriptionBanner() {
         <div className="max-w-3xl space-y-3 mb-8">
           <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-forest-100 text-forest-800 text-xs font-bold uppercase tracking-wider">
             <Calendar className="w-3.5 h-3.5 text-forest-700" />
-            <span>Rozana Doodh Delivery</span>
+            <span>Daily Morning Delivery</span>
           </div>
 
           <h2 className="font-serif text-2xl sm:text-4xl font-bold text-forest-900 tracking-tight leading-tight">

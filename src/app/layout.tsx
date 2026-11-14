@@ -30,24 +30,24 @@ export const metadata: Metadata = {
     template: '%s | SUNNY Dairy Dera Ismail Khan',
   },
   description:
-    'Fresh cow milk, pure goat milk, cultured dahi, artisanal makhan, pure slow-cooked desi ghee, and traditional Pakistani sweets delivered daily to your doorstep in Dera Ismail Khan. Managed by Sanaullah.',
+    'Fresh cow milk, pure goat milk, fresh yogurt, artisanal butter, pure slow-cooked desi ghee, and traditional sweets delivered daily to your doorstep in Dera Ismail Khan. Managed by Sanaullah.',
   keywords: [
     'SUNNY Dairy',
     'SUNNY Dairy Dera Ismail Khan',
-    'khalis doodh dera ismail khan',
+    'pure milk dera ismail khan',
     'fresh milk delivery Dera Ismail Khan',
     'pure cow milk DI Khan',
     'fresh goat milk Pakistan',
-    'asli desi ghee Dera Ismail Khan',
-    'pure makhan butter',
-    'fresh dahi yogurt',
-    'traditional Pakistani sweets',
-    'rabri doodh DI Khan',
-    'khoya barfi',
+    'pure desi ghee Dera Ismail Khan',
+    'fresh churned butter',
+    'fresh natural yogurt',
+    'traditional sweets',
+    'fresh cream milk DI Khan',
+    'traditional milk fudge sweets',
     'Sanaullah dairy farm',
     'organic farm fresh dairy KPK',
     'dairy online shopping Pakistan',
-    'subah ka taaza doodh',
+    'morning fresh milk delivery',
     'D.I. Khan cantt milk delivery',
     'circular road fresh dairy',
     'pure unadulterated milk DI Khan',
@@ -86,7 +86,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'SUNNY Dairy — Pure Milk & Farm Fresh Dairy Dera Ismail Khan',
     description:
-      'Pure morning milk, farm-fresh makhan, traditional slow-simmered desi ghee, and authentic sweets delivered across Dera Ismail Khan. Cash on delivery & advance bank transfer available.',
+      'Pure morning milk, farm-fresh butter, traditional slow-simmered desi ghee, and authentic sweets delivered across Dera Ismail Khan. Cash on delivery & advance bank transfer available.',
     url: SITE_URL,
     siteName: 'SUNNY Dairy',
     images: [
@@ -104,7 +104,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'SUNNY Dairy — Pure Milk & Farm Fresh Dairy Dera Ismail Khan',
     description:
-      'Fresh milk, makhan, and desi ghee delivered daily to your door across Dera Ismail Khan. Managed by Sanaullah.',
+      'Fresh milk, butter, and desi ghee delivered daily to your door across Dera Ismail Khan. Managed by Sanaullah.',
     images: [`${SITE_URL}/logo.png`],
     creator: '@SunnyDairyPK',
   },
@@ -136,7 +136,7 @@ const jsonLd = {
       url: SITE_URL,
       name: 'SUNNY Dairy',
       description:
-        'Pure farm-fresh cow milk, goat milk, artisanal makhan, desi ghee, and traditional sweets delivered across Dera Ismail Khan.',
+        'Pure farm-fresh cow milk, goat milk, artisanal butter, desi ghee, and traditional sweets delivered across Dera Ismail Khan.',
       publisher: {
         '@id': `${SITE_URL}/#organization`,
       },

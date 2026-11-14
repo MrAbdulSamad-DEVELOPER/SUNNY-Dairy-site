@@ -9,24 +9,24 @@ export default function FaqSection() {
 
   const faqs = [
     {
-      q: 'Kya doodh mein koi paani ya chemical ki milaawat hoti hai?',
-      a: 'Bilkul nahi. SUNNY Dairy ka sab se pehla usool "Zero Water Dilution" hai. Har subah milking ke baad lactometer aur lab tests ke zariye fat content aur purity check ki jati hai. Doodh mein na koi paani milaya jata hai aur na hi koi chemical ya powder.',
+      q: 'Is there any water dilution or chemicals added to the milk?',
+      a: 'Absolutely not. SUNNY Dairy strictly adheres to a Zero Water Dilution policy. Every morning after milking, fat content and purity are verified using lactometers and testing kits. We never add water, preservatives, chemicals, or milk powder.',
     },
     {
-      q: 'Doodh kacha hota hai ya ubla hua (boiled)?',
-      a: 'Hamara doodh 100% natural raw fresh whole milk hota hai jo milking ke foran baad stainless steel chillers mein 4°C se kam darja-hararat par chill kiya jata hai. Ghar pohnchne ke baad aap isey aam tareeqay se ubaal kar istemal karein. Ubalne par is par gaari, moti malaai ki teh aayegi.',
+      q: 'Is the milk raw or boiled?',
+      a: 'Our milk is 100% natural, fresh raw whole milk chilled immediately after milking to below 4°C in food-grade stainless steel chillers. Once delivered to your home, simply boil it following normal kitchen practice. When boiled, you will notice a thick, rich layer of natural clotted cream.',
     },
     {
-      q: 'Order karne ka tareeqa aur delivery timing kya hai?',
-      a: 'Aap website par Add to Cart kar ke ya seedha WhatsApp par message kar ke order kar sakte hain. Subah ki delivery timing 7:00 AM se 11:30 AM tak hoti hai. Dera Ismail Khan ke tamam ilaaqon (Cantt, Circular Road, Bannu Road, Mandra, waghaira) mein riders doorstep delivery karte hain.',
+      q: 'How do I place an order and what are the delivery hours?',
+      a: 'You can easily place an order through our website by adding products to your cart, or message us directly via WhatsApp. Morning deliveries take place between 7:00 AM and 11:30 AM across all major areas of Dera Ismail Khan (Cantt, Circular Road, Bannu Road, Mandra, and surrounding areas).',
     },
     {
-      q: 'Payment kaise karni hoti hai?',
-      a: 'Sab se aasan tareeqa Cash on Delivery hai — rider jab aapke ghar fresh doodh pohnchaye to aap quality inspect kar ke cash ada karein. Iske ilawa UBL advance bank transfer ka option bhi available hai.',
+      q: 'What payment methods are available?',
+      a: 'Our most popular option is Cash on Delivery (COD) — inspect your fresh dairy at your doorstep upon delivery and pay the rider directly. We also accept advance direct bank transfers via UBL.',
     },
     {
-      q: 'Kya rozana rozana (monthly subscription) doodh lagwaya ja sakta hai?',
-      a: 'Jee haan! Aap rozana 1 Litre, 2 Litre ya 5 Litre ka subscription le sakte hain. Kisi din delivery roknii ho ya zyada doodh chahiye ho to aap sirf WhatsApp par aik message bhej kar routine adjust karwa sakte hain.',
+      q: 'Can I set up a daily or monthly milk subscription?',
+      a: 'Yes! You can subscribe for daily delivery of 1 Liter, 2 Liters, 5 Liters, or more. If you ever need to pause delivery or adjust your order quantity, simply notify us via WhatsApp with a single message to adjust your routine.',
     },
   ];
 
@@ -42,7 +42,7 @@ export default function FaqSection() {
           <div className="lg:col-span-5 space-y-4">
             <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-forest-100 text-forest-800 text-xs font-bold uppercase tracking-wider">
               <HelpCircle className="w-3.5 h-3.5 text-forest-700" />
-              <span>Aapke Sawalat</span>
+              <span>Your Questions</span>
             </div>
 
             <h2 className="font-serif text-2xl sm:text-4xl font-bold text-forest-900 tracking-tight leading-tight">
@@ -50,7 +50,7 @@ export default function FaqSection() {
             </h2>
 
             <p className="text-xs sm:text-sm text-muted leading-relaxed">
-              Khales doodh aur delivery se mutalliq aam sawalat ke tasalli-bakhsh jawabat. Mazeed koi sawal ho to direct rabta karein:
+              Clear answers to common questions about our fresh milk and doorstep delivery. For any further assistance, feel free to contact us directly:
             </p>
 
             <div className="pt-2 flex flex-col sm:flex-row gap-2.5">
@@ -62,7 +62,7 @@ export default function FaqSection() {
                 <span>Call Sanaullah: {OFFICIAL_PHONE_NUMBER}</span>
               </a>
               <a
-                href={`https://wa.me/${OFFICIAL_WHATSAPP_NUMBER.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('Assalam-o-Alaikum! Mujhe SUNNY Dairy ke baare mein poochna hai.')}`}
+                href={`https://wa.me/${OFFICIAL_WHATSAPP_NUMBER.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('Hello! I would like to inquire about SUNNY Dairy products and delivery.')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2.5 bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center justify-center space-x-2 hover:bg-emerald-800 transition-colors shadow-xs"

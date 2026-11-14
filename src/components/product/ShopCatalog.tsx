@@ -80,7 +80,7 @@ export default function ShopCatalog({
             The Shop
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-forest-800">
-            Milk, makhan & ghee
+            Milk, butter & ghee
           </h2>
           <p className="text-sm sm:text-base text-muted max-w-2xl leading-relaxed">
             Collected fresh daily from our farm. Guaranteed pure, unadulterated, and delivered chilled to your doorstep all over Pakistan.
