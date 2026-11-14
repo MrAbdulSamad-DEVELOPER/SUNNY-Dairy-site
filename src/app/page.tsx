@@ -5,9 +5,7 @@ import prisma from '@/lib/prisma';
 import { ProductDTO } from '@/types';
 import ShopCatalog from '@/components/product/ShopCatalog';
 import TrustBanner from '@/components/ui/TrustBanner';
-import BatchStatusTicker from '@/components/ui/BatchStatusTicker';
 import DailySubscriptionBanner from '@/components/ui/DailySubscriptionBanner';
-import CustomerReviews from '@/components/ui/CustomerReviews';
 import FaqSection from '@/components/ui/FaqSection';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 import { OFFICIAL_STORE_NAME, OFFICIAL_STORE_OWNER, OFFICIAL_PHONE_NUMBER } from '@/lib/whatsapp';
@@ -203,9 +201,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Live Farm Batch Status Ticker */}
-      <BatchStatusTicker />
-
       {/* Trust Benefits Banner */}
       <TrustBanner />
 
@@ -273,9 +268,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* Customer Reviews & Local Social Proof */}
-      <CustomerReviews />
 
       {/* Frequently Asked Questions */}
       <FaqSection />

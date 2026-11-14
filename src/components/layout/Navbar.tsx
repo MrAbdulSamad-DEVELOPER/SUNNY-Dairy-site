@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { ShoppingBag, Menu, X, Phone, Search } from 'lucide-react';
+import { ShoppingBag, Menu, X, Phone } from 'lucide-react';
 import { useCart } from '@/lib/cart-context';
 import { useStoreSettings } from '@/lib/settings-context';
 import { OFFICIAL_PHONE_NUMBER } from '@/lib/whatsapp';
@@ -84,35 +84,6 @@ export default function Navbar() {
         isVisible ? 'translate-y-0' : '-translate-y-full'
       }`}
     >
-      {/* Top quick banner */}
-      <div className="bg-forest-900 text-cream-100 text-[11px] sm:text-xs py-1.5 px-3 sm:px-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
-          <div className="flex items-center space-x-2 min-w-0 flex-1">
-            <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
-            <span className="font-medium truncate">
-              100% Pure Dairy · Direct Farm Delivery All Over Pakistan
-            </span>
-          </div>
-          <div className="hidden sm:flex items-center space-x-3 sm:space-x-4 flex-shrink-0 text-xs">
-            <Link
-              href="/track"
-              className="hover:text-gold-300 transition-colors flex items-center space-x-1 whitespace-nowrap"
-            >
-              <Search className="w-3 h-3" />
-              <span>Track Order</span>
-            </Link>
-            <span className="text-forest-600">|</span>
-            <a
-              href={`tel:${activePhone}`}
-              className="hover:text-gold-300 transition-colors flex items-center space-x-1 font-semibold whitespace-nowrap"
-            >
-              <Phone className="w-3 h-3 text-gold-400" />
-              <span>Call: {activePhone}</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20 gap-2 sm:gap-4">
           {/* Logo with dynamic branding - perfectly bounded to prevent overlapping */}
