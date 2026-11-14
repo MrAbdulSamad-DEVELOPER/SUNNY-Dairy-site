@@ -14,49 +14,56 @@ export default async function AdminDashboardOverviewPage() {
     redirect('/admin/login');
   }
 
-  // Fetch live stats strictly from DB (no fake data)
-  const totalOrders = await prisma.order.count();
-  const pendingOrders = await prisma.order.count({
-    where: {
-      orderStatus: { in: ['PENDING', 'PRICE_CONFIRMATION_REQUIRED'] },
-    },
-  });
-  const confirmedOrders = await prisma.order.count({
-    where: { orderStatus: 'CONFIRMED' },
-  });
-  const deliveredOrders = await prisma.order.count({
-    where: { orderStatus: 'DELIVERED' },
-  });
-
-  const confirmedSales = await prisma.order.aggregate({
-    where: {
-      orderStatus: { in: ['CONFIRMED', 'PREPARING', 'OUT_FOR_DELIVERY', 'DELIVERED'] },
-    },
-    _sum: {
-      subtotal: true,
-      finalTotal: true,
-    },
-  });
+  // Fetch live stats strictly from DB in parallel for ultra-fast load
+  const [
+    totalOrders,
+    pendingOrders,
+    confirmedOrders,
+    deliveredOrders,
+    confirmedSales,
+    recentOrders,
+    topItems,
+    totalProducts,
+  ] = await Promise.all([
+    prisma.order.count(),
+    prisma.order.count({
+      where: {
+        orderStatus: { in: ['PENDING', 'PRICE_CONFIRMATION_REQUIRED'] },
+      },
+    }),
+    prisma.order.count({
+      where: { orderStatus: 'CONFIRMED' },
+    }),
+    prisma.order.count({
+      where: { orderStatus: 'DELIVERED' },
+    }),
+    prisma.order.aggregate({
+      where: {
+        orderStatus: { in: ['CONFIRMED', 'PREPARING', 'OUT_FOR_DELIVERY', 'DELIVERED'] },
+      },
+      _sum: {
+        subtotal: true,
+        finalTotal: true,
+      },
+    }),
+    prisma.order.findMany({
+      take: 6,
+      orderBy: { createdAt: 'desc' },
+      include: {
+        items: true,
+      },
+    }),
+    prisma.orderItem.groupBy({
+      by: ['productNameSnapshot'],
+      _sum: { quantity: true },
+      orderBy: { _sum: { quantity: 'desc' } },
+      take: 5,
+    }),
+    prisma.product.count(),
+  ]);
 
   const totalSalesAmount =
     confirmedSales._sum.finalTotal || confirmedSales._sum.subtotal || 0;
-
-  const recentOrders = await prisma.order.findMany({
-    take: 6,
-    orderBy: { createdAt: 'desc' },
-    include: {
-      items: true,
-    },
-  });
-
-  const topItems = await prisma.orderItem.groupBy({
-    by: ['productNameSnapshot'],
-    _sum: { quantity: true },
-    orderBy: { _sum: { quantity: 'desc' } },
-    take: 5,
-  });
-
-  const totalProducts = await prisma.product.count();
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-8">

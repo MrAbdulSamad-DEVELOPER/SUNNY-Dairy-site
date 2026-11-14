@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
 
     const isSecure =
       req.nextUrl.protocol === 'https:' ||
-      (process.env.NODE_ENV === 'production' && !req.nextUrl.hostname.includes('localhost'));
+      req.headers.get('x-forwarded-proto') === 'https';
 
     response.cookies.set({
       name: 'sunny_admin_session',

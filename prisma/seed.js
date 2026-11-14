@@ -19,15 +19,19 @@ async function main() {
   await prisma.deliveryZone.deleteMany();
   await prisma.cmsSection.deleteMany();
   await prisma.siteSetting.deleteMany();
-  await prisma.adminUser.deleteMany();
 
-  // 2. Initial Secure Administrator (Hashed password using bcryptjs)
-  // Password is NOT plaintext.
+  // 2. Ensure Initial Secure Administrator exists without deleting other staff admins
   const salt = await bcrypt.genSalt(10);
   const passwordHash = await bcrypt.hash('SunnyDairyAdmin2026!', salt);
 
-  await prisma.adminUser.create({
-    data: {
+  await prisma.adminUser.upsert({
+    where: { username: 'admin' },
+    update: {
+      email: 'admin@sunnydairy.pk',
+      role: 'SUPER_ADMIN',
+      isActive: true,
+    },
+    create: {
       username: 'admin',
       email: 'admin@sunnydairy.pk',
       passwordHash: passwordHash,

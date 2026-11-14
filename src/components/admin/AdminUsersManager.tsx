@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Shield, Plus, Trash2, Check, AlertCircle, User, Lock, Mail } from 'lucide-react';
+import { Shield, Plus, Trash2, Check, AlertCircle, User, Lock, Mail, KeyRound, RefreshCw } from 'lucide-react';
 
 export default function AdminUsersManager() {
   const [users, setUsers] = useState<any[]>([]);
+  const [currentUser, setCurrentUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [username, setUsername] = useState('');
@@ -13,15 +14,22 @@ export default function AdminUsersManager() {
   const [role, setRole] = useState('ADMIN');
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchUsers = async () => {
     setLoading(true);
     try {
       const res = await fetch('/api/admin/users');
       const data = await res.json();
-      if (data.success) setUsers(data.users);
-    } catch (e) {
+      if (data.success) {
+        setUsers(data.users);
+        if (data.currentUser) setCurrentUser(data.currentUser);
+      } else {
+        setError(data.error);
+      }
+    } catch (e: any) {
       console.error(e);
+      setError('Could not connect to users service');
     } finally {
       setLoading(false);
     }
@@ -34,42 +42,52 @@ export default function AdminUsersManager() {
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
+    setError(null);
+    setMessage(null);
+
     try {
       const res = await fetch('/api/admin/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, email, password, role }),
+        body: JSON.stringify({
+          username: username.trim(),
+          email: email.trim(),
+          password,
+          role,
+        }),
       });
       const data = await res.json();
       if (data.success) {
         setIsModalOpen(false);
-        setMessage(`Staff account @${username} created successfully!`);
+        setMessage(`Staff account @${data.user.username} created successfully! They can now log in immediately.`);
         setUsername('');
         setEmail('');
         setPassword('');
         fetchUsers();
       } else {
-        alert(data.error || 'Failed to create user');
+        setError(data.error || 'Failed to create user');
       }
-    } catch (e) {
-      console.error(e);
+    } catch (e: any) {
+      setError(e.message || 'Network error creating user');
     } finally {
       setSaving(false);
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (!window.confirm('Delete this admin staff user?')) return;
+  const handleDelete = async (id: string, name: string) => {
+    if (!window.confirm(`Are you sure you want to delete administrator @${name}?`)) return;
+    setError(null);
     try {
       const res = await fetch(`/api/admin/users?id=${id}`, { method: 'DELETE' });
       const data = await res.json();
       if (data.success) {
+        setMessage(`Admin account @${name} removed successfully.`);
         fetchUsers();
       } else {
-        alert(data.error || 'Failed to delete user');
+        setError(data.error || 'Failed to delete user');
       }
-    } catch (e) {
-      console.error(e);
+    } catch (e: any) {
+      setError(e.message || 'Error deleting account');
     }
   };
 
@@ -79,26 +97,45 @@ export default function AdminUsersManager() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-borderCream">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-forest-900 tracking-tight">
-            Admin Accounts
+            Staff & Administrators
           </h1>
           <p className="text-xs text-muted mt-0.5">
             Manage authorized staff accounts with role-based access control and secure password protection.
           </p>
         </div>
 
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="self-start sm:self-auto px-4 py-2 bg-forest-800 hover:bg-forest-900 text-white rounded-xl text-xs font-semibold shadow-xs transition-colors flex items-center space-x-1.5"
-        >
-          <Plus className="w-4 h-4 text-gold-400" />
-          <span>Add Admin User</span>
-        </button>
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={() => fetchUsers()}
+            title="Refresh accounts"
+            className="p-2 border border-borderCream rounded-xl bg-white hover:bg-cream-100 text-forest-800 transition-colors"
+          >
+            <RefreshCw className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => {
+              setError(null);
+              setIsModalOpen(true);
+            }}
+            className="px-4 py-2 bg-forest-800 hover:bg-forest-900 text-white rounded-xl text-xs font-semibold shadow-xs transition-colors flex items-center space-x-1.5"
+          >
+            <Plus className="w-4 h-4 text-gold-400" />
+            <span>Add Admin User</span>
+          </button>
+        </div>
       </div>
 
       {message && (
-        <div className="p-3.5 rounded-2xl bg-forest-100 text-forest-900 text-xs font-medium flex items-center space-x-2">
-          <Check className="w-4 h-4 text-forest-700" />
+        <div className="p-3.5 rounded-2xl bg-forest-100 text-forest-900 text-xs font-medium flex items-center space-x-2 border border-forest-200">
+          <Check className="w-4 h-4 text-forest-700 flex-shrink-0" />
           <span>{message}</span>
+        </div>
+      )}
+
+      {error && (
+        <div className="p-3.5 rounded-2xl bg-red-50 text-red-900 text-xs font-medium flex items-center space-x-2 border border-red-200">
+          <AlertCircle className="w-4 h-4 text-red-700 flex-shrink-0" />
+          <span>{error}</span>
         </div>
       )}
 
@@ -119,7 +156,14 @@ export default function AdminUsersManager() {
                 <div key={u.id} className="p-4 space-y-2.5">
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <h4 className="font-bold text-forest-900 text-sm">@{u.username}</h4>
+                      <div className="flex items-center space-x-1.5">
+                        <h4 className="font-bold text-forest-900 text-sm">@{u.username}</h4>
+                        {currentUser?.username === u.username && (
+                          <span className="text-[10px] bg-gold-200/60 text-gold-900 font-bold px-1.5 py-0.5 rounded">
+                            You
+                          </span>
+                        )}
+                      </div>
                       <p className="text-xs text-muted mt-0.5">{u.email}</p>
                     </div>
                     <span className="text-[10px] font-bold uppercase tracking-wider bg-forest-100 text-forest-800 px-2.5 py-1 rounded-full flex-shrink-0">
@@ -135,9 +179,9 @@ export default function AdminUsersManager() {
                       </span>
                     </div>
 
-                    {u.role !== 'SUPER_ADMIN' && (
+                    {u.role !== 'SUPER_ADMIN' && currentUser?.role === 'SUPER_ADMIN' && (
                       <button
-                        onClick={() => handleDelete(u.id)}
+                        onClick={() => handleDelete(u.id, u.username)}
                         className="px-3 py-1 rounded-lg border border-red-200 bg-red-50 text-xs font-semibold text-red-700 hover:bg-red-100 transition-colors flex items-center space-x-1"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -165,10 +209,19 @@ export default function AdminUsersManager() {
                 <tbody className="divide-y divide-borderCream/60">
                   {users.map((u) => (
                     <tr key={u.id} className="hover:bg-cream-50/60 transition-colors">
-                      <td className="py-4 px-5 font-bold text-forest-900">@{u.username}</td>
+                      <td className="py-4 px-5">
+                        <div className="flex items-center space-x-2">
+                          <span className="font-bold text-forest-900">@{u.username}</span>
+                          {currentUser?.username === u.username && (
+                            <span className="text-[10px] bg-gold-200/60 text-gold-900 font-bold px-1.5 py-0.5 rounded">
+                              Current User
+                            </span>
+                          )}
+                        </div>
+                      </td>
                       <td className="py-4 px-4 text-muted">{u.email}</td>
                       <td className="py-4 px-4">
-                        <span className="px-2 py-0.5 rounded-full bg-forest-100 text-forest-800 text-[10px] font-bold uppercase tracking-wider">
+                        <span className="px-2.5 py-0.5 rounded-full bg-forest-100 text-forest-800 text-[10px] font-bold uppercase tracking-wider">
                           {u.role}
                         </span>
                       </td>
@@ -181,9 +234,9 @@ export default function AdminUsersManager() {
                         </span>
                       </td>
                       <td className="py-4 px-5 text-right">
-                        {u.role !== 'SUPER_ADMIN' && (
+                        {u.role !== 'SUPER_ADMIN' && currentUser?.role === 'SUPER_ADMIN' && (
                           <button
-                            onClick={() => handleDelete(u.id)}
+                            onClick={() => handleDelete(u.id, u.username)}
                             className="p-1.5 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors"
                             title="Remove user"
                           >
@@ -208,44 +261,63 @@ export default function AdminUsersManager() {
               Add New Staff User
             </h3>
 
+            {error && (
+              <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-800 text-xs">
+                {error}
+              </div>
+            )}
+
             <form onSubmit={handleCreate} className="space-y-3.5 text-xs">
               <div>
                 <label className="block font-bold text-forest-800 uppercase tracking-wider mb-1">
                   Username *
                 </label>
-                <input
-                  type="text"
-                  required
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-borderCream bg-white"
-                />
+                <div className="relative">
+                  <input
+                    type="text"
+                    required
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="e.g. staff1"
+                    className="w-full pl-9 pr-3 py-2 rounded-xl border border-borderCream bg-white focus:outline-none focus:ring-2 focus:ring-forest-800"
+                  />
+                  <User className="w-4 h-4 text-muted absolute left-3 top-2.5" />
+                </div>
               </div>
 
               <div>
                 <label className="block font-bold text-forest-800 uppercase tracking-wider mb-1">
                   Email Address *
                 </label>
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-borderCream bg-white"
-                />
+                <div className="relative">
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="e.g. staff@example.com"
+                    className="w-full pl-9 pr-3 py-2 rounded-xl border border-borderCream bg-white focus:outline-none focus:ring-2 focus:ring-forest-800"
+                  />
+                  <Mail className="w-4 h-4 text-muted absolute left-3 top-2.5" />
+                </div>
               </div>
 
               <div>
                 <label className="block font-bold text-forest-800 uppercase tracking-wider mb-1">
-                  Password (min 8 chars) *
+                  Password (min 6 chars) *
                 </label>
-                <input
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-borderCream bg-white"
-                />
+                <div className="relative">
+                  <input
+                    type="password"
+                    required
+                    minLength={6}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter staff password"
+                    className="w-full pl-9 pr-3 py-2 rounded-xl border border-borderCream bg-white focus:outline-none focus:ring-2 focus:ring-forest-800"
+                  />
+                  <Lock className="w-4 h-4 text-muted absolute left-3 top-2.5" />
+                </div>
               </div>
 
               <div>
@@ -255,10 +327,10 @@ export default function AdminUsersManager() {
                 <select
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-borderCream bg-white font-semibold"
+                  className="w-full px-3 py-2 rounded-xl border border-borderCream bg-white font-semibold focus:outline-none focus:ring-2 focus:ring-forest-800"
                 >
                   <option value="ADMIN">Administrator (Full catalog & orders)</option>
-                  <option value="MANAGER">Manager (Orders & dispatch only)</option>
+                  <option value="MANAGER">Manager (Orders & dispatch)</option>
                 </select>
               </div>
 
@@ -266,14 +338,14 @@ export default function AdminUsersManager() {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 rounded-xl border border-borderCream text-muted font-semibold"
+                  className="px-4 py-2 rounded-xl border border-borderCream text-muted font-semibold hover:bg-cream-100"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-5 py-2 rounded-xl bg-forest-800 text-white font-bold"
+                  className="px-5 py-2 rounded-xl bg-forest-800 hover:bg-forest-900 text-white font-bold transition-all shadow-xs"
                 >
                   {saving ? 'Creating...' : 'Create Account'}
                 </button>
