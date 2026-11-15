@@ -143,6 +143,9 @@ export async function getCurrentAdmin() {
         username: true,
         email: true,
         role: true,
+        fullName: true,
+        avatarUrl: true,
+        bio: true,
         isActive: true,
       },
     });
@@ -167,6 +170,9 @@ export async function getCurrentAdmin() {
         username: backupUser.username,
         email: backupUser.email,
         role: backupUser.role,
+        fullName: backupUser.fullName,
+        avatarUrl: backupUser.avatarUrl,
+        bio: backupUser.bio,
         isActive: true,
       };
       adminSessionCache.set(result.adminId, { user: resolved, expiresAt: now + 60000 });
@@ -182,6 +188,8 @@ export async function getCurrentAdmin() {
     username: result.username || 'admin',
     email: result.email || `${result.username || 'admin'}@sunnydairy.pk`,
     role: result.role || 'ADMIN',
+    fullName: 'Sanaullah',
+    avatarUrl: '/profile.jpg',
     isActive: true,
   };
   adminSessionCache.set(result.adminId, { user: fallbackUser, expiresAt: now + 60000 });

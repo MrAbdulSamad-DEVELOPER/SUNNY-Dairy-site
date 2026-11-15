@@ -1,7 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Shield, Plus, Trash2, Check, AlertCircle, User, Lock, Mail, KeyRound, RefreshCw, X } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Shield, Plus, Trash2, Check, AlertCircle, User, Lock, Mail, KeyRound, RefreshCw, X, UserCog } from 'lucide-react';
 
 export default function AdminUsersManager() {
   const [users, setUsers] = useState<any[]>([]);
@@ -157,22 +159,42 @@ export default function AdminUsersManager() {
             <div className="block md:hidden divide-y divide-borderCream/70">
               {users.map((u) => (
                 <div key={u.id} className="p-4 space-y-2.5">
-                  <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <div className="flex items-center space-x-1.5">
-                        <h4 className="font-bold text-forest-900 text-sm">@{u.username}</h4>
-                        {currentUser?.username === u.username && (
-                          <span className="text-[10px] bg-gold-200/60 text-gold-900 font-bold px-1.5 py-0.5 rounded">
-                            You
-                          </span>
-                        )}
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-center space-x-3">
+                      <div className="relative w-11 h-11 rounded-full overflow-hidden border border-gold-400 bg-white flex-shrink-0 shadow-xs">
+                        <Image
+                          src={u.avatarUrl || '/profile.jpg'}
+                          alt={u.fullName || u.username}
+                          fill
+                          className="object-cover"
+                          unoptimized
+                        />
                       </div>
-                      <p className="text-xs text-muted mt-0.5">{u.email}</p>
+                      <div>
+                        <div className="flex items-center space-x-1.5">
+                          <h4 className="font-bold text-forest-900 text-sm">
+                            {u.fullName || `@${u.username}`}
+                          </h4>
+                          {currentUser?.username === u.username && (
+                            <span className="text-[10px] bg-gold-200/60 text-gold-900 font-bold px-1.5 py-0.5 rounded">
+                              You
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-[11px] text-forest-700 font-mono">@{u.username}</p>
+                        <p className="text-xs text-muted">{u.email}</p>
+                      </div>
                     </div>
                     <span className="text-[10px] font-bold uppercase tracking-wider bg-forest-100 text-forest-800 px-2.5 py-1 rounded-full flex-shrink-0">
                       {u.role}
                     </span>
                   </div>
+
+                  {u.bio && (
+                    <p className="text-xs text-muted/90 italic bg-cream-50 p-2 rounded-lg border border-borderCream/40">
+                      &quot;{u.bio}&quot;
+                    </p>
+                  )}
 
                   <div className="flex items-center justify-between pt-2 border-t border-borderCream/50 text-xs">
                     <div className="flex items-center space-x-2">
@@ -182,15 +204,26 @@ export default function AdminUsersManager() {
                       </span>
                     </div>
 
-                    {u.role !== 'SUPER_ADMIN' && currentUser?.role === 'SUPER_ADMIN' && (
-                      <button
-                        onClick={() => handleDelete(u.id, u.username)}
-                        className="px-3 py-1 rounded-lg border border-red-200 bg-red-50 text-xs font-semibold text-red-700 hover:bg-red-100 transition-colors flex items-center space-x-1"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                        <span>Delete</span>
-                      </button>
-                    )}
+                    <div className="flex items-center space-x-2">
+                      {currentUser?.username === u.username && (
+                        <Link
+                          href="/admin/settings?tab=profile"
+                          className="px-2.5 py-1 rounded-lg border border-borderCream bg-white text-xs font-bold text-forest-800 hover:bg-cream-100 transition-colors flex items-center space-x-1"
+                        >
+                          <UserCog className="w-3.5 h-3.5 text-gold-600" />
+                          <span>Edit Profile</span>
+                        </Link>
+                      )}
+                      {u.role !== 'SUPER_ADMIN' && currentUser?.role === 'SUPER_ADMIN' && (
+                        <button
+                          onClick={() => handleDelete(u.id, u.username)}
+                          className="px-3 py-1 rounded-lg border border-red-200 bg-red-50 text-xs font-semibold text-red-700 hover:bg-red-100 transition-colors flex items-center space-x-1"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          <span>Delete</span>
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -201,8 +234,8 @@ export default function AdminUsersManager() {
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
                   <tr className="bg-cream-100/70 border-b border-borderCream text-forest-900 font-bold uppercase tracking-wider text-[11px]">
-                    <th className="py-3.5 px-5">Username</th>
-                    <th className="py-3.5 px-4">Email</th>
+                    <th className="py-3.5 px-5">Administrator</th>
+                    <th className="py-3.5 px-4">Email Address</th>
                     <th className="py-3.5 px-4">Role</th>
                     <th className="py-3.5 px-4">Last Login</th>
                     <th className="py-3.5 px-4">Status</th>
@@ -213,16 +246,35 @@ export default function AdminUsersManager() {
                   {users.map((u) => (
                     <tr key={u.id} className="hover:bg-cream-50/60 transition-colors">
                       <td className="py-4 px-5">
-                        <div className="flex items-center space-x-2">
-                          <span className="font-bold text-forest-900">@{u.username}</span>
-                          {currentUser?.username === u.username && (
-                            <span className="text-[10px] bg-gold-200/60 text-gold-900 font-bold px-1.5 py-0.5 rounded">
-                              Current User
-                            </span>
-                          )}
+                        <div className="flex items-center space-x-3">
+                          <div className="relative w-9 h-9 rounded-full overflow-hidden border border-gold-400 bg-white flex-shrink-0 shadow-xs">
+                            <Image
+                              src={u.avatarUrl || '/profile.jpg'}
+                              alt={u.fullName || u.username}
+                              fill
+                              className="object-cover"
+                              unoptimized
+                            />
+                          </div>
+                          <div>
+                            <div className="flex items-center space-x-2">
+                              <span className="font-bold text-forest-900">
+                                {u.fullName || `@${u.username}`}
+                              </span>
+                              {currentUser?.username === u.username && (
+                                <span className="text-[10px] bg-gold-200/60 text-gold-900 font-bold px-1.5 py-0.5 rounded">
+                                  You
+                                </span>
+                              )}
+                            </div>
+                            <span className="text-[11px] text-forest-600 font-mono block">@{u.username}</span>
+                            {u.bio && (
+                              <span className="text-[10px] text-muted line-clamp-1 italic max-w-xs">{u.bio}</span>
+                            )}
+                          </div>
                         </div>
                       </td>
-                      <td className="py-4 px-4 text-muted">{u.email}</td>
+                      <td className="py-4 px-4 text-muted font-medium">{u.email}</td>
                       <td className="py-4 px-4">
                         <span className="px-2.5 py-0.5 rounded-full bg-forest-100 text-forest-800 text-[10px] font-bold uppercase tracking-wider">
                           {u.role}
@@ -237,15 +289,27 @@ export default function AdminUsersManager() {
                         </span>
                       </td>
                       <td className="py-4 px-5 text-right">
-                        {u.role !== 'SUPER_ADMIN' && currentUser?.role === 'SUPER_ADMIN' && (
-                          <button
-                            onClick={() => handleDelete(u.id, u.username)}
-                            className="p-1.5 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors"
-                            title="Remove user"
-                          >
-                            <Trash2 className="w-4 h-4 inline" />
-                          </button>
-                        )}
+                        <div className="flex items-center justify-end space-x-2">
+                          {currentUser?.username === u.username && (
+                            <Link
+                              href="/admin/settings?tab=profile"
+                              className="px-2.5 py-1 rounded-lg border border-borderCream bg-white text-xs font-bold text-forest-800 hover:bg-cream-100 transition-colors flex items-center space-x-1"
+                              title="Edit Profile"
+                            >
+                              <UserCog className="w-3.5 h-3.5 text-gold-600" />
+                              <span>Edit Profile</span>
+                            </Link>
+                          )}
+                          {u.role !== 'SUPER_ADMIN' && currentUser?.role === 'SUPER_ADMIN' && (
+                            <button
+                              onClick={() => handleDelete(u.id, u.username)}
+                              className="p-1.5 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors"
+                              title="Remove user"
+                            >
+                              <Trash2 className="w-4 h-4 inline" />
+                            </button>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   ))}

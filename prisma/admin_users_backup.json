@@ -3,7 +3,7 @@
     "id": "cmwdvf1wd0000tsdfz8r6rld6",
     "username": "admin",
     "email": "sanaullah.ccs@gmail.com",
-    "passwordHash": "$2b$10$C2j4fd9qPpAN6fbU3cFRT.KUHtT4YZuGzW08SUWNWabvtcMv2/Nga",
+    "passwordHash": "$2b$10$b0bvJcgUErQMtrwbDW9C3.Tp/1Lb1PvUJtzAhjlVRWVwHA5dY0wAu",
     "role": "SUPER_ADMIN",
     "isActive": true,
     "failedLoginAttempts": 0,
@@ -12,6 +12,9 @@
     "resetToken": "115767-a54463996d85bfb6c1b7d648a68b16dd1e00402f86096558fdb390b15ffa5882",
     "resetTokenExpiry": "2026-11-14T19:29:21.496Z",
     "createdAt": "2026-11-12T18:17:55.549Z",
-    "updatedAt": "2026-11-15T09:17:54.598Z"
+    "updatedAt": "2026-11-15T09:31:58.776Z",
+    "fullName": "Sanaullah",
+    "avatarUrl": "/profile.jpg",
+    "bio": "Executive Farm Administrator & Founder of SUNNY Dairy Operations"
   }
 ]

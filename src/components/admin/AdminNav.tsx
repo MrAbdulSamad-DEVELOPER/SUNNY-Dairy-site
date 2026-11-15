@@ -29,6 +29,36 @@ export default function AdminNav() {
   const pathname = usePathname();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [adminUser, setAdminUser] = useState<{
+    username: string;
+    fullName: string;
+    avatarUrl: string;
+    role: string;
+  } | null>(null);
+
+  const fetchProfile = () => {
+    fetch('/api/admin/profile', { cache: 'no-store' })
+      .then((r) => r.json())
+      .then((d) => {
+        if (d?.success && d?.user) {
+          setAdminUser({
+            username: d.user.username,
+            fullName: d.user.fullName || (d.user.username === 'admin' ? 'Sanaullah' : d.user.username),
+            avatarUrl: d.user.avatarUrl || '/profile.jpg',
+            role: d.user.role || 'SUPER_ADMIN',
+          });
+        }
+      })
+      .catch(() => {});
+  };
+
+  React.useEffect(() => {
+    fetchProfile();
+    if (typeof window !== 'undefined') {
+      window.addEventListener('admin_profile_updated', fetchProfile);
+      return () => window.removeEventListener('admin_profile_updated', fetchProfile);
+    }
+  }, []);
 
   if (pathname === '/admin/login' || pathname === '/admin/setup' || pathname === '/admin/reset-password') {
     return null;
@@ -89,6 +119,20 @@ export default function AdminNav() {
 
         <div className="flex items-center space-x-2 flex-shrink-0">
           <Link
+            href="/admin/settings?tab=profile"
+            className="flex items-center space-x-1.5 p-1 rounded-lg bg-forest-900 border border-forest-800"
+          >
+            <div className="relative w-6 h-6 rounded-full overflow-hidden border border-gold-400 bg-white flex-shrink-0">
+              <Image
+                src={adminUser?.avatarUrl || '/profile.jpg'}
+                alt={adminUser?.fullName || 'Admin'}
+                fill
+                className="object-cover"
+                unoptimized
+              />
+            </div>
+          </Link>
+          <Link
             href="/"
             target="_blank"
             className="text-[11px] font-semibold text-forest-200 hover:text-white bg-forest-900/90 px-2.5 py-1.5 rounded-lg border border-forest-800 flex items-center space-x-1"
@@ -133,6 +177,33 @@ export default function AdminNav() {
           >
             <X className="w-5 h-5" />
           </button>
+        </div>
+
+        {/* Administrator Profile Pill */}
+        <div className="px-3 pt-3 pb-1">
+          <Link
+            href="/admin/settings?tab=profile"
+            onClick={() => setMobileOpen(false)}
+            className="flex items-center space-x-2.5 p-2 rounded-xl bg-forest-900/70 hover:bg-forest-900 border border-forest-800 transition-all group"
+          >
+            <div className="relative w-9 h-9 rounded-full overflow-hidden border border-gold-400/90 bg-white flex-shrink-0 shadow-xs">
+              <Image
+                src={adminUser?.avatarUrl || '/profile.jpg'}
+                alt={adminUser?.fullName || 'Admin'}
+                fill
+                className="object-cover"
+                unoptimized
+              />
+            </div>
+            <div className="flex-1 min-w-0">
+              <span className="font-bold text-xs text-white block truncate group-hover:text-gold-300 transition-colors">
+                {adminUser?.fullName || 'Sanaullah'}
+              </span>
+              <span className="text-[10px] text-forest-300 block truncate">
+                @{adminUser?.username || 'admin'} &middot; <span className="text-gold-400 font-semibold uppercase">{adminUser?.role || 'SUPER_ADMIN'}</span>
+              </span>
+            </div>
+          </Link>
         </div>
 
         {/* Navigation Links Grouped for Simplicity */}

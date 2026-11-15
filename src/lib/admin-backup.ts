@@ -8,6 +8,9 @@ export interface BackupAdminRecord {
   email: string;
   passwordHash: string;
   role: string;
+  fullName?: string;
+  avatarUrl?: string;
+  bio?: string;
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
@@ -85,6 +88,9 @@ export async function healAdminInDb(admin: BackupAdminRecord): Promise<void> {
         username: admin.username,
         email: admin.email,
         role: admin.role,
+        fullName: admin.fullName,
+        avatarUrl: admin.avatarUrl,
+        bio: admin.bio,
         isActive: admin.isActive,
       },
       create: {
@@ -93,6 +99,9 @@ export async function healAdminInDb(admin: BackupAdminRecord): Promise<void> {
         email: admin.email,
         passwordHash: admin.passwordHash,
         role: admin.role,
+        fullName: admin.fullName,
+        avatarUrl: admin.avatarUrl,
+        bio: admin.bio,
         isActive: admin.isActive,
       },
     });
