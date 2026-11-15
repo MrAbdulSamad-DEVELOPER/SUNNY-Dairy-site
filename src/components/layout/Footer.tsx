@@ -164,46 +164,8 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* SEO Search Index & High-Ranking Keywords Cloud */}
-        <div className="pt-8 pb-6 border-b border-forest-800 text-[11px] text-forest-300 leading-relaxed space-y-2">
-          <p className="font-bold text-xs uppercase tracking-wider text-gold-400">
-            Pakistan Milk Online Website — Popular Searches:
-          </p>
-          <div className="flex flex-wrap gap-x-3 gap-y-1 text-forest-300">
-            <Link href="/" className="hover:text-gold-300 underline underline-offset-2">Pakistan Milk Online Website</Link>
-            <span>&middot;</span>
-            <Link href="/shop" className="hover:text-gold-300 underline underline-offset-2">Online Milk Website</Link>
-            <span>&middot;</span>
-            <Link href="/shop" className="hover:text-gold-300 underline underline-offset-2">Online Milk Delivery Pakistan</Link>
-            <span>&middot;</span>
-            <Link href="/shop" className="hover:text-gold-300 underline underline-offset-2">Buy Pure Cow Milk Online</Link>
-            <span>&middot;</span>
-            <Link href="/shop" className="hover:text-gold-300 underline underline-offset-2">Fresh Buffalo Milk Online</Link>
-            <span>&middot;</span>
-            <Link href="/shop" className="hover:text-gold-300 underline underline-offset-2">Buy Pure Desi Ghee Online Pakistan</Link>
-            <span>&middot;</span>
-            <Link href="/shop" className="hover:text-gold-300 underline underline-offset-2">Fresh Desi Makhan Delivery</Link>
-            <span>&middot;</span>
-            <Link href="/locations/dera-ismail-khan" className="hover:text-gold-300 underline underline-offset-2">Fresh Milk Dera Ismail Khan</Link>
-            <span>&middot;</span>
-            <Link href="/locations/islamabad" className="hover:text-gold-300 underline underline-offset-2">Milk Delivery Islamabad</Link>
-            <span>&middot;</span>
-            <Link href="/locations/rawalpindi" className="hover:text-gold-300 underline underline-offset-2">Fresh Milk Rawalpindi</Link>
-            <span>&middot;</span>
-            <Link href="/locations/lahore" className="hover:text-gold-300 underline underline-offset-2">Pure Milk Lahore</Link>
-            <span>&middot;</span>
-            <Link href="/locations/karachi" className="hover:text-gold-300 underline underline-offset-2">Farm Fresh Milk Karachi</Link>
-            <span>&middot;</span>
-            <Link href="/locations/peshawar" className="hover:text-gold-300 underline underline-offset-2">Fresh Milk Peshawar</Link>
-            <span>&middot;</span>
-            <Link href="/wholesale-dairy-supplier" className="hover:text-gold-300 underline underline-offset-2">Wholesale Dairy Supplier Pakistan</Link>
-            <span>&middot;</span>
-            <Link href="/our-promise" className="hover:text-gold-300 underline underline-offset-2">Zero Water Dilution Milk</Link>
-          </div>
-        </div>
-
         {/* Bottom Bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-forest-400 space-y-4 sm:space-y-0">
+        <div className="pt-8 border-t border-forest-800 flex flex-col sm:flex-row items-center justify-between text-xs text-forest-400 space-y-4 sm:space-y-0">
           <p>© {currentYear} {OFFICIAL_STORE_NAME}. Owned & Operated by {OFFICIAL_STORE_OWNER}. All rights reserved.</p>
           <div className="flex items-center space-x-6">
             <Link href="/admin" className="hover:text-gold-300 transition-colors">
