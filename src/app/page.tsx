@@ -351,10 +351,20 @@ export default async function HomePage() {
                 </div>
 
                 <div className="p-5 sm:p-6 pt-0 border-t border-cream-200/60 mt-2 flex items-center justify-between">
-                  <span className="text-xs font-semibold text-forest-800">{post.author.name}</span>
+                  <div className="flex items-center space-x-2.5">
+                    <img
+                      src={post.author.avatar || '/profile.jpg'}
+                      alt={post.author.name}
+                      className="w-8 h-8 rounded-full object-cover border-2 border-gold-400 shadow-xs flex-shrink-0"
+                    />
+                    <div className="flex flex-col">
+                      <span className="text-xs font-bold text-forest-900 leading-tight">{post.author.name}</span>
+                      <span className="text-[10px] text-forest-500 font-medium">{post.author.role}</span>
+                    </div>
+                  </div>
                   <Link
                     href={`/blog/${post.slug}`}
-                    className="text-xs font-bold text-gold-700 hover:text-gold-800 transition-colors inline-flex items-center space-x-1"
+                    className="text-xs font-bold text-gold-700 hover:text-gold-800 transition-colors inline-flex items-center space-x-1 flex-shrink-0"
                   >
                     <span>Read More</span>
                     <ArrowRight className="w-3.5 h-3.5" />
