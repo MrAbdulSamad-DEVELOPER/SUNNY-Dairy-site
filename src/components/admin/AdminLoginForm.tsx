@@ -51,7 +51,7 @@ export default function AdminLoginForm() {
     const emailTrimmed = forgotIdentity.trim().toLowerCase();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(emailTrimmed)) {
-      setError('Please enter your registered administrator email address (e.g. sanaullah.ccs@gmail.com). Usernames like "admin" cannot be used for password resets.');
+      setError('Please enter a valid administrator email address. Usernames like "admin" cannot be used for password resets.');
       return;
     }
 
@@ -160,7 +160,7 @@ export default function AdminLoginForm() {
                   autoComplete="username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="admin or sanaullah.ccs@gmail.com"
+                  placeholder="Enter email..."
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-borderCream bg-white text-sm text-forest-800 focus:outline-none focus:ring-2 focus:ring-forest-800"
                 />
                 <User className="w-4 h-4 text-muted absolute left-3.5 top-3" />
@@ -228,14 +228,11 @@ export default function AdminLoginForm() {
                   required
                   value={forgotIdentity}
                   onChange={(e) => setForgotIdentity(e.target.value)}
-                  placeholder="e.g. sanaullah.ccs@gmail.com"
+                  placeholder="Enter email..."
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-borderCream bg-white text-sm text-forest-800 focus:outline-none focus:ring-2 focus:ring-forest-800"
                 />
                 <Mail className="w-4 h-4 text-muted absolute left-3.5 top-3" />
               </div>
-              <p className="text-[11px] text-muted mt-1.5 leading-relaxed">
-                Enter your registered administrator email address (<span className="font-medium text-forest-800">sanaullah.ccs@gmail.com</span>). Usernames like &quot;admin&quot; are not valid email addresses.
-              </p>
             </div>
 
             <button

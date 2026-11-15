@@ -112,7 +112,7 @@ function ResetPasswordContent() {
             <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs space-y-2">
               <p className="font-bold text-sm">No Reset Token Detected</p>
               <p className="text-muted leading-relaxed">
-                To reset your administrator password, please request a password reset link from the Admin Sign In page and click the link sent to your registered email address (<strong className="text-forest-900">sanaullah.ccs@gmail.com</strong>).
+                To reset your administrator password, please request a password reset link from the Admin Sign In page and click the secure link sent to your registered email address.
               </p>
             </div>
             <Link
