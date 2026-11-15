@@ -7,6 +7,7 @@ import { ShoppingCart, Clock, CheckCircle2, Truck, Banknote, ArrowRight, Package
 import { OFFICIAL_STORE_NAME } from '@/lib/whatsapp';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function AdminDashboardOverviewPage() {
   const isAuth = await isAuthenticatedAdmin();

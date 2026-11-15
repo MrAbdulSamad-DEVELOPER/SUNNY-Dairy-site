@@ -5,6 +5,7 @@ import prisma from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
 import { logActivity } from '@/lib/auth';
+import { saveBackupAdmin } from '@/lib/admin-backup';
 
 export async function POST(req: NextRequest) {
   try {
@@ -68,6 +69,17 @@ export async function POST(req: NextRequest) {
         failedLoginAttempts: 0,
         lockedUntil: null,
       },
+    });
+
+    saveBackupAdmin({
+      id: admin.id,
+      username: admin.username,
+      email: admin.email,
+      passwordHash,
+      role: admin.role,
+      isActive: admin.isActive,
+      createdAt: admin.createdAt.toISOString(),
+      updatedAt: new Date().toISOString(),
     });
 
     await logActivity({

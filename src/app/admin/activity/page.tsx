@@ -4,6 +4,7 @@ import { isAuthenticatedAdmin } from '@/lib/auth';
 import ActivityLogsViewer from '@/components/admin/ActivityLogsViewer';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function AdminActivityPage() {
   const isAuth = await isAuthenticatedAdmin();

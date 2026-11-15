@@ -3,6 +3,7 @@ import { isAuthenticatedAdmin } from '@/lib/auth';
 import AdminLoginForm from '@/components/admin/AdminLoginForm';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export const metadata = {
   title: 'Admin Sign In — SUNNY Dairy Operations',

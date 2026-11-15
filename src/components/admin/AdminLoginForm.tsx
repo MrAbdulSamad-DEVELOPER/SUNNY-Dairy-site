@@ -42,7 +42,7 @@ export default function AdminLoginForm() {
       }
 
       // Smooth direct navigation
-      window.location.href = '/admin';
+      window.location.replace('/admin');
     } catch (err: any) {
       setError(err.message || 'Invalid username or password');
       setLoading(false);
@@ -69,7 +69,7 @@ export default function AdminLoginForm() {
         throw new Error(data.error || 'Password reset request failed');
       }
 
-      setForgotSuccess(data.message || 'Password reset link aapke email par bhej diya gaya hai.');
+      setForgotSuccess(data.message || 'Password reset link has been sent to your email address.');
       if (data.resetUrl) {
         setDirectResetUrl(data.resetUrl);
       }

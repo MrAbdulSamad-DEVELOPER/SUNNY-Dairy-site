@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import { getCurrentAdmin, logActivity } from '@/lib/auth';
+import { saveBackupAdmin, deleteBackupAdmin, loadBackupAdmins, healAdminInDb } from '@/lib/admin-backup';
 
 export async function GET() {
   const current = await getCurrentAdmin();
@@ -12,6 +13,12 @@ export async function GET() {
   }
 
   try {
+    // Auto-heal any backup users into database
+    const backupAdmins = loadBackupAdmins();
+    for (const ba of backupAdmins) {
+      await healAdminInDb(ba).catch(() => {});
+    }
+
     const users = await prisma.adminUser.findMany({
       select: {
         id: true,
@@ -91,7 +98,20 @@ export async function POST(req: NextRequest) {
         email: true,
         role: true,
         isActive: true,
+        createdAt: true,
       },
+    });
+
+    // Save to backup file for cross-instance and cold-start permanence
+    saveBackupAdmin({
+      id: newUser.id,
+      username: newUser.username,
+      email: newUser.email,
+      passwordHash,
+      role: newUser.role,
+      isActive: true,
+      createdAt: newUser.createdAt.toISOString(),
+      updatedAt: newUser.createdAt.toISOString(),
     });
 
     await logActivity({
@@ -133,6 +153,7 @@ export async function DELETE(req: NextRequest) {
     }
 
     await prisma.adminUser.delete({ where: { id } });
+    deleteBackupAdmin(id);
 
     await logActivity({
       action: 'DELETE_ADMIN_USER',

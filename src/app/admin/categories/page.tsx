@@ -4,6 +4,7 @@ import { isAuthenticatedAdmin } from '@/lib/auth';
 import CategoriesManager from '@/components/admin/CategoriesManager';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function AdminCategoriesPage() {
   const isAuth = await isAuthenticatedAdmin();

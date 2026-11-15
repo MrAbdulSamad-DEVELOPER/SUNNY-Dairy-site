@@ -4,6 +4,7 @@ import { isAuthenticatedAdmin } from '@/lib/auth';
 import AdminUsersManager from '@/components/admin/AdminUsersManager';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function AdminUsersPage() {
   const isAuth = await isAuthenticatedAdmin();

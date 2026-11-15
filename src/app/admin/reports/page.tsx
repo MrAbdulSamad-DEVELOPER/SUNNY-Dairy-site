@@ -4,6 +4,7 @@ import { isAuthenticatedAdmin } from '@/lib/auth';
 import ReportsViewer from '@/components/admin/ReportsViewer';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function AdminReportsPage() {
   const isAuth = await isAuthenticatedAdmin();

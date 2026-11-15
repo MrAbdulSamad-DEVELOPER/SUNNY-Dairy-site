@@ -4,6 +4,7 @@ import { isAuthenticatedAdmin } from '@/lib/auth';
 import SettingsManager from '@/components/admin/SettingsManager';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function AdminSettingsPage() {
   const isAuth = await isAuthenticatedAdmin();

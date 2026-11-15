@@ -4,6 +4,7 @@ import { isAuthenticatedAdmin } from '@/lib/auth';
 import BrandingManager from '@/components/admin/BrandingManager';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function AdminBrandingPage() {
   const isAuth = await isAuthenticatedAdmin();

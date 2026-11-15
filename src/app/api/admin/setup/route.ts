@@ -5,6 +5,7 @@ import prisma from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import { adminSetupSchema } from '@/lib/validations';
 import { signToken, logActivity } from '@/lib/auth';
+import { saveBackupAdmin } from '@/lib/admin-backup';
 
 export async function GET() {
   const count = await prisma.adminUser.count();
@@ -37,7 +38,18 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    const token = signToken(newAdmin.id, newAdmin.username, newAdmin.role);
+    saveBackupAdmin({
+      id: newAdmin.id,
+      username: newAdmin.username,
+      email: newAdmin.email,
+      passwordHash,
+      role: newAdmin.role,
+      isActive: true,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    });
+
+    const token = signToken(newAdmin.id, newAdmin.username, newAdmin.role, newAdmin.email);
     const response = NextResponse.json({
       success: true,
       message: 'Primary administrator account created successfully',

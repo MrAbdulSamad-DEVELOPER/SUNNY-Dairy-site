@@ -18,5 +18,12 @@ export async function POST() {
 
   const response = NextResponse.json({ success: true, message: 'Logged out successfully' });
   response.cookies.delete('sunny_admin_session');
+  response.cookies.set({
+    name: 'sunny_admin_session',
+    value: '',
+    path: '/',
+    maxAge: 0,
+    expires: new Date(0),
+  });
   return response;
 }

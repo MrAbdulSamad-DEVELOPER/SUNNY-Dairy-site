@@ -6,6 +6,7 @@ import { signToken, logActivity } from '@/lib/auth';
 import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
 import prisma from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
+import { findBackupAdmin, healAdminInDb } from '@/lib/admin-backup';
 
 export async function POST(req: NextRequest) {
   try {
@@ -53,6 +54,17 @@ export async function POST(req: NextRequest) {
         ],
       },
     });
+
+    // 2b. If not found in DB, check JSON backup store and auto-heal
+    if (!admin) {
+      const backupAdmin = findBackupAdmin(cleanUsername);
+      if (backupAdmin) {
+        await healAdminInDb(backupAdmin);
+        admin = await prisma.adminUser.findUnique({
+          where: { id: backupAdmin.id },
+        });
+      }
+    }
 
     if (!admin) {
       return NextResponse.json(
@@ -131,7 +143,7 @@ export async function POST(req: NextRequest) {
       console.warn('Reset login attempts warning:', resetErr);
     }
 
-    const token = signToken(admin.id, admin.username, admin.role);
+    const token = signToken(admin.id, admin.username, admin.role, admin.email);
     const response = NextResponse.json({
       success: true,
       message: 'Logged in successfully',

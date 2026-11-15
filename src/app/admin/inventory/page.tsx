@@ -4,6 +4,7 @@ import { isAuthenticatedAdmin } from '@/lib/auth';
 import InventoryManager from '@/components/admin/InventoryManager';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function AdminInventoryPage() {
   const isAuth = await isAuthenticatedAdmin();

@@ -4,6 +4,7 @@ import { isAuthenticatedAdmin } from '@/lib/auth';
 import ProductsManager from '@/components/admin/ProductsManager';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function AdminProductsPage() {
   const isAuth = await isAuthenticatedAdmin();
