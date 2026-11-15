@@ -318,6 +318,13 @@ async function runQaSuite() {
     // MODULE 7: FORGOT PASSWORD DYNAMIC VALIDATION
     // ----------------------------------------------------
     console.log('\n--- MODULE 7: Dynamic Forgot Password Security ---');
+    const invalidFormatPw = await fetchJson(`${BASE_URL}/api/admin/forgot-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ identity: 'admin' }),
+    });
+    assert('Username "admin" rejected as invalid email format (400)', invalidFormatPw.status === 400);
+
     const randomPw = await fetchJson(`${BASE_URL}/api/admin/forgot-password`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -331,6 +338,8 @@ async function runQaSuite() {
       body: JSON.stringify({ identity: 'sanaullah.ccs@gmail.com' }),
     });
     assert('Registered admin email accepted (200)', validPw.status === 200 && validPw.data.success);
+    assert('Zero token leak: resetUrl is not exposed in client response', validPw.data.resetUrl === undefined);
+    assert('Zero code leak: devCode is not exposed in client response', validPw.data.devCode === undefined);
 
     // ----------------------------------------------------
     // MODULE 8: TEST DATA CLEANUP (MANDATORY RULE)

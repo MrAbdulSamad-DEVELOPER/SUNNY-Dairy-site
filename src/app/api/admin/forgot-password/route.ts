@@ -21,23 +21,24 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const identity = (body.identity || '').trim().toLowerCase();
 
-    if (!identity) {
-      return NextResponse.json({ error: 'Please enter your registered administrator email address.' }, { status: 400 });
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!identity || !emailRegex.test(identity)) {
+      return NextResponse.json(
+        { error: 'Please enter your registered administrator email address (e.g. sanaullah.ccs@gmail.com). Usernames like "admin" are not accepted.' },
+        { status: 400 }
+      );
     }
 
-    // Look up admin by either email or username
+    // Look up admin strictly by registered email address
     const admin = await prisma.adminUser.findFirst({
       where: {
-        OR: [
-          { email: identity },
-          { username: identity },
-        ],
+        email: identity,
       },
     });
 
     if (!admin) {
       return NextResponse.json(
-        { error: 'No registered administrator account found with this email. Please verify and try again.' },
+        { error: `No registered administrator account found with email "${identity}". Please check and try again.` },
         { status: 404 }
       );
     }
@@ -68,7 +69,7 @@ export async function POST(req: NextRequest) {
     const proto = req.headers.get('x-forwarded-proto') || (host.includes('localhost') ? 'http' : 'https');
     const resetUrl = `${proto}://${host}/admin/reset-password?token=${combinedToken}&code=${resetCode}&email=${encodeURIComponent(admin.email)}`;
 
-    const sendResult = await sendPasswordResetEmail({
+    await sendPasswordResetEmail({
       toEmail: admin.email,
       adminUsername: admin.username,
       resetCode,
@@ -85,13 +86,11 @@ export async function POST(req: NextRequest) {
       ipAddress: clientIp,
     });
 
+    // High security: Never return the resetUrl or verification code in the client response
     return NextResponse.json({
       success: true,
-      message: `Password reset instructions have been sent to your registered email (${admin.email}).`,
+      message: `A password reset link has been dispatched to your registered email (${admin.email}). Please check your email inbox and click the link to reset your password.`,
       targetEmail: admin.email,
-      resetUrl,
-      simulated: sendResult.simulated,
-      devCode: sendResult.simulated ? resetCode : undefined,
     });
   } catch (error: any) {
     console.error('Forgot password error:', error);

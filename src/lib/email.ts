@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 
-export const DEFAULT_SENDER_EMAIL = 'sanaullah.ccs@gmail.com';
+export const DEFAULT_SENDER_EMAIL = 'mr.abdulsamadabdullah@gmail.com';
 
 interface SendPasswordResetParams {
   toEmail: string;
@@ -78,12 +78,12 @@ export async function sendPasswordResetEmail({
   `;
 
   // 1. Check if SMTP credentials exist in environment
-  const smtpHost = process.env.SMTP_HOST;
-  const smtpPort = process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT, 10) : 587;
+  const smtpHost = process.env.SMTP_HOST || 'smtp.gmail.com';
+  const smtpPort = process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT, 10) : 465;
   const smtpUser = process.env.SMTP_USER || DEFAULT_SENDER_EMAIL;
   const smtpPass = process.env.SMTP_PASS;
 
-  if (smtpHost && smtpUser && smtpPass) {
+  if (smtpPass) {
     try {
       const transporter = nodemailer.createTransport({
         host: smtpHost,
@@ -96,25 +96,25 @@ export async function sendPasswordResetEmail({
       });
 
       const info = await transporter.sendMail({
-        from: process.env.SMTP_FROM || `"SUNNY Dairy Security" <${DEFAULT_SENDER_EMAIL}>`,
+        from: process.env.SMTP_FROM || `"SUNNY Dairy Security" <${smtpUser}>`,
         to: targetRecipient,
         subject: `[SUNNY Dairy] Admin Password Reset Link: @${adminUsername}`,
         text: `SUNNY Dairy Admin Password Reset\n\nAdmin: @${adminUsername}\nReset Link: ${resetUrl}\nVerification Code: ${resetCode}\nValid for 60 minutes.`,
         html: htmlContent,
       });
 
-      console.log(`[EMAIL DISPATCHED] Password reset email sent via SMTP to ${targetRecipient}. ID: ${info.messageId}`);
+      console.log(`[EMAIL DISPATCHED] Password reset email sent via SMTP from ${smtpUser} to ${targetRecipient}. ID: ${info.messageId}`);
       return { success: true, simulated: false, messageId: info.messageId };
     } catch (smtpErr: any) {
       console.error('[SMTP FAILED, FALLING BACK TO SECURE LOG]:', smtpErr.message);
     }
   }
 
-  // 2. Fallback when SMTP credentials are not configured in environment
+  // 2. Fallback log when SMTP password is not yet configured in environment
   console.log(`
 ===========================================================
 [PASSWORD RESET EMAIL DISPATCHED]
-From: ${DEFAULT_SENDER_EMAIL}
+From: ${smtpUser}
 To: ${targetRecipient}
 Admin: @${adminUsername}
 Code: ${resetCode}

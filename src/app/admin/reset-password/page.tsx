@@ -107,83 +107,79 @@ function ResetPasswordContent() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {token ? (
+        {!token && !code ? (
+          <div className="space-y-4 text-center">
+            <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs space-y-2">
+              <p className="font-bold text-sm">No Reset Token Detected</p>
+              <p className="text-muted leading-relaxed">
+                To reset your administrator password, please request a password reset link from the Admin Sign In page and click the link sent to your registered email address (<strong className="text-forest-900">sanaullah.ccs@gmail.com</strong>).
+              </p>
+            </div>
+            <Link
+              href="/admin/login"
+              className="inline-flex items-center justify-center space-x-2 py-3 px-6 rounded-xl bg-forest-800 hover:bg-forest-900 text-white font-bold text-xs shadow-md transition-all"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              <span>Back to Admin Sign In</span>
+            </Link>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center space-x-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-              <span>Password reset link is verified. Please set your new password below.</span>
+              <span>Password reset link verified. Please enter your new password below.</span>
             </div>
-          ) : (
+
             <div>
               <label className="block text-xs font-bold text-forest-800 uppercase tracking-wider mb-1.5">
-                6-Digit Code or Reset Token
+                New Password (min 6 chars)
               </label>
               <div className="relative">
                 <input
-                  type="text"
+                  type="password"
                   required
-                  value={code || token}
-                  onChange={(e) => {
-                    setCode(e.target.value.trim());
-                    setToken(e.target.value.trim());
-                  }}
-                  placeholder="Enter 6-digit code or token"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-borderCream bg-white text-sm font-mono text-forest-800 focus:outline-none focus:ring-2 focus:ring-forest-800"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder="Enter new password"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-borderCream bg-white text-sm text-forest-800 focus:outline-none focus:ring-2 focus:ring-forest-800"
                 />
-                <KeyRound className="w-4 h-4 text-muted absolute left-3.5 top-3" />
+                <Lock className="w-4 h-4 text-muted absolute left-3.5 top-3" />
               </div>
             </div>
-          )}
 
-          <div>
-            <label className="block text-xs font-bold text-forest-800 uppercase tracking-wider mb-1.5">
-              New Password (min 6 chars)
-            </label>
-            <div className="relative">
-              <input
-                type="password"
-                required
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                placeholder="Enter new password"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-borderCream bg-white text-sm text-forest-800 focus:outline-none focus:ring-2 focus:ring-forest-800"
-              />
-              <Lock className="w-4 h-4 text-muted absolute left-3.5 top-3" />
+            <div>
+              <label className="block text-xs font-bold text-forest-800 uppercase tracking-wider mb-1.5">
+                Confirm New Password
+              </label>
+              <div className="relative">
+                <input
+                  type="password"
+                  required
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Re-enter new password"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-borderCream bg-white text-sm text-forest-800 focus:outline-none focus:ring-2 focus:ring-forest-800"
+                />
+                <Lock className="w-4 h-4 text-muted absolute left-3.5 top-3" />
+              </div>
             </div>
-          </div>
 
-          <div>
-            <label className="block text-xs font-bold text-forest-800 uppercase tracking-wider mb-1.5">
-              Confirm New Password
-            </label>
-            <div className="relative">
-              <input
-                type="password"
-                required
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Re-enter new password"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-borderCream bg-white text-sm text-forest-800 focus:outline-none focus:ring-2 focus:ring-forest-800"
-              />
-              <Lock className="w-4 h-4 text-muted absolute left-3.5 top-3" />
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-3.5 px-4 rounded-xl bg-forest-800 hover:bg-forest-900 text-white font-bold text-sm shadow-md transition-all active:scale-[0.99] flex items-center justify-center space-x-2"
-          >
-            {loading ? (
-              <span>Updating Password...</span>
-            ) : (
-              <>
-                <span>Save New Password & Sign In</span>
-                <ArrowRight className="w-4 h-4 text-gold-400" />
-              </>
-            )}
-          </button>
-        </form>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3.5 px-4 rounded-xl bg-forest-800 hover:bg-forest-900 text-white font-bold text-sm shadow-md transition-all active:scale-[0.99] flex items-center justify-center space-x-2"
+            >
+              {loading ? (
+                <span>Updating Password...</span>
+              ) : (
+                <>
+                  <span>Save New Password & Sign In</span>
+                  <ArrowRight className="w-4 h-4 text-gold-400" />
+                </>
+              )}
+            </button>
+          </form>
+        )}
 
         <div className="text-center pt-2">
           <Link
