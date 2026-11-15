@@ -30,7 +30,7 @@ export default function AdminNav() {
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  if (pathname === '/admin/login' || pathname === '/admin/setup') {
+  if (pathname === '/admin/login' || pathname === '/admin/setup' || pathname === '/admin/reset-password') {
     return null;
   }
 
