@@ -21,24 +21,26 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const identity = (body.identity || body.email || body.emailOrUsername || '').trim().toLowerCase();
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!identity || !emailRegex.test(identity)) {
+    if (!identity) {
       return NextResponse.json(
-        { error: 'Please enter a valid registered administrator email address. Usernames are not accepted.' },
+        { error: 'Please enter your registered administrator email address or username.' },
         { status: 400 }
       );
     }
 
-    // Look up admin strictly by registered email address
+    // Look up admin by registered email address OR username (smooth, zero-friction login)
     const admin = await prisma.adminUser.findFirst({
       where: {
-        email: identity,
+        OR: [
+          { email: identity },
+          { username: identity },
+        ],
       },
     });
 
     if (!admin) {
       return NextResponse.json(
-        { error: `No registered administrator account found with email "${identity}". Please check and try again.` },
+        { error: `No registered administrator account found matching "${identity}". Please check and try again.` },
         { status: 404 }
       );
     }

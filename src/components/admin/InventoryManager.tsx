@@ -77,18 +77,18 @@ export default function InventoryManager() {
   return (
     <div className="space-y-6 w-full min-w-0 max-w-full">
       {/* Clean Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-borderCream">
-        <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-forest-900 tracking-tight">
-            Stock & Inventory
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-borderCream min-w-0 max-w-full">
+        <div className="min-w-0 max-w-full">
+          <h1 className="text-xl sm:text-2xl font-bold text-forest-900 tracking-tight break-words">
+            Stock &amp; Inventory
           </h1>
-          <p className="text-xs text-muted mt-0.5">
+          <p className="text-xs text-muted mt-1 break-words leading-relaxed max-w-full">
             Monitor product stock levels, set low-stock limits, and record fresh batch yields.
           </p>
         </div>
 
         {lowStockCount > 0 && (
-          <div className="flex items-center space-x-2 px-3 py-1.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-semibold self-start sm:self-auto">
+          <div className="flex items-center space-x-2 px-3 py-1.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-semibold self-start sm:self-auto flex-shrink-0">
             <AlertTriangle className="w-3.5 h-3.5 text-amber-600 flex-shrink-0" />
             <span>{lowStockCount} item(s) running low!</span>
           </div>
@@ -97,59 +97,87 @@ export default function InventoryManager() {
 
       {message && (
         <div className="p-3.5 rounded-2xl bg-forest-100 text-forest-900 text-xs font-medium flex items-center space-x-2">
-          <Check className="w-4 h-4 text-forest-700" />
+          <Check className="w-4 h-4 text-forest-700 flex-shrink-0" />
           <span>{message}</span>
         </div>
       )}
 
       {/* Main Inventory Container */}
-      <div className="bg-[#FFFDFA] rounded-2xl sm:rounded-3xl border border-borderCream shadow-xs overflow-hidden">
+      <div className="bg-[#FFFDFA] rounded-2xl sm:rounded-3xl border border-borderCream shadow-xs overflow-hidden w-full max-w-full min-w-0">
         {loading ? (
           <div className="text-center py-16 text-muted text-sm">Loading inventory...</div>
         ) : (
           <>
-            {/* Mobile Card List View (< 768px) */}
-            <div className="block md:hidden divide-y divide-borderCream/70">
+            {/* Mobile Card List View (< 768px) - 100% Responsive, Zero Text Squeeze */}
+            <div className="block md:hidden p-3 sm:p-4 space-y-3 w-full max-w-full min-w-0">
               {products.map((p) => {
                 const isLow = p.stockQuantity <= p.lowStockThreshold;
                 return (
-                  <div key={p.id} className="p-4 space-y-3">
-                    <div className="flex items-center space-x-3">
-                      <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-cream-200 flex-shrink-0 border border-borderCream">
+                  <div
+                    key={p.id}
+                    className="p-3.5 rounded-2xl bg-white border border-borderCream/80 shadow-xs space-y-3 w-full max-w-full min-w-0 box-border"
+                  >
+                    {/* Top: Product Image, Title & Low/In Stock Pill */}
+                    <div className="flex items-start gap-3 w-full min-w-0">
+                      <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-cream-200 flex-shrink-0 border border-borderCream shadow-xs">
                         <Image src={p.imageUrl} alt={p.name} fill className="object-cover" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h4 className="font-bold text-forest-900 text-sm truncate">{p.name}</h4>
-                        <div className="flex items-center space-x-2 mt-0.5">
-                          <span className="text-[11px] text-muted font-mono">{p.sku || 'No SKU'}</span>
-                          <span className="text-muted text-[10px]">·</span>
-                          <span className="text-[11px] text-muted">Min: {p.lowStockThreshold}</span>
+                        <div className="flex items-start justify-between gap-2">
+                          <h4 className="font-bold text-forest-900 text-sm leading-snug line-clamp-2">
+                            {p.name}
+                          </h4>
+                          <span
+                            className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider flex-shrink-0 ${
+                              isLow
+                                ? 'bg-red-100 text-red-800 border border-red-200'
+                                : 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                            }`}
+                          >
+                            {isLow ? 'Low Stock' : 'In Stock'}
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1 text-[11px] text-muted font-mono">
+                          <span>{p.sku || 'No SKU'}</span>
+                          <span>·</span>
+                          <span className="font-sans">Min alert: {p.lowStockThreshold}</span>
                         </div>
                       </div>
-                      <div className="text-right flex-shrink-0">
-                        <div className={`font-bold text-sm ${isLow ? 'text-red-700' : 'text-forest-900'}`}>
+                    </div>
+
+                    {/* Middle: 2-Column Info Stats Box */}
+                    <div className="grid grid-cols-2 gap-2 bg-[#FBF9F5] p-2.5 rounded-xl border border-borderCream/60 text-xs">
+                      <div>
+                        <span className="block text-[10px] uppercase font-bold text-muted tracking-wider">
+                          Current Stock
+                        </span>
+                        <span
+                          className={`text-sm font-bold ${
+                            isLow ? 'text-red-700' : 'text-forest-900'
+                          }`}
+                        >
                           {p.stockQuantity} units
-                        </div>
-                        <span className={`inline-block px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider mt-0.5 ${
-                          isLow ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
-                        }`}>
-                          {isLow ? 'Low Stock' : 'In Stock'}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="block text-[10px] uppercase font-bold text-muted tracking-wider">
+                          Sizes
+                        </span>
+                        <span className="text-xs text-forest-800 font-medium truncate block">
+                          {p.variants.map((v) => v.size).join(', ') || 'Standard pack'}
                         </span>
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between pt-2 border-t border-borderCream/50 text-xs">
-                      <span className="text-muted text-[11px] truncate max-w-[180px]">
-                        Sizes: {p.variants.map((v) => v.size).join(', ') || 'Standard'}
-                      </span>
-                      <button
-                        onClick={() => openAdjust(p)}
-                        className="px-3.5 py-1.5 rounded-lg bg-forest-800 text-white font-semibold text-xs hover:bg-forest-900 inline-flex items-center space-x-1.5 transition-colors shadow-xs"
-                      >
-                        <ArrowUpDown className="w-3 h-3 text-gold-400" />
-                        <span>Update Stock</span>
-                      </button>
-                    </div>
+                    {/* Bottom: Full-Width Touch-Friendly Update Stock Button */}
+                    <button
+                      type="button"
+                      onClick={() => openAdjust(p)}
+                      className="w-full py-2.5 px-4 rounded-xl bg-forest-800 text-white font-semibold text-xs hover:bg-forest-900 active:scale-[0.99] flex items-center justify-center space-x-2 transition-all shadow-xs"
+                    >
+                      <ArrowUpDown className="w-3.5 h-3.5 text-gold-400" />
+                      <span>Update &amp; Record Batch Stock</span>
+                    </button>
                   </div>
                 );
               })}
@@ -228,9 +256,9 @@ export default function InventoryManager() {
 
       {/* Adjust Stock Modal */}
       {selectedProduct && (
-        <div className="fixed inset-0 z-50 bg-forest-950/50 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#FFFDFA] rounded-3xl max-w-md w-full p-6 sm:p-8 border border-borderCream shadow-2xl space-y-4">
-            <h3 className="font-serif text-xl font-bold text-forest-800 pb-2 border-b border-borderCream">
+        <div className="fixed inset-0 z-50 bg-forest-950/50 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+          <div className="bg-[#FFFDFA] rounded-2xl sm:rounded-3xl max-w-md w-full p-4 sm:p-8 border border-borderCream shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+            <h3 className="font-serif text-lg sm:text-xl font-bold text-forest-800 pb-2 border-b border-borderCream break-words">
               Adjust Stock: {selectedProduct.name}
             </h3>
 

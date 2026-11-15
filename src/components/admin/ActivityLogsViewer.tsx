@@ -176,18 +176,18 @@ export default function ActivityLogsViewer() {
   }, [logs, searchQuery, filterAction]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 w-full max-w-full min-w-0">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-cream-200">
-        <div>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-cream-200 min-w-0 max-w-full">
+        <div className="min-w-0 max-w-full">
           <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-forest-100 text-forest-800 text-[11px] font-bold uppercase tracking-wider mb-1.5">
             <Shield className="w-3.5 h-3.5 text-forest-700" />
             <span>Audit Trail &amp; Activity Log</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-serif font-bold text-forest-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-serif font-bold text-forest-900 tracking-tight break-words">
             Activity &amp; Operations Logs
           </h1>
-          <p className="text-xs sm:text-sm text-forest-600 mt-1 max-w-2xl">
+          <p className="text-xs sm:text-sm text-forest-600 mt-1 max-w-2xl break-words leading-relaxed">
             Real-time immutable audit trail recording staff sign-ins, catalog modifications, price updates, stock adjustments, and order workflows.
           </p>
         </div>
@@ -195,7 +195,7 @@ export default function ActivityLogsViewer() {
         <button
           onClick={fetchLogs}
           disabled={loading}
-          className="self-start sm:self-auto inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl text-xs font-bold text-forest-900 bg-white border border-forest-200 hover:bg-forest-50 hover:border-forest-300 shadow-xs transition-all active:scale-95 disabled:opacity-50"
+          className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl text-xs font-bold text-forest-900 bg-white border border-forest-200 hover:bg-forest-50 hover:border-forest-300 shadow-xs transition-all active:scale-95 disabled:opacity-50 flex-shrink-0"
         >
           <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-gold-600' : 'text-forest-600'}`} />
           <span>{loading ? 'Refreshing...' : 'Refresh Logs'}</span>
@@ -248,7 +248,7 @@ export default function ActivityLogsViewer() {
         ) : (
           <>
             {/* 1. MOBILE TIMELINE CARDS VIEW (Clean, readable, zero table squeeze) */}
-            <div className="block md:hidden divide-y divide-cream-100 p-2 sm:p-4 space-y-3">
+            <div className="block md:hidden p-3 sm:p-4 space-y-3 w-full max-w-full min-w-0">
               {filteredLogs.map((log) => {
                 const meta = getActionMeta(log.action);
                 const Icon = meta.icon;
@@ -256,10 +256,10 @@ export default function ActivityLogsViewer() {
                 return (
                   <div
                     key={log.id}
-                    className="p-4 rounded-2xl bg-cream-50/50 border border-cream-200/80 space-y-2.5 transition-all hover:bg-white hover:shadow-xs"
+                    className="p-3.5 sm:p-4 rounded-2xl bg-cream-50/60 border border-cream-200/90 space-y-2.5 transition-all hover:bg-white hover:shadow-xs w-full max-w-full min-w-0 box-border"
                   >
                     {/* Top Row: Event Icon + Action Label + Timestamp */}
-                    <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-start justify-between gap-2 w-full min-w-0">
                       <div className="flex items-center space-x-2.5 min-w-0">
                         <div
                           className={`w-8 h-8 rounded-xl ${meta.bgColor} ${meta.borderColor} border flex items-center justify-center flex-shrink-0`}
@@ -268,7 +268,7 @@ export default function ActivityLogsViewer() {
                         </div>
                         <div className="min-w-0">
                           <span
-                            className={`inline-block text-[11px] font-bold px-2.5 py-0.5 rounded-full ${meta.badgeBg}`}
+                            className={`inline-block text-[11px] font-bold px-2.5 py-0.5 rounded-full ${meta.badgeBg} truncate max-w-[140px]`}
                           >
                             {meta.label}
                           </span>
@@ -289,12 +289,12 @@ export default function ActivityLogsViewer() {
                     </div>
 
                     {/* Middle Row: Full Details text */}
-                    <div className="text-xs text-forest-800 leading-relaxed font-medium pl-10">
+                    <div className="text-xs text-forest-800 leading-relaxed font-medium break-words">
                       {log.details || 'System event recorded.'}
                     </div>
 
                     {/* Bottom Row: Actor & Entity Tags */}
-                    <div className="pt-2 border-t border-cream-200/50 flex items-center justify-between text-[11px] pl-10">
+                    <div className="pt-2 border-t border-cream-200/50 flex items-center justify-between text-[11px]">
                       <div className="flex items-center space-x-1 text-forest-700">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                         <span className="font-bold">@{log.adminUsername}</span>

@@ -17,6 +17,7 @@ export default function AdminLoginForm() {
   const [mode, setMode] = useState<'login' | 'forgot'>('login');
   const [forgotIdentity, setForgotIdentity] = useState('');
   const [forgotSuccess, setForgotSuccess] = useState<string | null>(null);
+  const [resolvedEmail, setResolvedEmail] = useState<string | null>(null);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,10 +49,9 @@ export default function AdminLoginForm() {
     setError(null);
     setForgotSuccess(null);
 
-    const emailTrimmed = forgotIdentity.trim().toLowerCase();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(emailTrimmed)) {
-      setError('Please enter a valid administrator email address. Usernames like "admin" cannot be used for password resets.');
+    const identityTrimmed = forgotIdentity.trim();
+    if (!identityTrimmed) {
+      setError('Please enter your administrator username or registered email address.');
       return;
     }
 
@@ -61,7 +61,7 @@ export default function AdminLoginForm() {
       const res = await fetch('/api/admin/forgot-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ identity: emailTrimmed }),
+        body: JSON.stringify({ identity: identityTrimmed }),
       });
 
       const data = await res.json();
@@ -69,6 +69,9 @@ export default function AdminLoginForm() {
         throw new Error(data.error || 'Password reset request failed');
       }
 
+      if (data.targetEmail) {
+        setResolvedEmail(data.targetEmail);
+      }
       setForgotSuccess(data.message || 'Password reset link has been dispatched to your email address.');
     } catch (err: any) {
       setError(err.message || 'Error processing request');
@@ -126,8 +129,8 @@ export default function AdminLoginForm() {
             <div className="p-3 bg-white/90 rounded-xl border border-emerald-100 text-[11px] text-forest-800 space-y-1">
               <p className="font-semibold text-emerald-900">Security Instructions:</p>
               <ol className="list-decimal list-inside space-y-1 text-muted">
-                <li>Open your email inbox (<span className="font-medium text-forest-900">{forgotIdentity}</span>).</li>
-                <li>Look for the email sent from <strong className="text-forest-900">mr.abdulsamadabdullah@gmail.com</strong>.</li>
+                <li>Open your email inbox (<span className="font-medium text-forest-900">{resolvedEmail || forgotIdentity}</span>).</li>
+                <li>Look for the email sent from <strong className="text-forest-900">mr.abdulsamadabdullah@gmail.com</strong> (check Primary Inbox or Spam folder).</li>
                 <li>Click the secure link inside the email to choose your new password.</li>
               </ol>
             </div>
@@ -220,15 +223,15 @@ export default function AdminLoginForm() {
           <form onSubmit={handleForgotPassword} className="space-y-4">
             <div>
               <label className="block text-xs font-bold text-forest-800 uppercase tracking-wider mb-1.5">
-                Registered Admin Email Address
+                Administrator Username or Email
               </label>
               <div className="relative">
                 <input
-                  type="email"
+                  type="text"
                   required
                   value={forgotIdentity}
                   onChange={(e) => setForgotIdentity(e.target.value)}
-                  placeholder="Enter email..."
+                  placeholder="Enter username or email..."
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-borderCream bg-white text-sm text-forest-800 focus:outline-none focus:ring-2 focus:ring-forest-800"
                 />
                 <Mail className="w-4 h-4 text-muted absolute left-3.5 top-3" />
