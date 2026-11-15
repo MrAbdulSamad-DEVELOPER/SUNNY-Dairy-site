@@ -56,11 +56,12 @@ export default function Navbar() {
   const restName = nameParts.slice(1).join(' ') || 'Dairy';
 
   return (
-    <header
-      className={`sticky top-0 z-50 bg-cream-100/95 backdrop-blur-md border-b border-borderCream/80 transition-all duration-200 ease-in-out ${
-        isScrolled ? 'shadow-md bg-cream-100/98' : 'shadow-xs'
-      }`}
-    >
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 w-full bg-cream-100/95 backdrop-blur-md border-b border-borderCream/80 transition-all duration-200 ease-in-out ${
+          isScrolled ? 'shadow-md bg-cream-100/98' : 'shadow-xs'
+        }`}
+      >
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20 gap-2 sm:gap-4">
           {/* Logo with dynamic branding - perfectly bounded to prevent overlapping */}
@@ -174,5 +175,8 @@ export default function Navbar() {
         </div>
       )}
     </header>
+    {/* Height spacer to ensure content flows seamlessly below fixed header */}
+    <div className="h-16 sm:h-20 w-full flex-shrink-0" aria-hidden="true" />
+  </>
   );
 }
