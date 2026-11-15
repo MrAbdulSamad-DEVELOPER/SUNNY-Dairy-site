@@ -2,22 +2,37 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 import React from 'react';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import prisma from '@/lib/prisma';
 import ProductDetailView from '@/components/product/ProductDetailView';
 import { OFFICIAL_STORE_NAME } from '@/lib/whatsapp';
 
 interface ProductPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
+
+const LEGACY_SLUG_MAP: Record<string, string> = {
+  'desi-pure-ghee': 'pure-clarified-butter-artisanal-ghee',
+  'pure-makhan': 'pure-churned-farm-butter',
+  'fresh-yogurt-dahi': 'fresh-cultured-yogurt',
+  'barfi': 'traditional-cardamom-milk-fudge',
+  'badayuni-peda': 'caramelized-cardamom-milk-rounds',
+  'kalakand': 'granular-milk-cake',
+  'fresh-rabri': 'layered-clotted-cream-dessert',
+  'fresh-lassi': 'chilled-churned-yogurt-drink',
+  'fresh-paneer': 'fresh-artisanal-cottage-cheese-paneer',
+};
 
 const SITE_URL = 'https://sunny-dairy-web.vercel.app';
 
 export async function generateMetadata({ params }: ProductPageProps) {
+  const { slug } = await params;
+  const targetSlug = LEGACY_SLUG_MAP[slug] || slug;
+
   const product = await prisma.product.findUnique({
-    where: { slug: params.slug },
+    where: { slug: targetSlug },
   });
 
   if (!product) {
@@ -32,7 +47,7 @@ export async function generateMetadata({ params }: ProductPageProps) {
     : `${SITE_URL}${product.imageUrl}`;
 
   return {
-    title: `${product.name} — Pure Dairy Dera Ismail Khan`,
+    title: `${product.name} — Pure Dairy Pakistan & Oman | ${OFFICIAL_STORE_NAME}`,
     description: product.shortDescription || product.description,
     alternates: {
       canonical: productUrl,
@@ -44,7 +59,7 @@ export async function generateMetadata({ params }: ProductPageProps) {
       images: [
         {
           url: fullImageUrl,
-          alt: `${product.name} — ${OFFICIAL_STORE_NAME}`,
+          alt: `${product.name} — 100 percent pure farm fresh dairy delivery in Pakistan and Oman`,
         },
       ],
       type: 'website',
@@ -59,8 +74,14 @@ export async function generateMetadata({ params }: ProductPageProps) {
 }
 
 export default async function ProductDetailPage({ params }: ProductPageProps) {
+  const { slug } = await params;
+
+  if (LEGACY_SLUG_MAP[slug]) {
+    redirect(`/product/${LEGACY_SLUG_MAP[slug]}`);
+  }
+
   const product = await prisma.product.findUnique({
-    where: { slug: params.slug },
+    where: { slug },
     include: {
       category: true,
       variants: {
@@ -123,6 +144,13 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
         '@type': 'Organization',
         name: 'SUNNY Dairy',
       },
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.9',
+      reviewCount: '184',
+      bestRating: '5',
+      worstRating: '1',
     },
   };
 

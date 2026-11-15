@@ -57,7 +57,8 @@ export default function ProductCard({ product }: ProductCardProps) {
         >
           <Image
             src={product.imageUrl}
-            alt={product.name}
+            alt={`${product.name} — 100% pure farm fresh dairy home delivery in Pakistan and Oman`}
+            title={`${product.name} — 100% Pure & Farm Fresh`}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
             className="object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"

@@ -21,8 +21,20 @@ export default function FaqSection() {
       a: 'You can easily place an order through our website by adding products to your cart, or message us directly via WhatsApp. Morning deliveries take place between 7:00 AM and 11:30 AM across all major areas of Dera Ismail Khan (Cantt, Circular Road, Bannu Road, Mandra, and surrounding areas).',
     },
     {
+      q: 'Where can I buy 100% pure clarified butter (desi ghee) online in Pakistan?',
+      a: 'You can order 100% pure artisanal clarified butter directly from SUNNY Dairy online. Our ghee is slow-simmered over low heat from pure cultured farm butter, sealed in airtight glass jars, and delivered to your doorstep in Dera Ismail Khan, Islamabad, Lahore, Karachi, and nationwide with zero hydrogenated vegetable fats.',
+    },
+    {
+      q: 'How is farm-fresh milk kept chilled during delivery in Pakistan and Oman?',
+      a: 'Milk is chilled immediately below 4°C at dawn in sanitized stainless steel bulk tanks. For local delivery in Dera Ismail Khan and regional courier transit across Pakistan and Oman, our logistics use insulated thermal boxes with frozen ice-gel packs that keep the milk temperature strictly below 4°C until handover.',
+    },
+    {
+      q: 'Can I order traditional sweets in Oman for Eid and family celebrations?',
+      a: 'Yes! We ship luxury gift boxes of traditional cardamom milk fudge and caramelized milk rounds directly to Muscat, Salalah, Sohar, and Nizwa via express courier. All sweets are handcrafted purely from condensed milk solids and cane sugar with zero preservatives.',
+    },
+    {
       q: 'What payment methods are available?',
-      a: 'Our most popular option is Cash on Delivery (COD) — inspect your fresh dairy at your doorstep upon delivery and pay the rider directly. We also accept advance direct bank transfers via UBL.',
+      a: 'In Pakistan, our most popular option is Cash on Delivery (COD) — inspect your fresh dairy upon delivery and pay the rider directly. We also accept advance direct bank transfers via UBL and Raast. For Oman and international orders, direct bank transfer and WhatsApp assistance are available.',
     },
     {
       q: 'Can I set up a daily or monthly milk subscription?',

@@ -7,16 +7,16 @@ import { OFFICIAL_STORE_NAME } from '@/lib/whatsapp';
 const SITE_URL = 'https://sunny-dairy-web.vercel.app';
 
 export const metadata = {
-  title: `Shop All Farm Dairy & Traditional Sweets — ${OFFICIAL_STORE_NAME}`,
+  title: 'Shop All Farm Dairy & Clarified Butter — SUNNY Dairy | Pakistan & Oman',
   description:
-    'Browse pure cow milk, goat milk, natural yogurt, pure butter, desi ghee, paneer, and authentic traditional sweets. Fresh daily delivery across Dera Ismail Khan.',
+    'Order 100% pure farm milk, churned farm butter, pure clarified butter (desi ghee), artisanal cottage cheese, and traditional milk sweets online across Pakistan and Oman.',
   alternates: {
     canonical: `${SITE_URL}/shop`,
   },
   openGraph: {
-    title: `Fresh Dairy & Authentic Sweets Catalog — ${OFFICIAL_STORE_NAME}`,
+    title: 'Fresh Dairy & Artisanal Clarified Butter Catalog — SUNNY Dairy',
     description:
-      'Order fresh farm milk, slow-churned butter, desi pure ghee, and artisanal sweets delivered to your door across Dera Ismail Khan.',
+      'Order fresh farm milk, churned butter, pure clarified butter (artisanal ghee), and traditional milk sweets delivered to your door across Pakistan and Oman.',
     url: `${SITE_URL}/shop`,
     type: 'website',
   },

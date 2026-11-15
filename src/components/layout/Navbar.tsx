@@ -62,6 +62,8 @@ export default function Navbar() {
 
   const navLinks = [
     { label: 'Shop', href: '/shop' },
+    { label: 'Blog', href: '/blog' },
+    { label: 'Locations', href: '/locations' },
     { label: 'Our Promise', href: '/our-promise' },
     { label: 'Delivery & FAQ', href: '/delivery' },
     { label: 'Track Order', href: '/track' },

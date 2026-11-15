@@ -47,7 +47,7 @@ export default function ProductDetailView({
   };
 
   const handleWhatsAppQuickInquiry = () => {
-    const text = `Hello SUNNY Dairy! I am inquiring about *${product.name}* (${selectedVariant.size}). Please confirm current price and morning delivery availability in Dera Ismail Khan.`;
+    const text = `Hello SUNNY Dairy! I am inquiring about *${product.name}* (${selectedVariant.size}). Please confirm current price and delivery availability in Pakistan or Oman.`;
     window.open(getWhatsAppUrl(text), '_blank');
   };
 
@@ -84,7 +84,8 @@ export default function ProductDetailView({
           <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-cream-100 border border-borderCream">
             <Image
               src={product.imageUrl}
-              alt={product.name}
+              alt={`${product.name} — 100% pure farm fresh dairy home delivery in Pakistan and Oman`}
+              title={`${product.name} — SUNNY Dairy Pure & Farm Fresh`}
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 50vw"

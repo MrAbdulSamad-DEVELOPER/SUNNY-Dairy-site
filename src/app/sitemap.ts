@@ -1,5 +1,7 @@
 import { MetadataRoute } from 'next';
 import prisma from '@/lib/prisma';
+import { BLOG_POSTS } from '@/data/blogPosts';
+import { CITIES_DATA } from '@/data/locations';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://sunny-dairy-web.vercel.app';
@@ -7,6 +9,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages = [
     { route: '', priority: 1.0, changeFrequency: 'daily' as const },
     { route: '/shop', priority: 0.95, changeFrequency: 'daily' as const },
+    { route: '/blog', priority: 0.9, changeFrequency: 'daily' as const },
+    { route: '/locations', priority: 0.9, changeFrequency: 'weekly' as const },
+    { route: '/wholesale-dairy-supplier', priority: 0.85, changeFrequency: 'weekly' as const },
+    { route: '/pure-milk-vs-packaged-milk', priority: 0.85, changeFrequency: 'monthly' as const },
+    { route: '/health-benefits-of-pure-desi-ghee', priority: 0.85, changeFrequency: 'monthly' as const },
     { route: '/about', priority: 0.85, changeFrequency: 'weekly' as const },
     { route: '/our-promise', priority: 0.85, changeFrequency: 'weekly' as const },
     { route: '/delivery', priority: 0.85, changeFrequency: 'weekly' as const },
@@ -22,6 +29,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority,
   }));
 
+  const blogPages = BLOG_POSTS.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: new Date(post.publishedDate),
+    changeFrequency: 'weekly' as const,
+    priority: 0.85,
+  }));
+
+  const locationPages = CITIES_DATA.map((city) => ({
+    url: `${baseUrl}/locations/${city.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.85,
+  }));
+
   try {
     const products = await prisma.product.findMany({
       where: { isActive: true },
@@ -35,8 +56,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     }));
 
-    return [...staticPages, ...productPages];
+    return [...staticPages, ...blogPages, ...locationPages, ...productPages];
   } catch (e) {
-    return staticPages;
+    return [...staticPages, ...blogPages, ...locationPages];
   }
 }

@@ -6,23 +6,25 @@ import { ProductDTO } from '@/types';
 import ShopCatalog from '@/components/product/ShopCatalog';
 import TrustBanner from '@/components/ui/TrustBanner';
 import DailySubscriptionBanner from '@/components/ui/DailySubscriptionBanner';
+import CustomerReviews from '@/components/ui/CustomerReviews';
 import FaqSection from '@/components/ui/FaqSection';
-import { CheckCircle2, ArrowRight } from 'lucide-react';
+import { CheckCircle2, ArrowRight, BookOpen, MapPin } from 'lucide-react';
 import { OFFICIAL_STORE_NAME, OFFICIAL_STORE_OWNER, OFFICIAL_PHONE_NUMBER } from '@/lib/whatsapp';
+import { BLOG_POSTS } from '@/data/blogPosts';
 
 const SITE_URL = 'https://sunny-dairy-web.vercel.app';
 
 export const metadata = {
-  title: `${OFFICIAL_STORE_NAME} — Pure Farm Milk, Butter & Desi Ghee Dera Ismail Khan`,
+  title: 'SUNNY Dairy — Farm-Fresh Milk, Butter & Clarified Butter | Pakistan & Oman',
   description:
-    'Fresh cow milk, pure goat milk, natural yogurt, artisanal butter, slow-simmered desi ghee, and traditional sweets delivered daily across Dera Ismail Khan by Sanaullah.',
+    'Order 100% pure farm-fresh cow milk, goat milk, churned butter, clarified butter, and traditional milk sweets online. Fast hygienic delivery across Dera Ismail Khan, Pakistan, and Oman.',
   alternates: {
     canonical: SITE_URL,
   },
   openGraph: {
-    title: `${OFFICIAL_STORE_NAME} — Farm Fresh Milk & Dairy Dera Ismail Khan`,
+    title: 'SUNNY Dairy — Pure Farm Milk & Clarified Butter Pakistan & Oman',
     description:
-      'Pure morning milk, farm-fresh butter, traditional slow-simmered desi ghee, and authentic sweets delivered across Dera Ismail Khan. Cash on delivery available.',
+      'Order 100% pure farm-fresh cow milk, goat milk, churned butter, clarified butter, and traditional milk sweets online. Fast hygienic delivery across Dera Ismail Khan, Pakistan, and Oman.',
     url: SITE_URL,
     type: 'website',
   },
@@ -68,11 +70,11 @@ export default async function HomePage() {
     settingsMap[s.settingKey] = s.settingValue;
   });
 
-  const heroSubtitle = cmsMap.hero?.subtitle || 'Pure Milk, Butter & Desi Ghee';
+  const heroSubtitle = cmsMap.hero?.subtitle || 'FRESH MILK, BUTTER & CLARIFIED BUTTER · PAKISTAN & OMAN';
   const heroTitle = cmsMap.hero?.title || 'Fresh milk. Straight from the farm.';
   const heroContent =
     cmsMap.hero?.content ||
-    'Collected each morning at dawn, chilled below 4°C and delivered to your doorstep across Dera Ismail Khan and all over Pakistan. Order in a minute, pay when it arrives.';
+    'Collected each morning at dawn, chilled below 4°C, and delivered directly to your doorstep across Dera Ismail Khan, nationwide Pakistan, and Oman. Pure unadulterated goodness.';
   const heroImageUrl = cmsMap.hero?.imageUrl || '/products/hero-farm.jpg';
   const heroButtonText = cmsMap.hero?.buttonText || 'Shop Now';
   const heroButtonLink = cmsMap.hero?.buttonLink || '#shop-catalog';
@@ -287,6 +289,79 @@ export default async function HomePage() {
                 Our temperature-controlled rider delivers to your doorstep. Inspect your fresh dairy and pay cash on delivery.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Verified Customer Reviews Section */}
+      <CustomerReviews />
+
+      {/* From Our Farm Journal (SEO Blog Callout) */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+        <div className="space-y-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div className="space-y-2 max-w-xl">
+              <span className="text-xs font-bold uppercase tracking-widest text-gold-700">
+                Purity &amp; Nutrition Guides
+              </span>
+              <h2 className="font-serif text-2xl sm:text-4xl font-bold text-forest-900 tracking-tight">
+                From Our Farm Journal
+              </h2>
+              <p className="text-xs sm:text-sm text-forest-600 leading-relaxed">
+                Evidence-based guides on testing pure clarified butter, morning milk benefits, and cold-chain safety.
+              </p>
+            </div>
+            <Link
+              href="/blog"
+              className="inline-flex items-center space-x-1 text-sm font-bold text-gold-700 hover:text-gold-800 transition-colors"
+            >
+              <span>Explore All Articles</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {BLOG_POSTS.slice(0, 3).map((post) => (
+              <article
+                key={post.slug}
+                className="bg-white rounded-3xl overflow-hidden border border-cream-200 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between group"
+              >
+                <div>
+                  <div className="relative h-48 bg-forest-900 overflow-hidden">
+                    <img
+                      src={post.coverImage}
+                      alt={post.imageAlt}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute top-3 left-3 bg-white/90 text-forest-900 text-[11px] font-bold px-2.5 py-0.5 rounded-full">
+                      {post.category}
+                    </div>
+                  </div>
+                  <div className="p-5 sm:p-6 space-y-2">
+                    <span className="text-[11px] text-forest-500 font-mono">{post.readTime}</span>
+                    <h3 className="font-serif text-lg font-bold text-forest-900 group-hover:text-gold-700 transition-colors leading-snug line-clamp-2">
+                      <Link href={`/blog/${post.slug}`}>
+                        {post.title}
+                      </Link>
+                    </h3>
+                    <p className="text-xs text-forest-600 leading-relaxed line-clamp-2">
+                      {post.summary}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-5 sm:p-6 pt-0 border-t border-cream-200/60 mt-2 flex items-center justify-between">
+                  <span className="text-xs font-semibold text-forest-800">{post.author.name}</span>
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="text-xs font-bold text-gold-700 hover:text-gold-800 transition-colors inline-flex items-center space-x-1"
+                  >
+                    <span>Read More</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              </article>
+            ))}
           </div>
         </div>
       </section>

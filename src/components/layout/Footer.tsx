@@ -50,24 +50,24 @@ export default function Footer() {
               </div>
             </Link>
             <p className="text-forest-200 text-sm leading-relaxed max-w-sm">
-              Pure fresh cow milk, goat milk, traditional butter, and authentic desi ghee delivered directly from our dairy farm to your doorstep across Dera Ismail Khan and all over Pakistan.
+              Pure fresh cow milk, goat milk, churned farm butter, artisanal clarified butter, and traditional sweets delivered directly from our dairy farm to your doorstep across Dera Ismail Khan, nationwide Pakistan, and Oman.
             </p>
             <div className="pt-2 flex items-center space-x-2 text-xs text-gold-400 font-medium">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>Zero Preservatives · 100% Raw Pure · Managed by {activeOwner}</span>
+              <span>Zero Preservatives · 100% Pure Raw · Managed by {activeOwner}</span>
             </div>
           </div>
 
           {/* Contact & Orders */}
           <div className="md:col-span-4 space-y-3">
             <h4 className="font-serif text-lg font-semibold text-gold-400 tracking-wide">
-              Farm & Direct Orders
+              Farm & Direct Orders (Pakistan & Oman)
             </h4>
             <div className="space-y-2.5 text-sm text-forest-200">
               <p className="flex items-center space-x-2">
                 <Phone className="w-4 h-4 text-gold-400 flex-shrink-0" />
                 <span>
-                  <strong className="text-white">Call: </strong>
+                  <strong className="text-white">Pakistan: </strong>
                   <a href={`tel:${OFFICIAL_PHONE_NUMBER}`} className="hover:text-gold-300 font-bold transition-colors">
                     {OFFICIAL_PHONE_NUMBER}
                   </a>
@@ -76,25 +76,25 @@ export default function Footer() {
               <p className="flex items-center space-x-2">
                 <MessageSquare className="w-4 h-4 text-emerald-400 flex-shrink-0" />
                 <span>
-                  <strong className="text-white">WhatsApp: </strong>
+                  <strong className="text-white">Oman & International WhatsApp: </strong>
                   <a
-                    href={whatsappUrl}
+                    href="https://wa.me/96895234002?text=Hello%20SUNNY%20Dairy!%20I%20would%20like%20to%20place%20an%20order."
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:text-emerald-300 font-bold transition-colors"
                   >
-                    +{OFFICIAL_WHATSAPP_NUMBER}
+                    +968 9523 4002
                   </a>
                 </span>
               </p>
               <p className="flex items-start space-x-2">
                 <MapPin className="w-4 h-4 text-gold-400 flex-shrink-0 mt-0.5" />
                 <span className="text-xs text-forest-300">
-                  SUNNY Dairy Farm, Dera Ismail Khan, Khyber Pakhtunkhwa, Pakistan
+                  SUNNY Dairy Farm, Dera Ismail Khan, Khyber Pakhtunkhwa, Pakistan (Serving Pakistan & Oman)
                 </span>
               </p>
               <div className="pt-2 text-xs text-forest-300">
-                Morning delivery schedule: 7:00 AM – 11:30 AM daily
+                Morning delivery schedule: 7:00 AM – 11:30 AM daily · Express Dispatch to Oman
               </div>
             </div>
           </div>
@@ -102,12 +102,37 @@ export default function Footer() {
           {/* Quick Links */}
           <div className="md:col-span-3 space-y-3">
             <h4 className="font-serif text-lg font-semibold text-gold-400 tracking-wide">
-              Quick Links
+              Quick Links & Guides
             </h4>
             <ul className="space-y-2 text-sm text-forest-200">
               <li>
                 <Link href="/shop" className="hover:text-white transition-colors">
                   Shop All Products
+                </Link>
+              </li>
+              <li>
+                <Link href="/blog" className="hover:text-gold-300 font-semibold transition-colors">
+                  Dairy Purity Blog
+                </Link>
+              </li>
+              <li>
+                <Link href="/locations" className="hover:text-gold-300 transition-colors">
+                  Delivery Locations (PK & OM)
+                </Link>
+              </li>
+              <li>
+                <Link href="/wholesale-dairy-supplier" className="hover:text-gold-300 transition-colors">
+                  Wholesale & Commercial Supply
+                </Link>
+              </li>
+              <li>
+                <Link href="/pure-milk-vs-packaged-milk" className="hover:text-white transition-colors text-xs text-forest-300">
+                  Farm Milk vs. Packaged Milk
+                </Link>
+              </li>
+              <li>
+                <Link href="/health-benefits-of-pure-desi-ghee" className="hover:text-white transition-colors text-xs text-forest-300">
+                  Benefits of Clarified Butter
                 </Link>
               </li>
               <li>
@@ -123,11 +148,6 @@ export default function Footer() {
               <li>
                 <Link href="/delivery" className="hover:text-white transition-colors">
                   Delivery Zones & FAQ
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="hover:text-white transition-colors">
-                  Contact Us
                 </Link>
               </li>
               <li>
