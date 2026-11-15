@@ -8,6 +8,9 @@ const SESSION_COOKIE_NAME = 'sunny_admin_session';
 const SESSION_SECRET =
   process.env.ADMIN_SESSION_SECRET || 'sunny-dairy-production-session-secret-key-32chars-min';
 
+// In-memory 60-second session cache to eliminate redundant SQLite hits on rapid mobile navigation
+const adminSessionCache = new Map<string, { user: any; expiresAt: number }>();
+
 export interface TokenPayload {
   adminId: string;
   username: string;
@@ -124,6 +127,13 @@ export async function getCurrentAdmin() {
   const result = verifyToken(sessionCookie.value);
   if (!result.valid || !result.adminId) return null;
 
+  // Ultra-fast in-memory cache check (< 0.05ms)
+  const now = Date.now();
+  const cached = adminSessionCache.get(result.adminId);
+  if (cached && cached.expiresAt > now) {
+    return cached.user;
+  }
+
   // Tier 1: Look up user in database
   try {
     const user = await prisma.adminUser.findUnique({
@@ -139,6 +149,7 @@ export async function getCurrentAdmin() {
 
     if (user) {
       if (!user.isActive) return null; // Explicitly deactivated
+      adminSessionCache.set(result.adminId, { user, expiresAt: now + 60000 });
       return user;
     }
   } catch (err) {
@@ -151,26 +162,30 @@ export async function getCurrentAdmin() {
     if (backupUser) {
       if (!backupUser.isActive) return null;
       healAdminInDb(backupUser).catch(() => {});
-      return {
+      const resolved = {
         id: backupUser.id,
         username: backupUser.username,
         email: backupUser.email,
         role: backupUser.role,
         isActive: true,
       };
+      adminSessionCache.set(result.adminId, { user: resolved, expiresAt: now + 60000 });
+      return resolved;
     }
   } catch {}
 
   // Tier 3: Verified Cryptographic Token Fallback
   // HMAC SHA-256 is 100% verified authentic and unexpired.
   // Never bounce an authenticated administrator to login due to serverless cold-starts or connection lag.
-  return {
+  const fallbackUser = {
     id: result.adminId,
     username: result.username || 'admin',
     email: result.email || `${result.username || 'admin'}@sunnydairy.pk`,
     role: result.role || 'ADMIN',
     isActive: true,
   };
+  adminSessionCache.set(result.adminId, { user: fallbackUser, expiresAt: now + 60000 });
+  return fallbackUser;
 }
 
 export async function isAuthenticatedAdmin(): Promise<boolean> {

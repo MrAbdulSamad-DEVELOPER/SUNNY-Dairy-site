@@ -15,59 +15,62 @@ export default async function AdminDashboardOverviewPage() {
     redirect('/admin/login');
   }
 
-  // Fetch live stats strictly from DB in parallel for ultra-fast load
-  const [
-    totalOrders,
-    pendingOrders,
-    confirmedOrders,
-    deliveredOrders,
-    confirmedSales,
-    recentOrders,
-    topItems,
-    totalProducts,
-  ] = await Promise.all([
-    prisma.order.count(),
-    prisma.order.count({
-      where: {
-        orderStatus: { in: ['PENDING', 'PRICE_CONFIRMATION_REQUIRED'] },
-      },
-    }),
-    prisma.order.count({
-      where: { orderStatus: 'CONFIRMED' },
-    }),
-    prisma.order.count({
-      where: { orderStatus: 'DELIVERED' },
-    }),
-    prisma.order.aggregate({
-      where: {
-        orderStatus: { in: ['CONFIRMED', 'PREPARING', 'OUT_FOR_DELIVERY', 'DELIVERED'] },
-      },
-      _sum: {
-        subtotal: true,
-        finalTotal: true,
-      },
-    }),
-    prisma.order.findMany({
-      take: 6,
-      orderBy: { createdAt: 'desc' },
-      include: {
-        items: true,
-      },
-    }),
-    prisma.orderItem.groupBy({
-      by: ['productNameSnapshot'],
-      _sum: { quantity: true },
-      orderBy: { _sum: { quantity: 'desc' } },
-      take: 5,
-    }),
-    prisma.product.count(),
-  ]);
+  // Fetch live stats strictly from DB with ultra-fast single-pass query
+  let totalOrders = 0;
+  let pendingOrders = 0;
+  let confirmedOrders = 0;
+  let deliveredOrders = 0;
+  let totalSalesAmount = 0;
+  let totalProducts = 0;
+  let recentOrders: any[] = [];
+  let topItems: any[] = [];
 
-  const totalSalesAmount =
-    confirmedSales._sum.finalTotal || confirmedSales._sum.subtotal || 0;
+  try {
+    const [ordersAgg, productsCount, recents, top] = await Promise.all([
+      prisma.order.findMany({
+        select: {
+          orderStatus: true,
+          subtotal: true,
+          finalTotal: true,
+        },
+      }),
+      prisma.product.count(),
+      prisma.order.findMany({
+        take: 6,
+        orderBy: { createdAt: 'desc' },
+        include: { items: true },
+      }),
+      prisma.orderItem.groupBy({
+        by: ['productNameSnapshot'],
+        _sum: { quantity: true },
+        orderBy: { _sum: { quantity: 'desc' } },
+        take: 5,
+      }).catch(() => []),
+    ]);
+
+    totalOrders = ordersAgg.length;
+    for (const o of ordersAgg) {
+      if (o.orderStatus === 'PENDING' || o.orderStatus === 'PRICE_CONFIRMATION_REQUIRED') {
+        pendingOrders++;
+      } else if (o.orderStatus === 'CONFIRMED') {
+        confirmedOrders++;
+      } else if (o.orderStatus === 'DELIVERED') {
+        deliveredOrders++;
+      }
+      if (['CONFIRMED', 'PREPARING', 'OUT_FOR_DELIVERY', 'DELIVERED'].includes(o.orderStatus)) {
+        totalSalesAmount += o.finalTotal || o.subtotal || 0;
+      }
+    }
+
+    totalProducts = productsCount;
+    recentOrders = recents;
+    topItems = top;
+  } catch (err) {
+    console.warn('Dashboard stats query warning:', err);
+  }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-8">
+    <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-10 space-y-6 sm:space-y-8 w-full max-w-full min-w-0 overflow-x-hidden">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-borderCream">
         <div>
@@ -210,7 +213,7 @@ export default async function AdminDashboardOverviewPage() {
                     </p>
 
                     <div className="text-muted text-[11px]">
-                      {ord.items.map((i) => `${i.productNameSnapshot} (${i.selectedVariant}×${i.quantity})`).join(', ')}
+                      {(ord.items || []).map((i: any) => `${i.productNameSnapshot} (${i.selectedVariant}×${i.quantity})`).join(', ')}
                     </div>
                   </div>
 

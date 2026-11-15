@@ -3,7 +3,7 @@
     "id": "cmwdvf1wd0000tsdfz8r6rld6",
     "username": "admin",
     "email": "sanaullah.ccs@gmail.com",
-    "passwordHash": "$2b$10$fz2RLCsLhE1KsxDIskwQmeixfJYeeIRNPFkkKBpeUbyQyJxvD9iBm",
+    "passwordHash": "$2b$10$sw/MIKYV1j897JO1/R979ubpT8vT3OGQZHqXkCPAStBAvl0TWk57i",
     "role": "SUPER_ADMIN",
     "isActive": true,
     "failedLoginAttempts": 0,
@@ -12,6 +12,6 @@
     "resetToken": "115767-a54463996d85bfb6c1b7d648a68b16dd1e00402f86096558fdb390b15ffa5882",
     "resetTokenExpiry": "2026-11-14T19:29:21.496Z",
     "createdAt": "2026-11-12T18:17:55.549Z",
-    "updatedAt": "2026-11-14T18:29:21.498Z"
+    "updatedAt": "2026-11-15T07:13:11.073Z"
   }
 ]

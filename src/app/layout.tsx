@@ -234,7 +234,7 @@ export default function RootLayout({
         <SettingsProvider>
           <CartProvider>
             <Navbar />
-            <main className="flex-grow">{children}</main>
+            <main className="flex-grow min-w-0 w-full max-w-full overflow-x-hidden">{children}</main>
             <CartDrawer />
             <Footer />
             <FloatingWhatsApp />
