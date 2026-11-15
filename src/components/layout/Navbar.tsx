@@ -15,20 +15,46 @@ export default function Navbar() {
   const { settings } = useStoreSettings();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
+    let lastY = typeof window !== 'undefined' ? window.scrollY : 0;
+
     const handleScroll = () => {
-      if (window.scrollY > 15) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
+      const currentY = window.scrollY;
+
+      setIsScrolled(currentY > 15);
+
+      // Keep navbar visible if mobile drawer is currently open
+      if (mobileMenuOpen) {
+        setIsVisible(true);
+        lastY = currentY;
+        return;
       }
+
+      // Always show at top of page
+      if (currentY <= 60) {
+        setIsVisible(true);
+      } else if (currentY > lastY + 8) {
+        // Scrolling DOWN -> Smoothly hide navbar
+        setIsVisible(false);
+      } else if (currentY < lastY - 8) {
+        // Scrolling UP -> Re-appear navbar
+        setIsVisible(true);
+      }
+
+      lastY = currentY;
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [mobileMenuOpen]);
+
+  // Ensure navbar shows on page navigation
+  useEffect(() => {
+    setIsVisible(true);
+    setMobileMenuOpen(false);
+  }, [pathname]);
 
   // Navbar specifically uses /nev-logo.png as instructed
   const activeLogo = '/nev-logo.png';
@@ -58,7 +84,9 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 w-full bg-cream-100/95 backdrop-blur-md border-b border-borderCream/80 transition-all duration-200 ease-in-out ${
+        className={`fixed top-0 left-0 right-0 z-50 w-full bg-cream-100/95 backdrop-blur-md border-b border-borderCream/80 transition-transform duration-300 ease-in-out ${
+          isVisible ? 'translate-y-0' : '-translate-y-full pointer-events-none'
+        } ${
           isScrolled ? 'shadow-md bg-cream-100/98' : 'shadow-xs'
         }`}
       >
