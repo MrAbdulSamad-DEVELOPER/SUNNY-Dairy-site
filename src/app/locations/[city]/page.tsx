@@ -106,7 +106,7 @@ export default async function CityLocationPage({ params }: CityPageProps) {
         <header className="bg-white rounded-3xl p-6 sm:p-12 border border-cream-200 shadow-sm space-y-6">
           <div className="flex flex-wrap items-center gap-3">
             <span className="bg-forest-900 text-cream-100 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-xs">
-              {city.country === 'Pakistan' ? 'Pakistan Delivery Hub' : 'Sultanate of Oman Delivery Hub'}
+              Pakistan Delivery Hub
             </span>
             <span className="bg-gold-500/20 text-gold-900 px-3 py-1 rounded-full text-xs font-bold border border-gold-400/40">
               Temperature-Safe Doorstep Delivery

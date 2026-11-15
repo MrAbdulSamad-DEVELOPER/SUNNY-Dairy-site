@@ -41,7 +41,7 @@ export default async function BlogIndexPage() {
             The Dairy Purity Journal
           </h1>
           <p className="text-forest-700 text-sm sm:text-base leading-relaxed">
-            Evidence-based guides, kitchen purity tests, and pastoral dairy insights crafted by Master Dairy Farm Manager Sanaullah to empower families across Pakistan and Oman.
+            Evidence-based guides, kitchen purity tests, and pastoral dairy insights crafted by Master Dairy Farm Manager Sanaullah to empower families across Pakistan.
           </p>
         </div>
 

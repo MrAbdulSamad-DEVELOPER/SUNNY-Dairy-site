@@ -50,7 +50,7 @@ export default function Footer() {
               </div>
             </Link>
             <p className="text-forest-200 text-sm leading-relaxed max-w-sm">
-              Pure fresh cow milk, goat milk, churned farm butter, artisanal clarified butter, and traditional sweets delivered directly from our dairy farm to your doorstep across Dera Ismail Khan, nationwide Pakistan, and Oman.
+              Pure fresh cow milk, goat milk, churned farm butter, artisanal clarified butter, and traditional sweets delivered directly from our dairy farm to your doorstep across Dera Ismail Khan and nationwide Pakistan.
             </p>
             <div className="pt-2 flex items-center space-x-2 text-xs text-gold-400 font-medium">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
@@ -61,40 +61,40 @@ export default function Footer() {
           {/* Contact & Orders */}
           <div className="md:col-span-4 space-y-3">
             <h4 className="font-serif text-lg font-semibold text-gold-400 tracking-wide">
-              Farm & Direct Orders (Pakistan & Oman)
+              Farm & Direct Orders (Pakistan)
             </h4>
             <div className="space-y-2.5 text-sm text-forest-200">
               <p className="flex items-center space-x-2">
                 <Phone className="w-4 h-4 text-gold-400 flex-shrink-0" />
                 <span>
-                  <strong className="text-white">Pakistan: </strong>
-                  <a href={`tel:${OFFICIAL_PHONE_NUMBER}`} className="hover:text-gold-300 font-bold transition-colors">
-                    {OFFICIAL_PHONE_NUMBER}
+                  <strong className="text-white">Direct Phone: </strong>
+                  <a href={`tel:${activePhone}`} className="hover:text-gold-300 font-bold transition-colors">
+                    {activePhone}
                   </a>
                 </span>
               </p>
               <p className="flex items-center space-x-2">
                 <MessageSquare className="w-4 h-4 text-emerald-400 flex-shrink-0" />
                 <span>
-                  <strong className="text-white">Oman & International WhatsApp: </strong>
+                  <strong className="text-white">Official WhatsApp: </strong>
                   <a
-                    href="https://wa.me/96895234002?text=Hello%20SUNNY%20Dairy!%20I%20would%20like%20to%20place%20an%20order."
+                    href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:text-emerald-300 font-bold transition-colors"
                   >
-                    +968 9523 4002
+                    {activeWhatsapp}
                   </a>
                 </span>
               </p>
               <p className="flex items-start space-x-2">
                 <MapPin className="w-4 h-4 text-gold-400 flex-shrink-0 mt-0.5" />
                 <span className="text-xs text-forest-300">
-                  SUNNY Dairy Farm, Dera Ismail Khan, Khyber Pakhtunkhwa, Pakistan (Serving Pakistan & Oman)
+                  SUNNY Dairy Farm, Dera Ismail Khan, Khyber Pakhtunkhwa, Pakistan (Serving Nationwide Pakistan)
                 </span>
               </p>
               <div className="pt-2 text-xs text-forest-300">
-                Morning delivery schedule: 7:00 AM – 11:30 AM daily · Express Dispatch to Oman
+                Morning delivery schedule: 7:00 AM – 11:30 AM daily · Express Dispatch across Pakistan
               </div>
             </div>
           </div>

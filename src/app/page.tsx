@@ -16,16 +16,16 @@ import { getHomepageFeaturedBlogs } from '@/lib/blogs';
 const SITE_URL = 'https://sunny-dairy-web.vercel.app';
 
 export const metadata = {
-  title: 'SUNNY Dairy — Farm-Fresh Milk, Butter & Clarified Butter | Pakistan & Oman',
+  title: 'SUNNY Dairy — Farm-Fresh Milk, Butter & Clarified Butter | Pakistan',
   description:
-    'Order 100% pure farm-fresh cow milk, goat milk, churned butter, clarified butter, and traditional milk sweets online. Fast hygienic delivery across Dera Ismail Khan, Pakistan, and Oman.',
+    'Order 100% pure farm-fresh cow milk, goat milk, churned butter, clarified butter, and traditional milk sweets online. Fast hygienic delivery across Dera Ismail Khan and nationwide Pakistan.',
   alternates: {
     canonical: SITE_URL,
   },
   openGraph: {
-    title: 'SUNNY Dairy — Pure Farm Milk & Clarified Butter Pakistan & Oman',
+    title: 'SUNNY Dairy — Pure Farm Milk & Clarified Butter Pakistan',
     description:
-      'Order 100% pure farm-fresh cow milk, goat milk, churned butter, clarified butter, and traditional milk sweets online. Fast hygienic delivery across Dera Ismail Khan, Pakistan, and Oman.',
+      'Order 100% pure farm-fresh cow milk, goat milk, churned butter, clarified butter, and traditional milk sweets online. Fast hygienic delivery across Dera Ismail Khan and nationwide Pakistan.',
     url: SITE_URL,
     type: 'website',
   },
@@ -72,11 +72,11 @@ export default async function HomePage() {
     settingsMap[s.settingKey] = s.settingValue;
   });
 
-  const heroSubtitle = cmsMap.hero?.subtitle || 'FRESH MILK, BUTTER & CLARIFIED BUTTER · PAKISTAN & OMAN';
+  const heroSubtitle = cmsMap.hero?.subtitle || 'FRESH MILK, BUTTER & CLARIFIED BUTTER · PAKISTAN';
   const heroTitle = cmsMap.hero?.title || 'Fresh milk. Straight from the farm.';
   const heroContent =
     cmsMap.hero?.content ||
-    'Collected each morning at dawn, chilled below 4°C, and delivered directly to your doorstep across Dera Ismail Khan, nationwide Pakistan, and Oman. Pure unadulterated goodness.';
+    'Collected each morning at dawn, chilled below 4°C, and delivered directly to your doorstep across Dera Ismail Khan and nationwide Pakistan. Pure unadulterated goodness.';
   const heroImageUrl = cmsMap.hero?.imageUrl || '/products/hero-farm.jpg';
   const heroButtonText = cmsMap.hero?.buttonText || 'Shop Now';
   const heroButtonLink = cmsMap.hero?.buttonLink || '#shop-catalog';

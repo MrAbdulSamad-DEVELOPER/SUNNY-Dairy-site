@@ -69,7 +69,7 @@ export const BLOG_POSTS: BlogPost[] = [
       <div class="my-8 p-6 bg-cream-50 border-l-4 border-gold-500 rounded-r-xl shadow-sm">
         <h3 class="text-xl font-serif font-bold text-forest-900 mb-2">SUNNY Dairy Quality Standard</h3>
         <p class="text-sm text-forest-700 mb-0 leading-relaxed">
-          We practice zero-tolerance quality inspection. Every single jar of our artisanal clarified butter is prepared without additives, artificial food dyes, or vegetable oils. Certified farm-fresh delivery across Dera Ismail Khan, nationwide Pakistan, and Oman.
+          We practice zero-tolerance quality inspection. Every single jar of our artisanal clarified butter is prepared without additives, artificial food dyes, or vegetable oils. Certified farm-fresh delivery across Dera Ismail Khan and nationwide Pakistan.
         </p>
       </div>
 
@@ -102,14 +102,14 @@ export const BLOG_POSTS: BlogPost[] = [
         </span>
         <h3 class="text-2xl font-serif font-bold mb-3 text-white">Experience Authentic Artisanal Clarified Butter</h3>
         <p class="text-forest-200 text-sm max-w-xl mx-auto mb-6">
-          Slow-simmered over low embers in Dera Ismail Khan, sealed in airtight glass jars, and delivered directly to households across Pakistan and Oman.
+          Slow-simmered over low embers in Dera Ismail Khan, sealed in airtight glass jars, and delivered directly to households across Pakistan.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <a href="/shop" class="inline-flex items-center justify-center px-6 py-3 bg-gold-500 hover:bg-gold-600 text-forest-900 font-bold rounded-xl shadow-md transition-all">
             Order Pure Clarified Butter
           </a>
-          <a href="https://wa.me/96895234002?text=Hello%20SUNNY%20Dairy!%20I%20would%20like%20to%20order%20pure%20artisanal%20clarified%20butter%20(desi%20ghee)." target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-6 py-3 bg-emerald-700 hover:bg-emerald-600 text-white font-bold rounded-xl transition-all">
-            Order via WhatsApp (+968 9523 4002)
+          <a href="https://wa.me/923129053896?text=Hello%20SUNNY%20Dairy!%20I%20would%20like%20to%20order%20pure%20artisanal%20clarified%20butter%20(desi%20ghee)." target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-6 py-3 bg-emerald-700 hover:bg-emerald-600 text-white font-bold rounded-xl transition-all">
+            Order via WhatsApp (+92 312 9053896)
           </a>
         </div>
       </div>
@@ -145,9 +145,9 @@ export const BLOG_POSTS: BlogPost[] = [
         Synthetic cooking fats lack this biological crystallization and instead feel greasy, gelatinous, or uniformly waxy when rubbed between your fingertips. When you open a jar of pure clarified butter, the scent should be sweet, nutty, and gently caramelized—never sharp, sour, or rancid.
       </p>
 
-      <h2 class="text-2xl font-serif font-bold text-forest-900 mt-8 mb-4">Direct Farm Delivery Across Pakistan and Oman</h2>
+      <h2 class="text-2xl font-serif font-bold text-forest-900 mt-8 mb-4">Direct Farm Delivery Across Pakistan</h2>
       <p class="text-forest-800 leading-relaxed mb-6">
-        SUNNY Dairy delivers laboratory-grade, pure farm clarified butter to families in Dera Ismail Khan, Islamabad, Lahore, Karachi, and across Oman (Muscat, Salalah, Sohar). Every batch is sealed directly at our dairy farm with certified batch dates, guaranteed zero water dilution, and complete cold-chain hygiene.
+        SUNNY Dairy delivers laboratory-grade, pure farm clarified butter to families in Dera Ismail Khan, Islamabad, Lahore, Karachi, Rawalpindi, and Peshawar. Every batch is sealed directly at our dairy farm with certified batch dates, guaranteed zero water dilution, and complete cold-chain hygiene.
       </p>
     `,
     faqs: [
@@ -268,7 +268,7 @@ export const BLOG_POSTS: BlogPost[] = [
         answer: 'We test every single morning collection with calibrated optical and digital lactometers. Standard milk density must strictly measure between 1.028 and 1.032 specific gravity. Any batch falling below this benchmark is rejected immediately.',
       },
       {
-        question: 'How is fresh milk delivered chilled to homes in Pakistan and Oman?',
+        question: 'How is fresh milk delivered chilled to homes in Pakistan?',
         answer: 'Our logistics fleet utilizes insulated thermal carriers with food-grade ice-gel packs that maintain the cold chain below 4°C from our dairy farm gate directly to your residential doorstep.',
       },
     ],
@@ -462,14 +462,14 @@ export const BLOG_POSTS: BlogPost[] = [
         </span>
         <h3 class="text-2xl font-serif font-bold mb-3 text-white">Order Farm-Fresh Traditional Sweets Today</h3>
         <p class="text-forest-200 text-sm max-w-xl mx-auto mb-6">
-          Freshly prepared daily in Dera Ismail Khan and shipped in elegant hygienic sealed gift boxes across Pakistan and Oman.
+          Freshly prepared daily in Dera Ismail Khan and shipped in elegant hygienic sealed gift boxes across Pakistan.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <a href="/shop" class="inline-flex items-center justify-center px-6 py-3 bg-gold-500 hover:bg-gold-600 text-forest-900 font-bold rounded-xl shadow-md transition-all">
             Explore Traditional Sweets
           </a>
-          <a href="https://wa.me/96895234002?text=Hello%20SUNNY%20Dairy!%20I%20would%20like%20to%20order%20traditional%20sweets%20gift%20boxes." target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-6 py-3 bg-emerald-700 hover:bg-emerald-600 text-white font-bold rounded-xl transition-all">
-            Order on WhatsApp (+968 9523 4002)
+          <a href="https://wa.me/923129053896?text=Hello%20SUNNY%20Dairy!%20I%20would%20like%20to%20order%20traditional%20sweets%20gift%20boxes." target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-6 py-3 bg-emerald-700 hover:bg-emerald-600 text-white font-bold rounded-xl transition-all">
+            Order on WhatsApp (+92 312 9053896)
           </a>
         </div>
       </div>
@@ -491,8 +491,8 @@ export const BLOG_POSTS: BlogPost[] = [
         answer: 'Because our sweets contain zero chemical preservatives and are crafted with genuine fresh milk solids, they are best enjoyed within 7 to 10 days when refrigerated.',
       },
       {
-        question: 'Do you deliver sweets for weddings and corporate events in Oman and Pakistan?',
-        answer: 'Yes! We specialize in customized, luxury gift boxes for corporate events, family celebrations, Eid gatherings, and weddings across Pakistan and Oman.',
+        question: 'Do you deliver sweets for weddings and corporate events across Pakistan?',
+        answer: 'Yes! We specialize in customized, luxury gift boxes for corporate events, family celebrations, Eid gatherings, and weddings across Pakistan.',
       },
       {
         question: 'Are artificial food colorings used in your sweets?',

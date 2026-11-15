@@ -30,10 +30,10 @@ export default function CustomerReviews({ cmsData }: CustomerReviewsProps) {
   }
 
   const badgeText = cmsData?.subtitle || 'Verified Customer Experiences';
-  const headingTitle = cmsData?.title || 'Trusted by Families Across Pakistan & Oman';
+  const headingTitle = cmsData?.title || 'Trusted by Families Across Pakistan';
   const subContent =
     cmsData?.content ||
-    'Authentic reviews from households in Dera Ismail Khan, Islamabad, Lahore, Karachi, and Muscat who rely on SUNNY Dairy for unadulterated farm purity.';
+    'Authentic reviews from households in Dera Ismail Khan, Islamabad, Lahore, Karachi, and Peshawar who rely on SUNNY Dairy for unadulterated farm purity.';
 
   const reviewsSchema = {
     '@context': 'https://schema.org',

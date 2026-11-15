@@ -172,7 +172,7 @@ export default function HealthBenefitsDesiGheePage() {
             Bring Pure Artisanal Clarified Butter to Your Kitchen
           </h3>
           <p className="text-forest-200 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
-            Airtight glass jars available in 250g, 500g, 1kg, and 5kg bulk tins. Shipped directly across Pakistan and Oman.
+            Airtight glass jars available in 250g, 500g, 1kg, and 5kg bulk tins. Shipped directly across Pakistan.
           </p>
           <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center">
             <Link

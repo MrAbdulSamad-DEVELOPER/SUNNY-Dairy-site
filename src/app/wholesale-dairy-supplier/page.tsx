@@ -4,16 +4,16 @@ import { Metadata } from 'next';
 import { Building2, ShieldCheck, Truck, Phone, MessageSquare, CheckCircle2, Package, Award, ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Wholesale Dairy Supplier (Milk & Desi Ghee) | SUNNY Dairy Pakistan & Oman',
+  title: 'Wholesale Dairy Supplier (Milk & Desi Ghee) | SUNNY Dairy Pakistan',
   description:
-    'Commercial wholesale dairy supplier for restaurants, hotels, sweet confectioners & catering in Pakistan and Oman. Bulk pure clarified butter (desi ghee), morning milk, and butter.',
+    'Commercial wholesale dairy supplier for restaurants, hotels, sweet confectioners & catering in Pakistan. Bulk pure clarified butter (desi ghee), morning milk, and butter.',
   alternates: {
     canonical: 'https://sunny-dairy-web.vercel.app/wholesale-dairy-supplier',
   },
   openGraph: {
     title: 'Commercial Wholesale Dairy Supplier — SUNNY Dairy',
     description:
-      'Bulk pure clarified butter tins, 50L milk canisters, commercial farm butter, and artisanal cottage cheese blocks for B2B hospitality clients across Pakistan and Oman.',
+      'Bulk pure clarified butter tins, 50L milk canisters, commercial farm butter, and artisanal cottage cheese blocks for B2B hospitality clients across Pakistan.',
     url: 'https://sunny-dairy-web.vercel.app/wholesale-dairy-supplier',
   },
 };
@@ -26,9 +26,9 @@ export default function WholesaleSupplierPage() {
     url: 'https://sunny-dairy-web.vercel.app/wholesale-dairy-supplier',
     description:
       'Wholesale supplier of pure clarified butter (desi ghee), farm-fresh raw milk, churned butter, and traditional sweets for restaurants, bakeries, sweet shops, and hospitality groups.',
-    telephone: '+96895234002',
+    telephone: '+923129053896',
     email: 'sanaullah.ccs@gmail.com',
-    areaServed: ['Pakistan', 'Oman'],
+    areaServed: ['Pakistan'],
   };
 
   return (
@@ -47,16 +47,16 @@ export default function WholesaleSupplierPage() {
           </div>
 
           <h1 className="font-serif text-3xl sm:text-5xl font-bold text-forest-900 leading-tight">
-            Wholesale Pure Dairy &amp; Clarified Butter Supplier for Pakistan &amp; Oman
+            Wholesale Pure Dairy &amp; Clarified Butter Supplier in Pakistan
           </h1>
 
           <p className="text-forest-700 text-base sm:text-lg leading-relaxed max-w-3xl">
-            Partner with SUNNY Dairy for guaranteed farm purity, uninterrupted volume logistics, and certified batch testing. Supplying luxury hotels, high-end sweet confectioners, bakeries, and fine dining restaurants across Pakistan and Oman.
+            Partner with SUNNY Dairy for guaranteed farm purity, uninterrupted volume logistics, and certified batch testing. Supplying luxury hotels, high-end sweet confectioners, bakeries, and fine dining restaurants across Pakistan.
           </p>
 
           <div className="pt-4 flex flex-col sm:flex-row gap-4">
             <a
-              href="https://wa.me/96895234002?text=Hello%20SUNNY%20Dairy!%20I%20am%20inquiring%20about%20wholesale%20commercial%20dairy%20supply."
+              href="https://wa.me/923129053896?text=Hello%20SUNNY%20Dairy!%20I%20am%20inquiring%20about%20wholesale%20commercial%20dairy%20supply."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center px-8 py-3.5 bg-emerald-700 hover:bg-emerald-600 text-white font-bold rounded-2xl shadow-md transition-all space-x-2 text-center"
@@ -165,7 +165,7 @@ export default function WholesaleSupplierPage() {
               <ul className="text-xs text-forest-600 space-y-1.5 pt-2">
                 <li className="flex items-center space-x-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                  <span>Export-grade packaging for Oman &amp; Pakistan</span>
+                  <span>Hygienic protective packaging for nationwide transport</span>
                 </li>
                 <li className="flex items-center space-x-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600" />
@@ -188,7 +188,7 @@ export default function WholesaleSupplierPage() {
           </div>
 
           <form
-            action="https://wa.me/96895234002"
+            action="https://wa.me/923129053896"
             method="GET"
             target="_blank"
             className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2"
@@ -208,13 +208,13 @@ export default function WholesaleSupplierPage() {
 
             <div>
               <label className="block text-xs font-bold text-forest-900 uppercase tracking-wider mb-1.5">
-                Location (City &amp; Country)
+                Location (City in Pakistan)
               </label>
               <input
                 type="text"
                 name="city"
                 required
-                placeholder="e.g. Muscat, Oman / Islamabad, Pakistan"
+                placeholder="e.g. Lahore / Islamabad / Karachi"
                 className="w-full px-4 py-3 rounded-xl border border-cream-300 focus:outline-none focus:ring-2 focus:ring-gold-500 text-sm text-forest-900"
               />
             </div>

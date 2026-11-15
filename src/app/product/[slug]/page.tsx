@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: ProductPageProps) {
     : `${SITE_URL}${product.imageUrl}`;
 
   return {
-    title: `${product.name} — Pure Dairy Pakistan & Oman | ${OFFICIAL_STORE_NAME}`,
+    title: `${product.name} — Pure Dairy Pakistan | ${OFFICIAL_STORE_NAME}`,
     description: product.shortDescription || product.description,
     alternates: {
       canonical: productUrl,
@@ -59,7 +59,7 @@ export async function generateMetadata({ params }: ProductPageProps) {
       images: [
         {
           url: fullImageUrl,
-          alt: `${product.name} — 100 percent pure farm fresh dairy delivery in Pakistan and Oman`,
+          alt: `${product.name} — 100 percent pure farm fresh dairy delivery in Pakistan`,
         },
       ],
       type: 'website',

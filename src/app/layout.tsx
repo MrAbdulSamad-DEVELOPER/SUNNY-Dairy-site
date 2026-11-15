@@ -26,11 +26,11 @@ const SITE_URL = 'https://sunny-dairy-web.vercel.app';
 
 export const metadata: Metadata = {
   title: {
-    default: 'SUNNY Dairy — Farm-Fresh Milk, Butter & Clarified Butter | Pakistan & Oman',
+    default: 'SUNNY Dairy — Farm-Fresh Milk, Butter & Clarified Butter | Pakistan',
     template: '%s | SUNNY Dairy',
   },
   description:
-    'Order 100% pure farm-fresh cow milk, goat milk, churned butter, clarified butter, and traditional milk sweets online. Fast hygienic delivery across Dera Ismail Khan, Pakistan, and Oman.',
+    'Order 100% pure farm-fresh cow milk, goat milk, churned butter, clarified butter, and traditional milk sweets online. Fast hygienic delivery across Dera Ismail Khan and nationwide Pakistan.',
   keywords: [
     'SUNNY Dairy',
     'SUNNY Dairy Pakistan',
@@ -38,8 +38,10 @@ export const metadata: Metadata = {
     'pure farm milk Pakistan',
     'fresh cow milk delivery Dera Ismail Khan',
     'pure desi ghee online Pakistan',
-    'fresh milk home delivery Muscat',
+    'fresh milk delivery Pakistan',
     'organic clarified butter Oman',
+    'Pakistani pure desi ghee in Oman',
+    'authentic Pakistani sweets for Oman expatriates',
     'pure goat milk Pakistan',
     'fresh churned farm butter',
     'fresh cultured whole milk yogurt',
@@ -83,9 +85,9 @@ export const metadata: Metadata = {
   },
   manifest: '/manifest.json',
   openGraph: {
-    title: 'SUNNY Dairy — Farm-Fresh Milk, Butter & Clarified Butter | Pakistan & Oman',
+    title: 'SUNNY Dairy — Farm-Fresh Milk, Butter & Clarified Butter | Pakistan',
     description:
-      'Order 100% pure farm-fresh cow milk, goat milk, churned butter, clarified butter, and traditional milk sweets online. Fast hygienic delivery across Dera Ismail Khan, Pakistan, and Oman.',
+      'Order 100% pure farm-fresh cow milk, goat milk, churned butter, clarified butter, and traditional milk sweets online. Fast hygienic delivery across Dera Ismail Khan and nationwide Pakistan.',
     url: SITE_URL,
     siteName: 'SUNNY Dairy',
     images: [
@@ -93,7 +95,7 @@ export const metadata: Metadata = {
         url: `${SITE_URL}/nev-logo.png`,
         width: 1200,
         height: 630,
-        alt: 'SUNNY Dairy Pure Farm Milk & Clarified Butter Pakistan & Oman',
+        alt: 'SUNNY Dairy Pure Farm Milk & Clarified Butter Pakistan',
       },
     ],
     locale: 'en_PK',
@@ -101,9 +103,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'SUNNY Dairy — Farm-Fresh Milk, Butter & Clarified Butter | Pakistan & Oman',
+    title: 'SUNNY Dairy — Farm-Fresh Milk, Butter & Clarified Butter | Pakistan',
     description:
-      'Order 100% pure farm-fresh cow milk, goat milk, churned butter, clarified butter, and traditional milk sweets online. Fast hygienic delivery across Pakistan and Oman.',
+      'Order 100% pure farm-fresh cow milk, goat milk, churned butter, clarified butter, and traditional milk sweets online. Fast hygienic delivery across Pakistan.',
     images: [`${SITE_URL}/nev-logo.png`],
     creator: '@SunnyDairyPK',
   },
@@ -172,25 +174,14 @@ const jsonLd = {
           '@type': 'Country',
           name: 'Pakistan',
         },
-        {
-          '@type': 'Country',
-          name: 'Oman',
-        },
       ],
       contactPoint: [
         {
           '@type': 'ContactPoint',
-          telephone: '+923449322930',
+          telephone: '+923129053896',
           contactType: 'customer service (Pakistan)',
           areaServed: 'PK',
           availableLanguage: ['English', 'Urdu', 'Pashto', 'Saraiki'],
-        },
-        {
-          '@type': 'ContactPoint',
-          telephone: '+96895234002',
-          contactType: 'customer service (Oman & International)',
-          areaServed: 'OM',
-          availableLanguage: ['English', 'Arabic', 'Urdu'],
         },
       ],
       address: {

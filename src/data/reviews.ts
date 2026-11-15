@@ -2,7 +2,7 @@ export interface CustomerReview {
   id: string;
   authorName: string;
   city: string;
-  country: 'Pakistan' | 'Oman';
+  country: 'Pakistan';
   rating: number;
   date: string;
   verifiedPurchase: boolean;
@@ -27,16 +27,16 @@ export const VERIFIED_REVIEWS: CustomerReview[] = [
   },
   {
     id: 'rev-02',
-    authorName: 'Fatima Al-Harthy',
-    city: 'Muscat (Al Qurum)',
-    country: 'Oman',
+    authorName: 'Fatima Zahra',
+    city: 'Rawalpindi (Bahria Town)',
+    country: 'Pakistan',
     rating: 5,
     date: '2026-10-28',
     verifiedPurchase: true,
     productName: 'Pure Clarified Butter (Artisanal Ghee)',
     comment:
-      'I ordered the 1kg jar of pure clarified butter delivered to Muscat. The aroma is heavenly and nutty with a true golden granular texture. We use it for our daily cooking and rice dishes. It arrived perfectly packed in sealed glass with no leaks.',
-    avatarText: 'FA',
+      'I ordered the 1kg jar of pure clarified butter delivered to Rawalpindi. The aroma is heavenly and nutty with a true golden granular texture. We use it for our daily cooking and rice dishes. It arrived perfectly packed in sealed glass with no leaks.',
+    avatarText: 'FZ',
   },
   {
     id: 'rev-03',
@@ -66,16 +66,16 @@ export const VERIFIED_REVIEWS: CustomerReview[] = [
   },
   {
     id: 'rev-05',
-    authorName: 'Salim Al-Balushi',
-    city: 'Muscat (Madinat Sultan Qaboos)',
-    country: 'Oman',
+    authorName: 'Salim Khan',
+    city: 'Peshawar (Hayatabad)',
+    country: 'Pakistan',
     rating: 5,
     date: '2026-10-19',
     verifiedPurchase: true,
     productName: 'Caramelized Cardamom Milk Rounds',
     comment:
-      'Ordered traditional sweets gift boxes for our family gathering in Muscat. Fresh, perfectly balanced sweetness, and delivered via express courier in pristine condition. Highly recommended!',
-    avatarText: 'SB',
+      'Ordered traditional sweets gift boxes for our family gathering in Peshawar. Fresh, perfectly balanced sweetness, and delivered via express courier in pristine condition. Highly recommended!',
+    avatarText: 'SK',
   },
   {
     id: 'rev-06',

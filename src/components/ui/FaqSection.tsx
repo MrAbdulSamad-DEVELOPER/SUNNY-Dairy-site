@@ -39,16 +39,16 @@ export default function FaqSection({ cmsData }: FaqSectionProps) {
       a: 'You can order 100% pure artisanal clarified butter directly from SUNNY Dairy online. Our ghee is slow-simmered over low heat from pure cultured farm butter, sealed in airtight glass jars, and delivered to your doorstep in Dera Ismail Khan, Islamabad, Lahore, Karachi, and nationwide with zero hydrogenated vegetable fats.',
     },
     {
-      q: 'How is farm-fresh milk kept chilled during delivery in Pakistan and Oman?',
-      a: 'Milk is chilled immediately below 4°C at dawn in sanitized stainless steel bulk tanks. For local delivery in Dera Ismail Khan and regional courier transit across Pakistan and Oman, our logistics use insulated thermal boxes with frozen ice-gel packs that keep the milk temperature strictly below 4°C until handover.',
+      q: 'How is farm-fresh milk kept chilled during delivery in Pakistan?',
+      a: 'Milk is chilled immediately below 4°C at dawn in sanitized stainless steel bulk tanks. For local delivery in Dera Ismail Khan and express courier transit across Pakistan, our logistics use insulated thermal packaging with frozen ice packs that keep the temperature strictly below 4°C until handover.',
     },
     {
-      q: 'Can I order traditional sweets in Oman for Eid and family celebrations?',
-      a: 'Yes! We ship luxury gift boxes of traditional cardamom milk fudge and caramelized milk rounds directly to Muscat, Salalah, Sohar, and Nizwa via express courier. All sweets are handcrafted purely from condensed milk solids and cane sugar with zero preservatives.',
+      q: 'Do you deliver nationwide across major cities in Pakistan?',
+      a: 'Yes! While daily raw milk is delivered every morning across Dera Ismail Khan, our pure clarified butter (desi ghee), churned farm butter, and traditional milk sweets are safely packaged in airtight containers and shipped nationwide across Islamabad, Rawalpindi, Lahore, Karachi, Peshawar, and other major cities.',
     },
     {
       q: 'What payment methods are available?',
-      a: 'In Pakistan, our most popular option is Cash on Delivery (COD) — inspect your fresh dairy upon delivery and pay the rider directly. We also accept advance direct bank transfers via UBL and Raast. For Oman and international orders, direct bank transfer and WhatsApp assistance are available.',
+      a: 'Our most popular option is Cash on Delivery (COD) — inspect your fresh dairy upon delivery and pay the rider directly. We also accept advance direct bank transfers via UBL and Raast Instant Pay for all orders.',
     },
     {
       q: 'Can I set up a daily or monthly milk subscription?',
@@ -69,7 +69,7 @@ export default function FaqSection({ cmsData }: FaqSectionProps) {
   const headingText = cmsData?.title || 'Frequently Asked Questions & Purity Standards';
   const subText =
     cmsData?.content ||
-    'Transparent facts about our daily morning milking cycle, cold-chain temperature preservation, and doorstep delivery across Pakistan and Oman.';
+    'Transparent facts about our daily morning milking cycle, cold-chain temperature preservation, and doorstep delivery across Pakistan.';
 
   const toggle = (idx: number) => {
     setOpenIndex(openIndex === idx ? null : idx);

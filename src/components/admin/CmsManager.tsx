@@ -37,9 +37,9 @@ export default function CmsManager() {
   // Hero Section
   const [hero, setHero] = useState({
     title: 'Fresh milk. Straight from the farm.',
-    subtitle: 'FRESH MILK, BUTTER & CLARIFIED BUTTER · PAKISTAN & OMAN',
+    subtitle: 'FRESH MILK, BUTTER & CLARIFIED BUTTER · PAKISTAN',
     content:
-      'Collected each morning at dawn, chilled below 4°C, and delivered directly to your doorstep across Dera Ismail Khan, nationwide Pakistan, and Oman. Pure unadulterated goodness.',
+      'Collected each morning at dawn, chilled below 4°C, and delivered directly to your doorstep across Dera Ismail Khan and nationwide Pakistan. Pure unadulterated goodness.',
     imageUrl: '/products/hero-farm.jpg',
     buttonText: 'Shop Now',
     buttonLink: '#shop-catalog',
@@ -70,10 +70,10 @@ export default function CmsManager() {
   // Customer Reviews
   const [reviewsSection, setReviewsSection] = useState({
     isEnabled: true,
-    title: 'Trusted by Families Across Pakistan & Oman',
+    title: 'Trusted by Families Across Pakistan',
     subtitle: 'Verified Customer Experiences',
     content:
-      'Authentic reviews from households in Dera Ismail Khan, Islamabad, Lahore, Karachi, and Muscat who rely on SUNNY Dairy for unadulterated farm purity.',
+      'Authentic reviews from households in Dera Ismail Khan, Islamabad, Lahore, Karachi, and Peshawar who rely on SUNNY Dairy for unadulterated farm purity.',
     reviews: [
       {
         id: 'rev-01',
@@ -90,16 +90,16 @@ export default function CmsManager() {
       },
       {
         id: 'rev-02',
-        authorName: 'Fatima Al-Harthy',
-        city: 'Muscat (Al Qurum)',
-        country: 'Oman' as const,
+        authorName: 'Fatima Zahra',
+        city: 'Rawalpindi (Bahria Town)',
+        country: 'Pakistan' as const,
         rating: 5,
         date: '2026-10-28',
         verifiedPurchase: true,
         productName: 'Pure Clarified Butter (Artisanal Ghee)',
         comment:
-          'I ordered the 1kg jar of pure clarified butter delivered to Muscat. The aroma is heavenly and nutty with a true golden granular texture. We use it for our daily cooking and rice dishes. It arrived perfectly packed in sealed glass with no leaks.',
-        avatarText: 'FA',
+          'I ordered the 1kg jar of pure clarified butter delivered to Rawalpindi. The aroma is heavenly and nutty with a true golden granular texture. We use it for our daily cooking and rice dishes. It arrived perfectly packed in sealed glass with no leaks.',
+        avatarText: 'FZ',
       },
       {
         id: 'rev-03',
@@ -123,7 +123,7 @@ export default function CmsManager() {
     title: 'Frequently Asked Questions & Purity Standards',
     subtitle: 'Your Questions',
     content:
-      'Transparent facts about our daily morning milking cycle, cold-chain temperature preservation, and doorstep delivery across Pakistan and Oman.',
+      'Transparent facts about our daily morning milking cycle, cold-chain temperature preservation, and doorstep delivery across Pakistan.',
     faqs: [
       {
         q: 'Is there any water dilution or chemicals added to the milk?',
