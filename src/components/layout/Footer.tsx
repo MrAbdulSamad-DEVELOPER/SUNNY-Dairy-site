@@ -117,7 +117,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/locations" className="hover:text-gold-300 transition-colors">
-                  Delivery Locations (PK & OM)
+                  Delivery Locations (Pakistan)
                 </Link>
               </li>
               <li>
