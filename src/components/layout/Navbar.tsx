@@ -14,46 +14,21 @@ export default function Navbar() {
   const { totalItemCount, setIsCartOpen } = useCart();
   const { settings } = useStoreSettings();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    let ticking = false;
-
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          // If mobile menu is open, keep navbar pinned visible
-          if (mobileMenuOpen) {
-            setIsVisible(true);
-            setLastScrollY(currentScrollY);
-            ticking = false;
-            return;
-          }
-
-          // At top of page, always show
-          if (currentScrollY < 50) {
-            setIsVisible(true);
-          } else if (currentScrollY > lastScrollY && currentScrollY - lastScrollY > 6) {
-            // Scrolling down -> hide navbar smoothly
-            setIsVisible(false);
-          } else if (lastScrollY - currentScrollY > 6) {
-            // Scrolling up -> reveal navbar smoothly
-            setIsVisible(true);
-          }
-
-          setLastScrollY(currentScrollY);
-          ticking = false;
-        });
-        ticking = true;
+      if (window.scrollY > 15) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
       }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY, mobileMenuOpen]);
+  }, []);
 
   // Navbar specifically uses /nev-logo.png as instructed
   const activeLogo = '/nev-logo.png';
@@ -82,8 +57,8 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-40 bg-cream-100/95 backdrop-blur-md border-b border-borderCream/70 transition-transform duration-300 ease-in-out ${
-        isVisible ? 'translate-y-0' : '-translate-y-full'
+      className={`sticky top-0 z-50 bg-cream-100/95 backdrop-blur-md border-b border-borderCream/80 transition-all duration-200 ease-in-out ${
+        isScrolled ? 'shadow-md bg-cream-100/98' : 'shadow-xs'
       }`}
     >
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
