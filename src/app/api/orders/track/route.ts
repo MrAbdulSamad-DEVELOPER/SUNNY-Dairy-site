@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
     }
 
     const { searchParams } = new URL(req.url);
-    const query = searchParams.get('query');
+    const query = searchParams.get('query') || searchParams.get('orderNumber') || searchParams.get('order');
 
     if (!query || query.trim().length === 0) {
       return NextResponse.json(
