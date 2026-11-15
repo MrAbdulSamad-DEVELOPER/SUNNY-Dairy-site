@@ -16,16 +16,30 @@ import { getHomepageFeaturedBlogs } from '@/lib/blogs';
 const SITE_URL = 'https://sunny-dairy-web.vercel.app';
 
 export const metadata = {
-  title: 'SUNNY Dairy — Farm-Fresh Milk, Butter & Clarified Butter | Pakistan',
+  title: 'SUNNY Dairy — #1 Pakistan Milk Online Website | Buy Pure Farm Fresh Milk Online',
   description:
-    'Order 100% pure farm-fresh cow milk, goat milk, churned butter, clarified butter, and traditional milk sweets online. Fast hygienic delivery across Dera Ismail Khan and nationwide Pakistan.',
+    "Pakistan's #1 online milk website. Buy 100% pure farm-fresh cow milk, buffalo milk, artisanal desi ghee, churned butter & traditional sweets online. Fast cold-chain delivery across Dera Ismail Khan, Islamabad, Rawalpindi, Lahore, Karachi, Peshawar and nationwide Pakistan.",
+  keywords: [
+    'pakistan milk online website',
+    'online milk website',
+    'online milk website pakistan',
+    'pakistan online milk delivery',
+    'buy pure milk online pakistan',
+    'fresh milk delivery pakistan',
+    'online milk shopping pakistan',
+    'best milk online website in pakistan',
+    'doodh online pakistan',
+    'pure cow milk online pakistan',
+    'fresh buffalo milk online pakistan',
+    'buy pure desi ghee online pakistan',
+  ],
   alternates: {
     canonical: SITE_URL,
   },
   openGraph: {
-    title: 'SUNNY Dairy — Pure Farm Milk & Clarified Butter Pakistan',
+    title: 'SUNNY Dairy — #1 Pakistan Milk Online Website | Farm-Fresh Milk Delivery',
     description:
-      'Order 100% pure farm-fresh cow milk, goat milk, churned butter, clarified butter, and traditional milk sweets online. Fast hygienic delivery across Dera Ismail Khan and nationwide Pakistan.',
+      "Pakistan's #1 online milk website. Buy 100% pure farm-fresh cow milk, buffalo milk, artisanal desi ghee, churned butter & traditional sweets online across Dera Ismail Khan and nationwide Pakistan.",
     url: SITE_URL,
     type: 'website',
   },

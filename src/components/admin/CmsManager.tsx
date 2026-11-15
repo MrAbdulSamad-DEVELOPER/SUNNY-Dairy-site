@@ -593,7 +593,7 @@ export default function CmsManager() {
         {activeTab === 'hero' && (
           <div className="space-y-4 sm:space-y-6">
             {/* Hero Card */}
-            <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 sm:space-y-5 w-full max-w-full min-w-0 box-border overflow-hidden">
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 border border-cream-200 shadow-sm space-y-4 sm:space-y-5 w-full max-w-full min-w-0 box-border overflow-hidden">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-cream-200">
                 <div>
                   <h3 className="font-serif text-lg font-bold text-forest-900">
@@ -712,7 +712,7 @@ export default function CmsManager() {
             </div>
 
             {/* Quality Promise Card */}
-            <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 w-full max-w-full min-w-0 box-border overflow-hidden">
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 border border-cream-200 shadow-sm space-y-4 w-full max-w-full min-w-0 box-border overflow-hidden">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-cream-200">
                 <h3 className="font-serif text-lg font-bold text-forest-900">
                   2. Quality Promise Story
@@ -758,7 +758,7 @@ export default function CmsManager() {
 
         {/* TAB 2: LIVE FARM BATCH TICKER */}
         {activeTab === 'ticker' && (
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 sm:space-y-6 w-full max-w-full min-w-0 box-border overflow-hidden">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 border border-cream-200 shadow-sm space-y-4 sm:space-y-6 w-full max-w-full min-w-0 box-border overflow-hidden">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-cream-200">
               <div>
                 <h3 className="font-serif text-lg font-bold text-forest-900 flex items-center space-x-2">
@@ -851,7 +851,7 @@ export default function CmsManager() {
 
         {/* TAB 3: CUSTOMER REVIEWS */}
         {activeTab === 'reviews' && (
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 sm:space-y-6 w-full max-w-full min-w-0 box-border overflow-hidden">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 border border-cream-200 shadow-sm space-y-4 sm:space-y-6 w-full max-w-full min-w-0 box-border overflow-hidden">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-cream-200">
               <div>
                 <h3 className="font-serif text-lg font-bold text-forest-900 flex items-center space-x-2">
@@ -985,7 +985,7 @@ export default function CmsManager() {
 
         {/* TAB 4: HOMEPAGE FAQS */}
         {activeTab === 'faqs' && (
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 sm:space-y-6 w-full max-w-full min-w-0 box-border overflow-hidden">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 border border-cream-200 shadow-sm space-y-4 sm:space-y-6 w-full max-w-full min-w-0 box-border overflow-hidden">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-cream-200">
               <div>
                 <h3 className="font-serif text-lg font-bold text-forest-900 flex items-center space-x-2">
@@ -1061,7 +1061,7 @@ export default function CmsManager() {
 
         {/* TAB 5: SUBSCRIPTION BANNER */}
         {activeTab === 'subscription' && (
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 sm:space-y-6 w-full max-w-full min-w-0 box-border overflow-hidden">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 border border-cream-200 shadow-sm space-y-4 sm:space-y-6 w-full max-w-full min-w-0 box-border overflow-hidden">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-cream-200">
               <h3 className="font-serif text-lg font-bold text-forest-900">
                 Daily Morning Milk Subscription Banner
@@ -1159,7 +1159,7 @@ export default function CmsManager() {
 
         {/* TAB 6: TRUST BADGES */}
         {activeTab === 'trust' && (
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 sm:space-y-6 w-full max-w-full min-w-0 box-border overflow-hidden">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 border border-cream-200 shadow-sm space-y-4 sm:space-y-6 w-full max-w-full min-w-0 box-border overflow-hidden">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-cream-200">
               <h3 className="font-serif text-lg font-bold text-forest-900">
                 Trust Guarantee Badges
