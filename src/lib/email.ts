@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
 
 export const DEFAULT_SENDER_EMAIL = 'mr.abdulsamadabdullah@gmail.com';
+export const DEFAULT_SMTP_PASS = 'wsumlrbktkvmejbx';
 
 interface SendPasswordResetParams {
   toEmail: string;
@@ -148,7 +149,7 @@ Pure & Farm Fresh Dairy
   const smtpHost = process.env.SMTP_HOST || 'smtp.gmail.com';
   const smtpPort = process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT, 10) : 465;
   const smtpUser = process.env.SMTP_USER || DEFAULT_SENDER_EMAIL;
-  const smtpPass = (process.env.SMTP_PASS || '').replace(/\s+/g, '');
+  const smtpPass = (process.env.SMTP_PASS || DEFAULT_SMTP_PASS).replace(/\s+/g, '');
 
   if (smtpPass) {
     try {
@@ -181,7 +182,8 @@ Pure & Farm Fresh Dairy
       console.log(`[EMAIL DISPATCHED] Password reset email sent via SMTP from ${smtpUser} to ${targetRecipient}. ID: ${info.messageId}`);
       return { success: true, simulated: false, messageId: info.messageId };
     } catch (smtpErr: any) {
-      console.error('[SMTP FAILED, FALLING BACK TO SECURE LOG]:', smtpErr.message);
+      console.error('[SMTP FAILED]:', smtpErr.message);
+      return { success: false, error: smtpErr.message };
     }
   }
 

@@ -71,12 +71,19 @@ export async function POST(req: NextRequest) {
     const proto = req.headers.get('x-forwarded-proto') || (host.includes('localhost') ? 'http' : 'https');
     const resetUrl = `${proto}://${host}/admin/reset-password?token=${combinedToken}&code=${resetCode}&email=${encodeURIComponent(admin.email)}`;
 
-    await sendPasswordResetEmail({
+    const emailRes = await sendPasswordResetEmail({
       toEmail: admin.email,
       adminUsername: admin.username,
       resetCode,
       resetUrl,
     });
+
+    if (!emailRes.success) {
+      return NextResponse.json(
+        { error: emailRes.error || 'Failed to dispatch email via Gmail SMTP server. Please try again.' },
+        { status: 500 }
+      );
+    }
 
     await logActivity({
       action: 'FORGOT_PASSWORD_REQUEST',
