@@ -4,7 +4,6 @@ import Link from 'next/link';
 import prisma from '@/lib/prisma';
 import { ProductDTO } from '@/types';
 import ShopCatalog from '@/components/product/ShopCatalog';
-import BatchStatusTicker from '@/components/ui/BatchStatusTicker';
 import TrustBanner from '@/components/ui/TrustBanner';
 import DailySubscriptionBanner from '@/components/ui/DailySubscriptionBanner';
 import CustomerReviews from '@/components/ui/CustomerReviews';
@@ -246,9 +245,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* Live Farm Batch Ticker */}
-      <BatchStatusTicker cmsData={cmsMap.batch_ticker} />
 
       {/* Trust Benefits Banner */}
       <TrustBanner cmsData={cmsMap.trust_badges} />
