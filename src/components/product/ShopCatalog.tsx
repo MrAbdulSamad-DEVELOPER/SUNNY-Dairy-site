@@ -80,7 +80,7 @@ export default function ShopCatalog({
   }, [products, activeCategory, searchQuery]);
 
   return (
-    <section id="shop-catalog" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <section id="shop-catalog" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full min-w-0 max-w-full">
       {showTitle && (
         <div className="space-y-3 mb-10">
           <span className="text-xs font-bold uppercase tracking-widest text-gold-700 block">
@@ -96,9 +96,9 @@ export default function ShopCatalog({
       )}
 
       {/* Filter and Search Bar */}
-      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mb-10 pb-6 border-b border-borderCream">
+      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mb-10 pb-6 border-b border-borderCream w-full min-w-0 max-w-full">
         {/* Category Filter Pills */}
-        <div className="flex items-center space-x-2 overflow-x-auto pb-2 md:pb-0 scrollbar-none">
+        <div className="flex items-center space-x-2 overflow-x-auto pb-2 md:pb-0 scrollbar-none w-full min-w-0 max-w-full">
           {categories.map((cat) => {
             const isActive = activeCategory === cat.id;
             return (
@@ -149,7 +149,7 @@ export default function ShopCatalog({
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8 w-full min-w-0">
           {filteredProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

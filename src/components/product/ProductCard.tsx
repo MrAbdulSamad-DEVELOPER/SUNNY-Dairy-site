@@ -48,7 +48,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   const selectorLabel = isWeight ? 'Weight' : 'Size';
 
   return (
-    <div className="group bg-[#FFFDFA] rounded-2xl border border-borderCream/90 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between h-full">
+    <div className="group bg-[#FFFDFA] rounded-2xl border border-borderCream/90 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between h-full w-full min-w-0 max-w-full">
       <div>
         {/* Product Image: Clean 4:3 Aspect Ratio with Cover Fit */}
         <Link

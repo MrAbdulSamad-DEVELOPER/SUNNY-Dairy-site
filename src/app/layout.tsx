@@ -220,7 +220,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${dmSans.variable}`}>
+    <html lang="en" className={`${playfair.variable} ${dmSans.variable} overflow-x-hidden max-w-full`}>
       <head>
         <script
           type="application/ld+json"

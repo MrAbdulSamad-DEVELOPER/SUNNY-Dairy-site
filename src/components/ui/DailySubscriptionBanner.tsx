@@ -227,14 +227,14 @@ export default function DailySubscriptionBanner() {
         </div>
 
         {/* Benefits bar & CTA */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-borderCream">
-          <div className="flex flex-wrap items-center gap-4 text-xs text-forest-800">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-borderCream w-full min-w-0">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs text-forest-800">
             <span className="flex items-center space-x-1.5 font-medium">
-              <ShieldCheck className="w-4 h-4 text-emerald-600" />
+              <ShieldCheck className="w-4 h-4 text-emerald-600 flex-shrink-0" />
               <span>Zero contract &middot; Pause or cancel anytime</span>
             </span>
             <span className="flex items-center space-x-1.5 font-medium">
-              <Check className="w-4 h-4 text-gold-600" />
+              <Check className="w-4 h-4 text-gold-600 flex-shrink-0" />
               <span>Weekly or Monthly billing options</span>
             </span>
           </div>
@@ -242,7 +242,7 @@ export default function DailySubscriptionBanner() {
           <button
             type="button"
             onClick={handleSubscribe}
-            className="btn-gold-shimmer px-6 py-3 rounded-xl text-xs sm:text-sm font-bold shadow-md flex items-center justify-center space-x-2 active:scale-95 transition-all"
+            className="btn-gold-shimmer px-5 sm:px-6 py-3 rounded-xl text-xs sm:text-sm font-bold shadow-md flex items-center justify-center space-x-2 active:scale-95 transition-all w-full sm:w-auto text-center"
           >
             <MessageSquare className="w-4 h-4" />
             <span>{getButtonText()}</span>
