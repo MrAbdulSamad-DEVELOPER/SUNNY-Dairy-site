@@ -359,10 +359,21 @@ async function runQaSuite() {
       console.log(`[CLEANUP] Deleted lingering test order: ${ord.orderNumber}`);
     }
 
+    // Clean up test customer records
+    await prisma.customer.deleteMany({
+      where: {
+        fullName: { contains: 'TEST' },
+      },
+    });
+
     const finalOrderCount = await prisma.order.count();
     const finalPaymentCount = await prisma.payment.count();
+    const finalCustomerCount = await prisma.customer.count({
+      where: { fullName: { contains: 'TEST' } },
+    });
     assert('Database order count is 0 test orders', finalOrderCount === 0, `Final orders: ${finalOrderCount}`);
     assert('Database payment count is 0 test payments', finalPaymentCount === 0, `Final payments: ${finalPaymentCount}`);
+    assert('Database test customer count is 0', finalCustomerCount === 0, `Final test customers: ${finalCustomerCount}`);
 
   } catch (err) {
     console.error('QA Suite Execution Error:', err);
