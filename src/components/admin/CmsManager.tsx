@@ -446,14 +446,14 @@ export default function CmsManager() {
   }
 
   return (
-    <div className="space-y-5 sm:space-y-6">
+    <div className="w-full max-w-full min-w-0 space-y-5 sm:space-y-6 overflow-x-hidden">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-cream-200">
-        <div className="space-y-1">
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-serif font-bold text-forest-900 tracking-tight">
+        <div className="space-y-1 min-w-0 max-w-full">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-serif font-bold text-forest-900 tracking-tight break-words">
             Website Experience &amp; Content Suite
           </h1>
-          <p className="text-xs sm:text-sm text-forest-600 leading-relaxed max-w-2xl">
+          <p className="text-xs sm:text-sm text-forest-600 leading-relaxed max-w-2xl break-words">
             Complete editorial control over homepage headlines, live farm batch tickers, subscription plans, customer reviews, and FAQs.
           </p>
         </div>
@@ -462,7 +462,7 @@ export default function CmsManager() {
           type="button"
           onClick={handleSave}
           disabled={saving}
-          className="w-full sm:w-auto justify-center inline-flex items-center space-x-2 px-6 py-2.5 rounded-xl text-xs font-bold text-forest-950 bg-gradient-to-r from-gold-400 via-gold-500 to-gold-400 hover:from-gold-500 hover:to-gold-300 shadow-md transition-all active:scale-95 disabled:opacity-50"
+          className="w-full sm:w-auto justify-center inline-flex items-center space-x-2 px-6 py-2.5 rounded-xl text-xs font-bold text-forest-950 bg-gradient-to-r from-gold-400 via-gold-500 to-gold-400 hover:from-gold-500 hover:to-gold-300 shadow-md transition-all active:scale-95 disabled:opacity-50 flex-shrink-0"
         >
           <Save className="w-4 h-4" />
           <span>{saving ? 'Saving...' : 'Save All Changes'}</span>
@@ -487,7 +487,7 @@ export default function CmsManager() {
       )}
 
       {/* Mobile Tab Selector (Quick section dropdown) */}
-      <div className="block md:hidden bg-white p-3 rounded-2xl border border-cream-200 shadow-xs space-y-1.5">
+      <div className="block md:hidden bg-white p-3 rounded-2xl border border-cream-200 shadow-xs space-y-1.5 w-full max-w-full">
         <label className="block text-[11px] font-bold text-forest-700 uppercase tracking-wider">
           Jump to Section:
         </label>
@@ -506,19 +506,20 @@ export default function CmsManager() {
       </div>
 
       {/* Segment Navigation Tabs (Scrollable pill bar) */}
-      <div className="flex overflow-x-auto scrollbar-none border-b border-cream-200 bg-white rounded-2xl p-1.5 shadow-xs gap-1.5 text-xs font-bold text-forest-700 touch-pan-x">
-        <button
-          type="button"
-          onClick={() => setActiveTab('hero')}
-          className={`px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl flex items-center space-x-2 transition-all whitespace-nowrap flex-shrink-0 ${
-            activeTab === 'hero'
-              ? 'bg-forest-900 text-white shadow-xs'
-              : 'text-forest-600 hover:bg-forest-50'
-          }`}
-        >
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>Hero &amp; Promise</span>
-        </button>
+      <div className="w-full max-w-full min-w-0 overflow-hidden">
+        <div className="flex w-full max-w-full overflow-x-auto scrollbar-none border-b border-cream-200 bg-white rounded-2xl p-1.5 shadow-xs gap-1.5 text-xs font-bold text-forest-700 touch-pan-x">
+          <button
+            type="button"
+            onClick={() => setActiveTab('hero')}
+            className={`px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl flex items-center space-x-2 transition-all whitespace-nowrap flex-shrink-0 ${
+              activeTab === 'hero'
+                ? 'bg-forest-900 text-white shadow-xs'
+                : 'text-forest-600 hover:bg-forest-50'
+            }`}
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Hero &amp; Promise</span>
+          </button>
 
         <button
           type="button"
@@ -584,14 +585,15 @@ export default function CmsManager() {
           <ShieldCheck className="w-3.5 h-3.5" />
           <span>Trust Badges</span>
         </button>
+        </div>
       </div>
 
-      <form onSubmit={handleSave} className="space-y-6">
+      <form onSubmit={handleSave} className="space-y-6 w-full max-w-full min-w-0">
         {/* TAB 1: HERO & PROMISE */}
         {activeTab === 'hero' && (
           <div className="space-y-4 sm:space-y-6">
             {/* Hero Card */}
-            <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 sm:space-y-5">
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 sm:space-y-5 w-full max-w-full min-w-0 box-border overflow-hidden">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-cream-200">
                 <div>
                   <h3 className="font-serif text-lg font-bold text-forest-900">
@@ -611,7 +613,7 @@ export default function CmsManager() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
-                <div className="space-y-3.5 sm:space-y-4">
+                <div className="space-y-3.5 sm:space-y-4 min-w-0">
                   <div>
                     <label className="block font-bold text-forest-800 uppercase tracking-wider text-xs mb-1">
                       Eyebrow Label / Badge
@@ -620,7 +622,7 @@ export default function CmsManager() {
                       type="text"
                       value={hero.subtitle}
                       onChange={(e) => setHero({ ...hero, subtitle: e.target.value })}
-                      className="w-full px-3.5 py-2 text-xs rounded-xl border border-forest-200 text-forest-900"
+                      className="w-full max-w-full box-border px-3.5 py-2 text-xs rounded-xl border border-forest-200 text-forest-900"
                     />
                   </div>
 
@@ -632,7 +634,7 @@ export default function CmsManager() {
                       type="text"
                       value={hero.title}
                       onChange={(e) => setHero({ ...hero, title: e.target.value })}
-                      className="w-full px-3.5 py-2 text-sm font-serif font-bold rounded-xl border border-forest-200 text-forest-900"
+                      className="w-full max-w-full box-border px-3.5 py-2 text-sm font-serif font-bold rounded-xl border border-forest-200 text-forest-900"
                     />
                   </div>
 
@@ -644,7 +646,7 @@ export default function CmsManager() {
                       rows={3}
                       value={hero.content}
                       onChange={(e) => setHero({ ...hero, content: e.target.value })}
-                      className="w-full px-3.5 py-2 text-xs rounded-xl border border-forest-200 text-forest-900 leading-relaxed"
+                      className="w-full max-w-full box-border px-3.5 py-2 text-xs rounded-xl border border-forest-200 text-forest-900 leading-relaxed"
                     />
                   </div>
 
@@ -657,7 +659,7 @@ export default function CmsManager() {
                         type="text"
                         value={hero.buttonText}
                         onChange={(e) => setHero({ ...hero, buttonText: e.target.value })}
-                        className="w-full px-3 py-1.5 text-xs rounded-xl border border-forest-200"
+                        className="w-full max-w-full box-border px-3 py-1.5 text-xs rounded-xl border border-forest-200"
                       />
                     </div>
                     <div>
@@ -668,14 +670,14 @@ export default function CmsManager() {
                         type="text"
                         value={hero.buttonLink}
                         onChange={(e) => setHero({ ...hero, buttonLink: e.target.value })}
-                        className="w-full px-3 py-1.5 text-xs rounded-xl border border-forest-200 font-mono text-forest-700"
+                        className="w-full max-w-full box-border px-3 py-1.5 text-xs rounded-xl border border-forest-200 font-mono text-forest-700"
                       />
                     </div>
                   </div>
                 </div>
 
                 {/* Hero Image */}
-                <div className="space-y-3">
+                <div className="space-y-3 min-w-0">
                   <label className="block font-bold text-forest-800 uppercase tracking-wider text-xs">
                     Hero Farm Image
                   </label>
@@ -686,14 +688,14 @@ export default function CmsManager() {
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full max-w-full">
                     <input
                       type="text"
                       value={hero.imageUrl}
                       onChange={(e) => setHero({ ...hero, imageUrl: e.target.value })}
-                      className="flex-1 px-3 py-2 text-xs rounded-xl border border-forest-200 font-mono"
+                      className="w-full sm:flex-1 min-w-0 px-3 py-2 text-xs rounded-xl border border-forest-200 font-mono box-border truncate"
                     />
-                    <label className="cursor-pointer inline-flex items-center justify-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-forest-900 bg-forest-100 hover:bg-forest-200 transition-colors">
+                    <label className="w-full sm:w-auto cursor-pointer inline-flex items-center justify-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-forest-900 bg-forest-100 hover:bg-forest-200 transition-colors flex-shrink-0">
                       <Upload className="w-3.5 h-3.5" />
                       <span>{uploadingHero ? 'Uploading...' : 'Upload Image'}</span>
                       <input
@@ -710,7 +712,7 @@ export default function CmsManager() {
             </div>
 
             {/* Quality Promise Card */}
-            <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4">
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 w-full max-w-full min-w-0 box-border overflow-hidden">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-cream-200">
                 <h3 className="font-serif text-lg font-bold text-forest-900">
                   2. Quality Promise Story
@@ -735,7 +737,7 @@ export default function CmsManager() {
                     type="text"
                     value={about.title}
                     onChange={(e) => setAbout({ ...about, title: e.target.value })}
-                    className="w-full px-3.5 py-2 text-sm rounded-xl border border-forest-200 text-forest-900 font-semibold"
+                    className="w-full max-w-full box-border px-3.5 py-2 text-sm rounded-xl border border-forest-200 text-forest-900 font-semibold"
                   />
                 </div>
                 <div>
@@ -746,7 +748,7 @@ export default function CmsManager() {
                     rows={3}
                     value={about.content}
                     onChange={(e) => setAbout({ ...about, content: e.target.value })}
-                    className="w-full px-3.5 py-2 text-xs rounded-xl border border-forest-200 text-forest-900 leading-relaxed"
+                    className="w-full max-w-full box-border px-3.5 py-2 text-xs rounded-xl border border-forest-200 text-forest-900 leading-relaxed"
                   />
                 </div>
               </div>
@@ -756,7 +758,7 @@ export default function CmsManager() {
 
         {/* TAB 2: LIVE FARM BATCH TICKER */}
         {activeTab === 'ticker' && (
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 sm:space-y-6">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 sm:space-y-6 w-full max-w-full min-w-0 box-border overflow-hidden">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-cream-200">
               <div>
                 <h3 className="font-serif text-lg font-bold text-forest-900 flex items-center space-x-2">
@@ -849,7 +851,7 @@ export default function CmsManager() {
 
         {/* TAB 3: CUSTOMER REVIEWS */}
         {activeTab === 'reviews' && (
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 sm:space-y-6">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 sm:space-y-6 w-full max-w-full min-w-0 box-border overflow-hidden">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-cream-200">
               <div>
                 <h3 className="font-serif text-lg font-bold text-forest-900 flex items-center space-x-2">
@@ -983,7 +985,7 @@ export default function CmsManager() {
 
         {/* TAB 4: HOMEPAGE FAQS */}
         {activeTab === 'faqs' && (
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 sm:space-y-6">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 sm:space-y-6 w-full max-w-full min-w-0 box-border overflow-hidden">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-cream-200">
               <div>
                 <h3 className="font-serif text-lg font-bold text-forest-900 flex items-center space-x-2">
@@ -1059,7 +1061,7 @@ export default function CmsManager() {
 
         {/* TAB 5: SUBSCRIPTION BANNER */}
         {activeTab === 'subscription' && (
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 sm:space-y-6">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 sm:space-y-6 w-full max-w-full min-w-0 box-border overflow-hidden">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-cream-200">
               <h3 className="font-serif text-lg font-bold text-forest-900">
                 Daily Morning Milk Subscription Banner
@@ -1157,7 +1159,7 @@ export default function CmsManager() {
 
         {/* TAB 6: TRUST BADGES */}
         {activeTab === 'trust' && (
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 sm:space-y-6">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 sm:space-y-6 w-full max-w-full min-w-0 box-border overflow-hidden">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-cream-200">
               <h3 className="font-serif text-lg font-bold text-forest-900">
                 Trust Guarantee Badges
