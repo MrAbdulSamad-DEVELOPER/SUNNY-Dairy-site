@@ -19,12 +19,12 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const identity = (body.identity || '').trim().toLowerCase();
+    const identity = (body.identity || body.email || body.emailOrUsername || '').trim().toLowerCase();
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!identity || !emailRegex.test(identity)) {
       return NextResponse.json(
-        { error: 'Please enter your registered administrator email address (e.g. sanaullah.ccs@gmail.com). Usernames like "admin" are not accepted.' },
+        { error: 'Please enter a valid registered administrator email address. Usernames are not accepted.' },
         { status: 400 }
       );
     }
