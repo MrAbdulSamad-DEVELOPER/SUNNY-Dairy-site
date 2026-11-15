@@ -1,31 +1,50 @@
 import React from 'react';
-import { Milk, Snowflake, Banknote } from 'lucide-react';
+import { Milk, Snowflake, Banknote, ShieldCheck } from 'lucide-react';
 
-export default function TrustBanner() {
-  const benefits = [
+interface TrustBannerProps {
+  cmsData?: {
+    isEnabled?: boolean;
+    metadata?: string;
+  };
+}
+
+export default function TrustBanner({ cmsData }: TrustBannerProps) {
+  if (cmsData?.isEnabled === false) {
+    return null;
+  }
+
+  let benefits = [
     {
-      icon: Milk,
       title: 'Collected fresh',
       description: 'Milk collected daily at morning, zero preservatives or additives.',
     },
     {
-      icon: Snowflake,
       title: 'Kept cool',
       description: 'Chilled in food-grade stainless tanks immediately after milking.',
     },
     {
-      icon: Banknote,
       title: 'Pay on delivery',
       description: 'Pay in cash or easy digital transfer only when your fresh order arrives.',
     },
   ];
 
+  if (cmsData?.metadata) {
+    try {
+      const parsed = typeof cmsData.metadata === 'string' ? JSON.parse(cmsData.metadata) : cmsData.metadata;
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        benefits = parsed;
+      }
+    } catch {}
+  }
+
+  const icons = [Milk, Snowflake, Banknote, ShieldCheck];
+
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-16">
       <div className="bg-[#F3EBDD] rounded-3xl p-8 sm:p-10 border border-borderCream/60">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+        <div className={`grid grid-cols-1 md:grid-cols-${Math.min(benefits.length, 3)} gap-8 md:gap-10`}>
           {benefits.map((b, idx) => {
-            const Icon = b.icon;
+            const Icon = icons[idx % icons.length];
             return (
               <div key={idx} className="flex flex-col space-y-2">
                 <div className="flex items-center space-x-3">

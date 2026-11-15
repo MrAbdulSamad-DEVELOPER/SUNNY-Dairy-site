@@ -4,6 +4,7 @@ import Link from 'next/link';
 import prisma from '@/lib/prisma';
 import { ProductDTO } from '@/types';
 import ShopCatalog from '@/components/product/ShopCatalog';
+import BatchStatusTicker from '@/components/ui/BatchStatusTicker';
 import TrustBanner from '@/components/ui/TrustBanner';
 import DailySubscriptionBanner from '@/components/ui/DailySubscriptionBanner';
 import CustomerReviews from '@/components/ui/CustomerReviews';
@@ -226,14 +227,17 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Live Farm Batch Ticker */}
+      <BatchStatusTicker cmsData={cmsMap.batch_ticker} />
+
       {/* Trust Benefits Banner */}
-      <TrustBanner />
+      <TrustBanner cmsData={cmsMap.trust_badges} />
 
       {/* The Shop Catalog Section */}
       <ShopCatalog initialProducts={products} />
 
       {/* Daily Milk Subscription Feature */}
-      <DailySubscriptionBanner />
+      <DailySubscriptionBanner cmsData={cmsMap.subscription_banner} />
 
       {/* How Ordering Works Section */}
       <section className="bg-[#FAF3E4] py-16 border-y border-borderCream">
@@ -295,7 +299,7 @@ export default async function HomePage() {
       </section>
 
       {/* Verified Customer Reviews Section */}
-      <CustomerReviews />
+      <CustomerReviews cmsData={cmsMap.customer_reviews} />
 
       {/* From Our Farm Journal (SEO Blog Callout) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
@@ -378,7 +382,7 @@ export default async function HomePage() {
       </section>
 
       {/* Frequently Asked Questions */}
-      <FaqSection />
+      <FaqSection cmsData={cmsMap.faqs} />
 
       {/* Our Promise Feature Callout */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

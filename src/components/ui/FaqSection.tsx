@@ -4,10 +4,24 @@ import React, { useState } from 'react';
 import { ChevronDown, HelpCircle, Phone, MessageSquare } from 'lucide-react';
 import { OFFICIAL_PHONE_NUMBER, OFFICIAL_WHATSAPP_NUMBER } from '@/lib/whatsapp';
 
-export default function FaqSection() {
+interface FaqSectionProps {
+  cmsData?: {
+    isEnabled?: boolean;
+    title?: string;
+    subtitle?: string;
+    content?: string;
+    metadata?: string;
+  };
+}
+
+export default function FaqSection({ cmsData }: FaqSectionProps) {
+  if (cmsData?.isEnabled === false) {
+    return null;
+  }
+
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
-  const faqs = [
+  let faqs = [
     {
       q: 'Is there any water dilution or chemicals added to the milk?',
       a: 'Absolutely not. SUNNY Dairy strictly adheres to a Zero Water Dilution policy. Every morning after milking, fat content and purity are verified using lactometers and testing kits. We never add water, preservatives, chemicals, or milk powder.',
@@ -42,6 +56,21 @@ export default function FaqSection() {
     },
   ];
 
+  if (cmsData?.metadata) {
+    try {
+      const parsed = typeof cmsData.metadata === 'string' ? JSON.parse(cmsData.metadata) : cmsData.metadata;
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        faqs = parsed;
+      }
+    } catch {}
+  }
+
+  const badgeText = cmsData?.subtitle || 'Your Questions';
+  const headingText = cmsData?.title || 'Frequently Asked Questions & Purity Standards';
+  const subText =
+    cmsData?.content ||
+    'Transparent facts about our daily morning milking cycle, cold-chain temperature preservation, and doorstep delivery across Pakistan and Oman.';
+
   const toggle = (idx: number) => {
     setOpenIndex(openIndex === idx ? null : idx);
   };
@@ -54,33 +83,34 @@ export default function FaqSection() {
           <div className="lg:col-span-5 space-y-4">
             <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-forest-100 text-forest-800 text-xs font-bold uppercase tracking-wider">
               <HelpCircle className="w-3.5 h-3.5 text-forest-700" />
-              <span>Your Questions</span>
+              <span>{badgeText}</span>
             </div>
 
             <h2 className="font-serif text-2xl sm:text-4xl font-bold text-forest-900 tracking-tight leading-tight">
-              Frequently Asked Questions
+              {headingText}
             </h2>
 
-            <p className="text-xs sm:text-sm text-muted leading-relaxed">
-              Clear answers to common questions about our fresh milk and doorstep delivery. For any further assistance, feel free to contact us directly:
+            <p className="text-xs sm:text-sm text-forest-700 leading-relaxed">
+              {subText}
             </p>
 
-            <div className="pt-2 flex flex-col sm:flex-row gap-2.5">
+            <div className="pt-2 flex flex-col sm:flex-row gap-3">
               <a
-                href={`tel:${OFFICIAL_PHONE_NUMBER}`}
-                className="px-4 py-2.5 bg-white border border-borderCream text-forest-800 rounded-xl text-xs font-bold flex items-center justify-center space-x-2 hover:bg-cream-100 transition-colors"
-              >
-                <Phone className="w-4 h-4 text-gold-600" />
-                <span>Call Sanaullah: {OFFICIAL_PHONE_NUMBER}</span>
-              </a>
-              <a
-                href={`https://wa.me/${OFFICIAL_WHATSAPP_NUMBER.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('Hello! I would like to inquire about SUNNY Dairy products and delivery.')}`}
+                href={`https://wa.me/${OFFICIAL_WHATSAPP_NUMBER.replace(/[^0-9]/g, '')}?text=Hello%20SUNNY%20Dairy!%20I%20have%20a%20question%20about%20your%20products.`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2.5 bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center justify-center space-x-2 hover:bg-emerald-800 transition-colors shadow-xs"
+                className="inline-flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl bg-forest-900 text-white text-xs font-bold hover:bg-forest-800 transition-colors"
               >
-                <MessageSquare className="w-4 h-4" />
+                <MessageSquare className="w-3.5 h-3.5" />
                 <span>Ask on WhatsApp</span>
+              </a>
+
+              <a
+                href={`tel:${OFFICIAL_PHONE_NUMBER}`}
+                className="inline-flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl bg-white border border-forest-200 text-forest-800 text-xs font-bold hover:bg-forest-50 transition-colors"
+              >
+                <Phone className="w-3.5 h-3.5 text-forest-600" />
+                <span>Call Us Directly</span>
               </a>
             </div>
           </div>
@@ -92,26 +122,28 @@ export default function FaqSection() {
               return (
                 <div
                   key={idx}
-                  className="bg-white rounded-2xl border border-borderCream/80 overflow-hidden shadow-2xs transition-colors"
+                  className="bg-white rounded-2xl border border-cream-200 overflow-hidden transition-shadow shadow-xs hover:shadow-sm"
                 >
                   <button
-                    type="button"
                     onClick={() => toggle(idx)}
-                    className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-3 focus:outline-none"
+                    className="w-full text-left p-4 sm:p-5 flex items-center justify-between space-x-4 focus:outline-none"
+                    aria-expanded={isOpen}
                   >
-                    <span className="font-bold text-forest-900 text-xs sm:text-sm leading-snug">
+                    <span className="font-serif font-bold text-sm sm:text-base text-forest-900">
                       {faq.q}
                     </span>
-                    <ChevronDown
-                      className={`w-4 h-4 text-forest-700 flex-shrink-0 transition-transform duration-200 ${
-                        isOpen ? 'transform rotate-180 text-gold-700' : ''
+                    <span
+                      className={`w-6 h-6 rounded-full bg-forest-50 flex items-center justify-center text-forest-700 transition-transform flex-shrink-0 ${
+                        isOpen ? 'rotate-180 bg-gold-100 text-gold-800' : ''
                       }`}
-                    />
+                    >
+                      <ChevronDown className="w-4 h-4" />
+                    </span>
                   </button>
 
                   {isOpen && (
-                    <div className="px-4 pb-4 sm:px-5 sm:pb-5 pt-0 text-xs sm:text-sm text-forest-800/90 leading-relaxed border-t border-cream-100 mt-1">
-                      {faq.a}
+                    <div className="px-4 sm:px-5 pb-5 pt-0 text-xs sm:text-sm text-forest-700 leading-relaxed border-t border-cream-100">
+                      <p className="pt-3">{faq.a}</p>
                     </div>
                   )}
                 </div>
