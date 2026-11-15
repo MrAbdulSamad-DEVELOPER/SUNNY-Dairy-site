@@ -81,7 +81,7 @@ export async function sendPasswordResetEmail({
   const smtpHost = process.env.SMTP_HOST || 'smtp.gmail.com';
   const smtpPort = process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT, 10) : 465;
   const smtpUser = process.env.SMTP_USER || DEFAULT_SENDER_EMAIL;
-  const smtpPass = process.env.SMTP_PASS;
+  const smtpPass = (process.env.SMTP_PASS || '').replace(/\s+/g, '');
 
   if (smtpPass) {
     try {
