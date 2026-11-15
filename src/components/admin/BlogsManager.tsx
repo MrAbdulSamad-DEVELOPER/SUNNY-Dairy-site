@@ -647,8 +647,107 @@ Provide clear, evidence-based details explaining why authentic dairy quality mat
             </button>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+          <>
+            {/* 1. Mobile Cards View (Screen < 768px) */}
+            <div className="block md:hidden divide-y divide-cream-100 p-3 sm:p-4 space-y-3">
+              {filteredBlogs.map((b) => (
+                <div
+                  key={b.id}
+                  className="p-4 rounded-2xl bg-cream-50/60 border border-cream-200/80 space-y-3 transition-all"
+                >
+                  <div className="flex items-start space-x-3">
+                    <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-forest-900 flex-shrink-0 border border-cream-200">
+                      <img
+                        src={b.coverImage || '/products/fresh-milk.jpg'}
+                        alt={b.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="min-w-0 flex-1 space-y-1">
+                      <div className="flex items-center space-x-1.5 flex-wrap">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-forest-100 text-forest-800 border border-forest-200/50">
+                          {b.category}
+                        </span>
+                        {b.isFeatured && (
+                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-gold-100 text-gold-800 flex items-center space-x-0.5">
+                            <Star className="w-2.5 h-2.5 fill-gold-500 text-gold-600" />
+                            <span>Featured</span>
+                          </span>
+                        )}
+                      </div>
+                      <Link
+                        href={`/blog/${b.slug}`}
+                        target="_blank"
+                        className="font-serif font-bold text-sm text-forest-900 hover:text-gold-700 transition-colors line-clamp-2 leading-snug block"
+                      >
+                        {b.title}
+                      </Link>
+                      <div className="text-[11px] text-forest-500 font-mono truncate">
+                        /blog/{b.slug}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between text-xs text-forest-600 pt-2 border-t border-cream-200/60">
+                    <div className="flex items-center space-x-1.5">
+                      <img
+                        src={b.authorAvatar || '/profile.jpg'}
+                        alt={b.authorName}
+                        className="w-5 h-5 rounded-full object-cover border border-gold-400"
+                      />
+                      <span className="text-[11px] font-semibold text-forest-800">{b.authorName}</span>
+                    </div>
+                    <span className="text-[11px] font-mono text-forest-500">{b.readTime}</span>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-1">
+                    <button
+                      onClick={() => handleTogglePublish(b)}
+                      className={`inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-[11px] font-bold transition-all ${
+                        b.isPublished
+                          ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                          : 'bg-amber-100 text-amber-800 border border-amber-300'
+                      }`}
+                    >
+                      <span className={`w-1.5 h-1.5 rounded-full ${b.isPublished ? 'bg-emerald-600' : 'bg-amber-600'}`} />
+                      <span>{b.isPublished ? 'Published' : 'Draft'}</span>
+                    </button>
+
+                    <div className="flex items-center space-x-1">
+                      <button
+                        onClick={() => handleToggleFeatured(b)}
+                        className={`p-1.5 rounded-lg border ${
+                          b.isFeatured
+                            ? 'text-gold-600 bg-gold-50 border-gold-300'
+                            : 'text-forest-400 hover:text-gold-500 border-cream-200'
+                        }`}
+                        title="Toggle Featured"
+                      >
+                        <Star className={`w-3.5 h-3.5 ${b.isFeatured ? 'fill-gold-500' : ''}`} />
+                      </button>
+                      <button
+                        onClick={() => handleOpenEdit(b)}
+                        className="px-2.5 py-1 rounded-lg border border-cream-300 bg-white text-xs font-semibold text-forest-800 hover:bg-cream-100 inline-flex items-center space-x-1"
+                      >
+                        <Edit3 className="w-3.5 h-3.5" />
+                        <span>Edit</span>
+                      </button>
+                      <button
+                        onClick={() => setDeleteConfirmId(b.id)}
+                        className="p-1.5 rounded-lg border border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-100"
+                        title="Delete"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* 2. Desktop Table View (Screen >= 768px) */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-forest-50/60 border-b border-cream-200 text-[11px] font-bold text-forest-600 uppercase tracking-wider">
                   <th className="py-3 px-4">Article</th>
@@ -775,7 +874,8 @@ Provide clear, evidence-based details explaining why authentic dairy quality mat
               </tbody>
             </table>
           </div>
-        )}
+        </>
+      )}
       </div>
 
       {/* Delete Confirmation Modal */}
