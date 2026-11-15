@@ -174,59 +174,60 @@ export default async function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
       />
       {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-10 lg:pt-14">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-center">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-3 sm:pt-10 lg:pt-14">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 lg:gap-12 items-center">
           {/* Left Text Column */}
-          <div className="lg:col-span-7 space-y-4 sm:space-y-6 lg:space-y-8">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-100/80 border border-gold-300/80 text-gold-800 text-[11px] sm:text-xs font-bold tracking-wide uppercase shadow-2xs">
-              <span className="w-1.5 h-1.5 rounded-full bg-gold-600 animate-pulse" />
-              <span>{heroSubtitle}</span>
+          <div className="lg:col-span-7 space-y-3.5 sm:space-y-6 lg:space-y-8">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-100/90 border border-gold-300/90 text-gold-900 text-[10px] sm:text-xs font-bold tracking-wider uppercase shadow-2xs max-w-full">
+              <span className="w-1.5 h-1.5 rounded-full bg-gold-600 animate-pulse flex-shrink-0" />
+              <span className="truncate">{heroSubtitle}</span>
             </div>
 
-            <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-forest-800 leading-[1.18] sm:leading-[1.12]">
+            <h1 className="font-serif text-[30px] leading-[1.14] sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-forest-900 sm:leading-[1.12]">
               {heroTitle}
             </h1>
 
-            <p className="text-sm sm:text-base lg:text-lg text-muted max-w-xl leading-relaxed">
+            <p className="text-xs sm:text-base lg:text-lg text-forest-800/80 max-w-xl leading-relaxed">
               {heroContent}
             </p>
 
             {/* Hero CTA Buttons */}
-            <div className="flex items-center gap-3 pt-1 sm:pt-2">
+            <div className="flex items-center gap-2.5 sm:gap-3 pt-1">
               <a
                 href={heroButtonLink}
-                className="flex-1 sm:flex-initial px-6 sm:px-8 py-3 sm:py-3.5 bg-forest-800 hover:bg-forest-900 text-white rounded-full font-bold text-xs sm:text-sm transition-all duration-200 shadow-md hover:shadow-lg active:scale-95 text-center"
+                className="flex-1 sm:flex-initial px-6 sm:px-8 py-3 sm:py-3.5 bg-forest-900 hover:bg-forest-800 text-white rounded-full font-bold text-xs sm:text-sm transition-all duration-200 shadow-md hover:shadow-lg active:scale-95 text-center flex items-center justify-center space-x-1.5"
               >
-                {heroButtonText}
+                <span>{heroButtonText}</span>
+                <ArrowRight className="w-3.5 h-3.5 text-gold-400" />
               </a>
               <Link
                 href="/our-promise"
-                className="flex-1 sm:flex-initial px-6 sm:px-8 py-3 sm:py-3.5 bg-transparent hover:bg-cream-200/80 text-forest-800 border border-forest-800/40 rounded-full font-bold text-xs sm:text-sm transition-all duration-200 active:scale-95 text-center"
+                className="flex-1 sm:flex-initial px-5 sm:px-8 py-3 sm:py-3.5 bg-white/80 hover:bg-white text-forest-900 border border-forest-800/30 rounded-full font-bold text-xs sm:text-sm transition-all duration-200 active:scale-95 text-center shadow-xs"
               >
                 Our Promise
               </Link>
             </div>
 
-            {/* Quick trust metrics */}
-            <div className="pt-2 sm:pt-4 grid grid-cols-1 sm:flex sm:flex-wrap gap-2 sm:gap-6 text-xs text-forest-800/85 font-medium">
-              <span className="flex items-center space-x-1.5">
-                <CheckCircle2 className="w-4 h-4 text-forest-600 flex-shrink-0" />
-                <span>Zero water adulteration</span>
+            {/* Quick trust metrics as modern badge chips */}
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-3 pt-1 sm:pt-3 text-[11px] sm:text-xs text-forest-800 font-semibold">
+              <span className="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-cream-100/90 border border-borderCream">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700 flex-shrink-0" />
+                <span>Zero Water Dilution</span>
               </span>
-              <span className="flex items-center space-x-1.5">
-                <CheckCircle2 className="w-4 h-4 text-forest-600 flex-shrink-0" />
-                <span>Daily morning milking</span>
+              <span className="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-cream-100/90 border border-borderCream">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700 flex-shrink-0" />
+                <span>Dawn Milking</span>
               </span>
-              <span className="flex items-center space-x-1.5">
-                <CheckCircle2 className="w-4 h-4 text-forest-600 flex-shrink-0" />
-                <span>Cold-chain delivery</span>
+              <span className="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-cream-100/90 border border-borderCream">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700 flex-shrink-0" />
+                <span>Chilled &lt;4°C Delivery</span>
               </span>
             </div>
           </div>
 
           {/* Right Hero Image Column */}
           <div className="lg:col-span-5 pt-2 sm:pt-0">
-            <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl border-2 sm:border-4 border-white/90 aspect-[16/10] sm:aspect-[5/4] lg:aspect-[4/3] w-full">
+            <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl border-2 sm:border-4 border-white/90 aspect-[16/11] sm:aspect-[5/4] lg:aspect-[4/3] w-full">
               <Image
                 src={heroImageUrl || '/products/hero-farm.jpg'}
                 alt="SUNNY Dairy farm fresh milk bottles"
@@ -235,7 +236,12 @@ export default async function HomePage() {
                 className="object-cover object-center"
                 sizes="(max-width: 1024px) 100vw, 45vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-forest-950/20 via-transparent to-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-forest-950/30 via-transparent to-transparent pointer-events-none" />
+              {/* Floating Freshness Badge on the image */}
+              <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-full shadow-md border border-white flex items-center space-x-1.5 text-[10px] sm:text-xs font-bold text-forest-900">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span>Today&apos;s Dawn Batch · Chilled &lt;4°C</span>
+              </div>
             </div>
           </div>
         </div>
