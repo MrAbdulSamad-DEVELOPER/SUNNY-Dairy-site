@@ -446,14 +446,14 @@ export default function CmsManager() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 sm:space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-cream-200">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-serif font-bold text-forest-900 tracking-tight">
+        <div className="space-y-1">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-serif font-bold text-forest-900 tracking-tight">
             Website Experience &amp; Content Suite
           </h1>
-          <p className="text-xs sm:text-sm text-forest-600 mt-1">
+          <p className="text-xs sm:text-sm text-forest-600 leading-relaxed max-w-2xl">
             Complete editorial control over homepage headlines, live farm batch tickers, subscription plans, customer reviews, and FAQs.
           </p>
         </div>
@@ -462,7 +462,7 @@ export default function CmsManager() {
           type="button"
           onClick={handleSave}
           disabled={saving}
-          className="inline-flex items-center space-x-2 px-6 py-2.5 rounded-xl text-xs font-bold text-forest-950 bg-gradient-to-r from-gold-400 via-gold-500 to-gold-400 hover:from-gold-500 hover:to-gold-300 shadow-md transition-all active:scale-95 disabled:opacity-50"
+          className="w-full sm:w-auto justify-center inline-flex items-center space-x-2 px-6 py-2.5 rounded-xl text-xs font-bold text-forest-950 bg-gradient-to-r from-gold-400 via-gold-500 to-gold-400 hover:from-gold-500 hover:to-gold-300 shadow-md transition-all active:scale-95 disabled:opacity-50"
         >
           <Save className="w-4 h-4" />
           <span>{saving ? 'Saving...' : 'Save All Changes'}</span>
@@ -486,12 +486,31 @@ export default function CmsManager() {
         </div>
       )}
 
-      {/* Segment Navigation Tabs */}
-      <div className="flex overflow-x-auto border-b border-cream-200 bg-white rounded-2xl p-1.5 shadow-xs gap-1.5 text-xs font-bold text-forest-700">
+      {/* Mobile Tab Selector (Quick section dropdown) */}
+      <div className="block md:hidden bg-white p-3 rounded-2xl border border-cream-200 shadow-xs space-y-1.5">
+        <label className="block text-[11px] font-bold text-forest-700 uppercase tracking-wider">
+          Jump to Section:
+        </label>
+        <select
+          value={activeTab}
+          onChange={(e) => setActiveTab(e.target.value as any)}
+          className="w-full bg-cream-50 border border-cream-300 rounded-xl px-3 py-2 text-xs font-bold text-forest-900 focus:outline-none focus:ring-2 focus:ring-forest-800"
+        >
+          <option value="hero">✨ Hero &amp; Promise Story</option>
+          <option value="ticker">⏱️ Live Farm Batch Ticker</option>
+          <option value="reviews">⭐ Customer Reviews ({reviewsSection.reviews.length})</option>
+          <option value="faqs">❓ Homepage FAQs ({faqsSection.faqs.length})</option>
+          <option value="subscription">📦 Subscription Banner</option>
+          <option value="trust">🛡️ Trust Guarantee Badges</option>
+        </select>
+      </div>
+
+      {/* Segment Navigation Tabs (Scrollable pill bar) */}
+      <div className="flex overflow-x-auto scrollbar-none border-b border-cream-200 bg-white rounded-2xl p-1.5 shadow-xs gap-1.5 text-xs font-bold text-forest-700 touch-pan-x">
         <button
           type="button"
           onClick={() => setActiveTab('hero')}
-          className={`px-4 py-2.5 rounded-xl flex items-center space-x-2 transition-all whitespace-nowrap ${
+          className={`px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl flex items-center space-x-2 transition-all whitespace-nowrap flex-shrink-0 ${
             activeTab === 'hero'
               ? 'bg-forest-900 text-white shadow-xs'
               : 'text-forest-600 hover:bg-forest-50'
@@ -504,7 +523,7 @@ export default function CmsManager() {
         <button
           type="button"
           onClick={() => setActiveTab('ticker')}
-          className={`px-4 py-2.5 rounded-xl flex items-center space-x-2 transition-all whitespace-nowrap ${
+          className={`px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl flex items-center space-x-2 transition-all whitespace-nowrap flex-shrink-0 ${
             activeTab === 'ticker'
               ? 'bg-forest-900 text-white shadow-xs'
               : 'text-forest-600 hover:bg-forest-50'
@@ -517,7 +536,7 @@ export default function CmsManager() {
         <button
           type="button"
           onClick={() => setActiveTab('reviews')}
-          className={`px-4 py-2.5 rounded-xl flex items-center space-x-2 transition-all whitespace-nowrap ${
+          className={`px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl flex items-center space-x-2 transition-all whitespace-nowrap flex-shrink-0 ${
             activeTab === 'reviews'
               ? 'bg-forest-900 text-white shadow-xs'
               : 'text-forest-600 hover:bg-forest-50'
@@ -530,7 +549,7 @@ export default function CmsManager() {
         <button
           type="button"
           onClick={() => setActiveTab('faqs')}
-          className={`px-4 py-2.5 rounded-xl flex items-center space-x-2 transition-all whitespace-nowrap ${
+          className={`px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl flex items-center space-x-2 transition-all whitespace-nowrap flex-shrink-0 ${
             activeTab === 'faqs'
               ? 'bg-forest-900 text-white shadow-xs'
               : 'text-forest-600 hover:bg-forest-50'
@@ -543,7 +562,7 @@ export default function CmsManager() {
         <button
           type="button"
           onClick={() => setActiveTab('subscription')}
-          className={`px-4 py-2.5 rounded-xl flex items-center space-x-2 transition-all whitespace-nowrap ${
+          className={`px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl flex items-center space-x-2 transition-all whitespace-nowrap flex-shrink-0 ${
             activeTab === 'subscription'
               ? 'bg-forest-900 text-white shadow-xs'
               : 'text-forest-600 hover:bg-forest-50'
@@ -556,7 +575,7 @@ export default function CmsManager() {
         <button
           type="button"
           onClick={() => setActiveTab('trust')}
-          className={`px-4 py-2.5 rounded-xl flex items-center space-x-2 transition-all whitespace-nowrap ${
+          className={`px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl flex items-center space-x-2 transition-all whitespace-nowrap flex-shrink-0 ${
             activeTab === 'trust'
               ? 'bg-forest-900 text-white shadow-xs'
               : 'text-forest-600 hover:bg-forest-50'
@@ -570,17 +589,17 @@ export default function CmsManager() {
       <form onSubmit={handleSave} className="space-y-6">
         {/* TAB 1: HERO & PROMISE */}
         {activeTab === 'hero' && (
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {/* Hero Card */}
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-cream-200 shadow-sm space-y-5">
-              <div className="flex items-center justify-between pb-3 border-b border-cream-200">
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 sm:space-y-5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-cream-200">
                 <div>
                   <h3 className="font-serif text-lg font-bold text-forest-900">
                     1. Hero Top Section
                   </h3>
                   <p className="text-xs text-forest-500">Primary headline and top visual banner</p>
                 </div>
-                <label className="flex items-center space-x-2 cursor-pointer">
+                <label className="flex items-center space-x-2 cursor-pointer self-start sm:self-center">
                   <input
                     type="checkbox"
                     checked={hero.isEnabled}
@@ -591,8 +610,8 @@ export default function CmsManager() {
                 </label>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+                <div className="space-y-3.5 sm:space-y-4">
                   <div>
                     <label className="block font-bold text-forest-800 uppercase tracking-wider text-xs mb-1">
                       Eyebrow Label / Badge
@@ -629,7 +648,7 @@ export default function CmsManager() {
                     />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <label className="block font-bold text-forest-800 uppercase tracking-wider text-[11px] mb-1">
                         Button Label
@@ -660,21 +679,21 @@ export default function CmsManager() {
                   <label className="block font-bold text-forest-800 uppercase tracking-wider text-xs">
                     Hero Farm Image
                   </label>
-                  <div className="relative h-48 sm:h-56 rounded-2xl overflow-hidden bg-forest-900 border border-cream-200">
+                  <div className="relative h-44 sm:h-56 rounded-2xl overflow-hidden bg-forest-900 border border-cream-200 shadow-xs">
                     <img
                       src={hero.imageUrl || '/products/hero-farm.jpg'}
                       alt="Hero Farm"
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                     <input
                       type="text"
                       value={hero.imageUrl}
                       onChange={(e) => setHero({ ...hero, imageUrl: e.target.value })}
                       className="flex-1 px-3 py-2 text-xs rounded-xl border border-forest-200 font-mono"
                     />
-                    <label className="cursor-pointer inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-forest-900 bg-forest-100 hover:bg-forest-200 transition-colors">
+                    <label className="cursor-pointer inline-flex items-center justify-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-forest-900 bg-forest-100 hover:bg-forest-200 transition-colors">
                       <Upload className="w-3.5 h-3.5" />
                       <span>{uploadingHero ? 'Uploading...' : 'Upload Image'}</span>
                       <input
@@ -691,12 +710,12 @@ export default function CmsManager() {
             </div>
 
             {/* Quality Promise Card */}
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-cream-200 shadow-sm space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-cream-200">
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-cream-200">
                 <h3 className="font-serif text-lg font-bold text-forest-900">
                   2. Quality Promise Story
                 </h3>
-                <label className="flex items-center space-x-2 cursor-pointer">
+                <label className="flex items-center space-x-2 cursor-pointer self-start sm:self-center">
                   <input
                     type="checkbox"
                     checked={about.isEnabled}
@@ -737,8 +756,8 @@ export default function CmsManager() {
 
         {/* TAB 2: LIVE FARM BATCH TICKER */}
         {activeTab === 'ticker' && (
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-cream-200 shadow-sm space-y-6">
-            <div className="flex items-center justify-between pb-3 border-b border-cream-200">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 sm:space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-cream-200">
               <div>
                 <h3 className="font-serif text-lg font-bold text-forest-900 flex items-center space-x-2">
                   <Clock className="w-5 h-5 text-gold-600" />
@@ -748,7 +767,7 @@ export default function CmsManager() {
                   Dynamic banner displayed right below hero showing milking cycle and chilling status.
                 </p>
               </div>
-              <label className="flex items-center space-x-2 cursor-pointer">
+              <label className="flex items-center space-x-2 cursor-pointer self-start sm:self-center">
                 <input
                   type="checkbox"
                   checked={ticker.isEnabled}
@@ -830,8 +849,8 @@ export default function CmsManager() {
 
         {/* TAB 3: CUSTOMER REVIEWS */}
         {activeTab === 'reviews' && (
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-cream-200 shadow-sm space-y-6">
-            <div className="flex items-center justify-between pb-3 border-b border-cream-200">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 sm:space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-cream-200">
               <div>
                 <h3 className="font-serif text-lg font-bold text-forest-900 flex items-center space-x-2">
                   <Star className="w-5 h-5 text-gold-600 fill-gold-500/20" />
@@ -842,11 +861,11 @@ export default function CmsManager() {
                 </p>
               </div>
 
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-3 self-start sm:self-center">
                 <button
                   type="button"
                   onClick={addReviewItem}
-                  className="px-4 py-2 text-xs font-bold text-white bg-forest-900 rounded-xl hover:bg-forest-800 inline-flex items-center space-x-1.5"
+                  className="px-3.5 py-2 text-xs font-bold text-white bg-forest-900 rounded-xl hover:bg-forest-800 inline-flex items-center space-x-1.5 shadow-xs"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   <span>Add Review</span>
@@ -964,8 +983,8 @@ export default function CmsManager() {
 
         {/* TAB 4: HOMEPAGE FAQS */}
         {activeTab === 'faqs' && (
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-cream-200 shadow-sm space-y-6">
-            <div className="flex items-center justify-between pb-3 border-b border-cream-200">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 sm:space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-cream-200">
               <div>
                 <h3 className="font-serif text-lg font-bold text-forest-900 flex items-center space-x-2">
                   <HelpCircle className="w-5 h-5 text-gold-600" />
@@ -976,11 +995,11 @@ export default function CmsManager() {
                 </p>
               </div>
 
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-3 self-start sm:self-center">
                 <button
                   type="button"
                   onClick={addFaqItem}
-                  className="px-4 py-2 text-xs font-bold text-white bg-forest-900 rounded-xl hover:bg-forest-800 inline-flex items-center space-x-1.5"
+                  className="px-3.5 py-2 text-xs font-bold text-white bg-forest-900 rounded-xl hover:bg-forest-800 inline-flex items-center space-x-1.5 shadow-xs"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   <span>Add Question</span>
@@ -1040,12 +1059,12 @@ export default function CmsManager() {
 
         {/* TAB 5: SUBSCRIPTION BANNER */}
         {activeTab === 'subscription' && (
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-cream-200 shadow-sm space-y-6">
-            <div className="flex items-center justify-between pb-3 border-b border-cream-200">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 sm:space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-cream-200">
               <h3 className="font-serif text-lg font-bold text-forest-900">
                 Daily Morning Milk Subscription Banner
               </h3>
-              <label className="flex items-center space-x-2 cursor-pointer">
+              <label className="flex items-center space-x-2 cursor-pointer self-start sm:self-center">
                 <input
                   type="checkbox"
                   checked={subscriptionSection.isEnabled}
@@ -1138,12 +1157,12 @@ export default function CmsManager() {
 
         {/* TAB 6: TRUST BADGES */}
         {activeTab === 'trust' && (
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-cream-200 shadow-sm space-y-6">
-            <div className="flex items-center justify-between pb-3 border-b border-cream-200">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-cream-200 shadow-sm space-y-4 sm:space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-cream-200">
               <h3 className="font-serif text-lg font-bold text-forest-900">
                 Trust Guarantee Badges
               </h3>
-              <label className="flex items-center space-x-2 cursor-pointer">
+              <label className="flex items-center space-x-2 cursor-pointer self-start sm:self-center">
                 <input
                   type="checkbox"
                   checked={trustBadges.isEnabled}
@@ -1154,9 +1173,9 @@ export default function CmsManager() {
               </label>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               {trustBadges.badges.map((b, idx) => (
-                <div key={idx} className="p-4 rounded-xl border border-cream-200 bg-cream-50/50 space-y-2">
+                <div key={idx} className="p-3.5 sm:p-4 rounded-xl border border-cream-200 bg-cream-50/50 space-y-2">
                   <span className="font-bold text-xs text-forest-900">Badge #{idx + 1}</span>
                   <input
                     type="text"
@@ -1185,14 +1204,27 @@ export default function CmsManager() {
         )}
 
         {/* Bottom Save Bar */}
-        <div className="pt-2 flex justify-end">
+        <div className="pt-2 flex flex-col sm:flex-row justify-end">
           <button
             type="submit"
             disabled={saving}
-            className="inline-flex items-center space-x-2 px-8 py-3 rounded-xl text-xs font-bold text-forest-950 bg-gradient-to-r from-gold-400 via-gold-500 to-gold-400 hover:from-gold-500 hover:to-gold-300 shadow-md transition-all active:scale-95 disabled:opacity-50"
+            className="w-full sm:w-auto justify-center inline-flex items-center space-x-2 px-8 py-3 rounded-xl text-xs font-bold text-forest-950 bg-gradient-to-r from-gold-400 via-gold-500 to-gold-400 hover:from-gold-500 hover:to-gold-300 shadow-md transition-all active:scale-95 disabled:opacity-50"
           >
             <Save className="w-4 h-4" />
             <span>{saving ? 'Saving Changes...' : 'Save All Website Content'}</span>
+          </button>
+        </div>
+
+        {/* Mobile Floating Quick Save Button */}
+        <div className="sm:hidden fixed bottom-6 right-5 z-40">
+          <button
+            type="button"
+            onClick={handleSave}
+            disabled={saving}
+            className="inline-flex items-center space-x-2 px-4 py-3 rounded-full text-xs font-bold text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 shadow-2xl transition-all active:scale-95 disabled:opacity-50 border-2 border-forest-900"
+          >
+            <Save className="w-4 h-4" />
+            <span>{saving ? 'Saving...' : 'Save Changes'}</span>
           </button>
         </div>
       </form>
