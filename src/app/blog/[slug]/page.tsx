@@ -2,8 +2,12 @@ import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
-import { BLOG_POSTS, BlogPost } from '@/data/blogPosts';
+import { getBlogBySlug, getAllPublishedBlogs } from '@/lib/blogs';
+import { BlogPost } from '@/data/blogPosts';
 import { getArticleSchema, getFaqSchema, getBreadcrumbSchema } from '@/lib/seo/schema';
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 import { Clock, Calendar, ChevronRight, ArrowLeft, ArrowRight, Share2, HelpCircle, ShieldCheck } from 'lucide-react';
 
 interface BlogPostPageProps {
@@ -13,14 +17,15 @@ interface BlogPostPageProps {
 }
 
 export async function generateStaticParams() {
-  return BLOG_POSTS.map((post) => ({
+  const posts = await getAllPublishedBlogs();
+  return posts.map((post) => ({
     slug: post.slug,
   }));
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = BLOG_POSTS.find((p) => p.slug === slug);
+  const post = await getBlogBySlug(slug);
 
   if (!post) {
     return {
@@ -64,7 +69,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const post = BLOG_POSTS.find((p) => p.slug === slug);
+  const post = await getBlogBySlug(slug);
 
   if (!post) {
     notFound();
@@ -78,8 +83,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     { name: post.title, url: `/blog/${post.slug}` },
   ]);
 
-  const currentIndex = BLOG_POSTS.findIndex((p) => p.slug === slug);
-  const nextPost = BLOG_POSTS[(currentIndex + 1) % BLOG_POSTS.length];
+  const allPosts = await getAllPublishedBlogs();
+  const currentIndex = allPosts.findIndex((p) => p.slug === slug);
+  const nextPost = allPosts.length > 1 && currentIndex !== -1 ? allPosts[(currentIndex + 1) % allPosts.length] : null;
 
   return (
     <article className="bg-cream-100 min-h-screen py-10 sm:py-16">

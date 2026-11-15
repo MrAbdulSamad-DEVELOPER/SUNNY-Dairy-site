@@ -10,7 +10,7 @@ import CustomerReviews from '@/components/ui/CustomerReviews';
 import FaqSection from '@/components/ui/FaqSection';
 import { CheckCircle2, ArrowRight, BookOpen, MapPin } from 'lucide-react';
 import { OFFICIAL_STORE_NAME, OFFICIAL_STORE_OWNER, OFFICIAL_PHONE_NUMBER } from '@/lib/whatsapp';
-import { BLOG_POSTS } from '@/data/blogPosts';
+import { getHomepageFeaturedBlogs } from '@/lib/blogs';
 
 const SITE_URL = 'https://sunny-dairy-web.vercel.app';
 
@@ -54,10 +54,11 @@ async function getProducts(): Promise<ProductDTO[]> {
 }
 
 export default async function HomePage() {
-  const [products, cmsSections, siteSettings] = await Promise.all([
+  const [products, cmsSections, siteSettings, farmBlogs] = await Promise.all([
     getProducts(),
     prisma.cmsSection.findMany().catch(() => []),
     prisma.siteSetting.findMany().catch(() => []),
+    getHomepageFeaturedBlogs(3),
   ]);
 
   const cmsMap: Record<string, any> = {};
@@ -321,7 +322,7 @@ export default async function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {BLOG_POSTS.slice(0, 3).map((post) => (
+            {farmBlogs.map((post) => (
               <article
                 key={post.slug}
                 className="bg-white rounded-3xl overflow-hidden border border-cream-200 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between group"

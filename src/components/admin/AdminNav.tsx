@@ -23,6 +23,7 @@ import {
   ExternalLink,
   Menu,
   X,
+  BookOpen,
 } from 'lucide-react';
 
 export default function AdminNav() {
@@ -83,6 +84,7 @@ export default function AdminNav() {
         { label: 'Categories', href: '/admin/categories', icon: Layers },
         { label: 'Stock & Inventory', href: '/admin/inventory', icon: Boxes },
         { label: 'Bank Payments', href: '/admin/payments', icon: CreditCard },
+        { label: 'Farm Journal & Blogs', href: '/admin/blogs', icon: BookOpen },
       ],
     },
     {

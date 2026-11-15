@@ -2,8 +2,11 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Metadata } from 'next';
-import { BLOG_POSTS } from '@/data/blogPosts';
+import { getAllPublishedBlogs } from '@/lib/blogs';
 import { Clock, Calendar, ArrowRight, BookOpen, ShieldCheck } from 'lucide-react';
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: 'Dairy Purity, Nutrition & Wellness Blog | SUNNY Dairy',
@@ -20,9 +23,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BlogIndexPage() {
-  const featuredPost = BLOG_POSTS[0];
-  const regularPosts = BLOG_POSTS.slice(1);
+export default async function BlogIndexPage() {
+  const allPosts = await getAllPublishedBlogs();
+  const featuredPost = allPosts[0];
+  const regularPosts = allPosts.slice(1);
 
   return (
     <div className="bg-cream-100 min-h-screen py-12 sm:py-16">

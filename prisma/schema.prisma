@@ -251,3 +251,34 @@ model Payment {
   @@map("payments")
 }
 
+model BlogPost {
+  id                 String    @id @default(cuid())
+  slug               String    @unique
+  title              String
+  metaTitle          String?   @map("meta_title")
+  metaDescription    String?   @map("meta_description")
+  keywords           String?   // comma-separated
+  summary            String
+  coverImage         String    @map("cover_image")
+  imageAlt           String?   @map("image_alt")
+  category           String    @default("Purity & Quality Guides")
+  contentHtml        String    @map("content_html")
+  authorName         String    @default("Sanaullah") @map("author_name")
+  authorRole         String    @default("Master Dairy Farm Manager") @map("author_role")
+  authorAvatar       String    @default("/profile.jpg") @map("author_avatar")
+  readTime           String    @default("6 min read") @map("read_time")
+  isPublished        Boolean   @default(true) @map("is_published")
+  isFeatured         Boolean   @default(false) @map("is_featured")
+  displayOrder       Int       @default(0) @map("display_order")
+  publishedDate      DateTime  @default(now()) @map("published_date")
+  faqsJson           String?   @map("faqs_json")
+  relatedProductSlug String?   @map("related_product_slug")
+  relatedProductName String?   @map("related_product_name")
+  views              Int       @default(0)
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime  @updatedAt @map("updated_at")
+
+  @@map("blog_posts")
+}
+
+
