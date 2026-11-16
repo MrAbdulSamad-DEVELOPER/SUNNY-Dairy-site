@@ -6,7 +6,6 @@ import { ProductDTO } from '@/types';
 import ShopCatalog from '@/components/product/ShopCatalog';
 import TrustBanner from '@/components/ui/TrustBanner';
 import DailySubscriptionBanner from '@/components/ui/DailySubscriptionBanner';
-import CustomerReviews from '@/components/ui/CustomerReviews';
 import FaqSection from '@/components/ui/FaqSection';
 import { CheckCircle2, ArrowRight, BookOpen, MapPin } from 'lucide-react';
 import { OFFICIAL_STORE_NAME, OFFICIAL_STORE_OWNER, OFFICIAL_PHONE_NUMBER } from '@/lib/whatsapp';
@@ -313,9 +312,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* Verified Customer Reviews Section */}
-      <CustomerReviews cmsData={cmsMap.customer_reviews} />
 
       {/* From Our Farm Journal (SEO Blog Callout) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
