@@ -162,7 +162,7 @@ export async function getCurrentAdmin() {
   // Tier 2: Check JSON backup store and auto-heal database
   try {
     const backupUser = getBackupAdminById(result.adminId);
-    if (backupUser) {
+    if (backupUser && backupUser.username === 'admin') {
       if (!backupUser.isActive) return null;
       healAdminInDb(backupUser).catch(() => {});
       const resolved = {

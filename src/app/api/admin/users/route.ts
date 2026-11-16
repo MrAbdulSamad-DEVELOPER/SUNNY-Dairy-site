@@ -13,10 +13,13 @@ export async function GET() {
   }
 
   try {
-    // Auto-heal any backup users into database
-    const backupAdmins = loadBackupAdmins();
-    for (const ba of backupAdmins) {
-      await healAdminInDb(ba).catch(() => {});
+    // Only auto-heal main super admin on zero-user cold start
+    const userCount = await prisma.adminUser.count();
+    if (userCount === 0) {
+      const backupAdmins = loadBackupAdmins();
+      for (const ba of backupAdmins) {
+        await healAdminInDb(ba).catch(() => {});
+      }
     }
 
     const users = await prisma.adminUser.findMany({
